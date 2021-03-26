@@ -1,0 +1,53 @@
+.banner-homepage {
+    min-height: 50vw;
+    .banner-container {
+        .carousel.carousel-slider {
+            .carousel-lists {
+                display: block;
+            }
+            .control-arrow {
+                width: 60px;
+                height: 60px;
+                background: #fff;
+                transform: translateY(-50%);
+                top: 50%;
+                &.control-prev {
+                    left: 50px;
+                }
+
+                &.control-next {
+                    right: 50px;
+                }
+
+                &:hover {
+                    background: #fff;
+                }
+                &::before {
+                    font-size: 20px;
+                    line-height: 20px;
+                }
+            }
+        
+        }
+    }
+}
+
+@media(max-width: 1023px) {
+    .banner-homepage {
+        .banner-container {
+            .carousel.carousel-slider {
+                .control-arrow {
+                    width: 30px;
+                    &.control-prev {
+                        left: 0px;
+                    }
+    
+                    &.control-next {
+                        right: 0px;
+                    }
+                }
+               
+            }
+        }
+    }
+} 

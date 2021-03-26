@@ -1,0 +1,29 @@
+.product-detail-carousel {
+    position: relative;
+    .out-of-stock-img {
+        position: absolute;
+        z-index: 2;
+        color: #b91c1c;
+        font-size: 16px;
+        line-height: 14px;
+        top: 20px;
+        left: 20px;
+    }
+    .carousel-slider {
+        border: solid #eaeaea 1px;
+        li.slide {
+            background: none;
+        }
+    }
+}
+.rtl-root{
+    .product-detail-carousel {
+        .out-of-stock-img {
+            left: unset;
+            right: 20px;
+        }
+        .carousel-slider {
+            direction: ltr;
+        }
+    }
+}

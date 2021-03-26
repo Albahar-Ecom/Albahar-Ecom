@@ -1,0 +1,94 @@
+.term-and-condition-page {
+    margin-top: 50px;
+    margin-bottom: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    .page-title {
+        h1 {
+            &:before {
+                display: inline-block;
+                content: "";
+                border-top: .1rem solid #101820;
+                width: 3.9rem;
+                margin: 0 1rem;
+                transform: translateY(-0.7rem);
+            }
+            font-size: 20px;
+            line-height: 27px;
+            color: #000;
+            margin: 0;
+            font-weight: 600;
+        }
+    }
+
+    .page-content {
+        width: 66%;
+        &> ul {
+            display: flex;
+            margin-top: 20px;
+            &:first-child {
+                margin-top: 0;
+            }
+            &:before {
+                margin-right: 20px;
+                content: "\e93a";
+                font-family: 'Linearicons', 'Simple Linearicons';
+                font-size: 14px;
+                cursor: pointer;
+            }
+            
+            & > li {
+                h3 {
+                    margin: 0;
+                    font-size: 14px;
+                    line-height: 19px;
+                    color: #000;
+                    font-weight: 600;
+                    text-transform: uppercase;
+                    cursor: pointer;
+                }
+
+                & > ul {
+                    display: none;
+                    margin-bottom: 20px;
+                    & > li {
+                        &:first-child {
+                            margin-top: 18px;
+                        }
+                        display: flex;
+                        flex-wrap: nowrap;
+                        margin-top: 20px;
+                        p:first-child {
+                            margin-right: 20px;
+                            font-size: 14px;
+                            line-height: 25px;
+                            color: #101820;
+                            font-weight: 400;
+                        }
+
+                        p:last-child {
+                            margin: 0;
+                            margin-right: 20px;
+                            font-size: 14px;
+                            line-height: 25px;
+                            color: #000;
+                            font-weight: 400;
+                            text-align: justify;
+                        }
+                    
+                    }
+                }
+            }
+        }
+    }
+}
+
+@media (max-width: 1023px) {
+    .term-and-condition-page {
+        .page-content {
+            margin-top: 35px;
+            width: 100%;
+        }
+    }
+}

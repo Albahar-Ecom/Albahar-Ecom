@@ -1,0 +1,431 @@
+.category-cms-page {
+    margin: 50px 0;
+    display: flow-root;
+    .no-cms {
+        text-align: center;
+    }
+
+    img {
+        max-height: 100%;
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .womens-main,
+    .home-main,
+    .mens-main,
+    .new-main,
+    .sale-main,
+    .gear-main {
+        height: 450px;
+    }
+
+    .block-promo {
+        box-sizing: border-box;
+        overflow: hidden;
+        position: relative;
+        display: block;
+        width: 100%;
+        color: #333 !important;
+    }
+
+    .mens-main .content {
+        width: 45%;
+    }
+
+    .womens-main .content,
+    .womens-pants .content,
+    .training-main .content,
+    .training-erin .content,
+    .sale-main .content,
+    .sale-women .content,
+    .mens-main .content,
+    .mens-pants .content,
+    .gear-main .content,
+    .gear-equipment .content,
+    .new-main .content,
+    .new-eco .content,
+    .home-main .content,
+    .home-performance .content,
+    .home-eco .content,
+    .collection-eco .content,
+    .collection-performance .content {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+
+    .block-promo .info {
+        display: block;
+        font-weight: 300;
+        font-size: 2.2rem;
+        margin-bottom: 20px;
+    }
+
+    .block-promo .title {
+        display: block;
+        font-weight: 300;
+        font-size: 3.2rem;
+        line-height: 1.2;
+        margin-bottom: 15px;
+    }
+
+    .block-promo .title + .button {
+        margin-top: 10px;
+    }
+
+    .block-promo .button.more {
+        font-size: 1.8rem;
+        background-image: none;
+        background: #1979c3;
+        padding: 7px 15px;
+        color: #fff;
+        border: 1px solid #1979c3;
+        cursor: pointer;
+        display: inline-block;
+        font-size: 1.4rem;
+        font-weight: 700;
+        box-sizing: border-box;
+        vertical-align: middle;
+        border-radius: 3px;
+        text-decoration: none;
+        padding: 10px 15px;
+    }
+
+    .womens-t-shirts,
+    .mens-t-shirts {
+        background: #ffdd17;
+    }
+
+    .womens-t-shirts .content,
+    .mens-t-shirts .content {
+        position: static;
+    }
+
+    .block-promo-2columns .content {
+        padding: 20px 25px;
+    }
+
+    .block-promo .content {
+        display: block;
+        box-sizing: border-box;
+        position: absolute;
+        z-index: 1;
+        overflow: hidden;
+        padding: 25px 35px 35px;
+    }
+
+    .womens-t-shirts img,
+    .mens-t-shirts img {
+        max-width: 100% !important;
+    }
+
+    .widget .block-promo img {
+        max-width: none;
+    }
+
+    .block-promo .icon.more {
+        display: inline-block;
+        text-decoration: none;
+    }
+
+    .block-promo .icon.more:after {
+        font-family: 'Linearicons', 'Simple Linearicons';
+        content: "\e876";
+        font-size: 12px;
+        line-height: inherit;
+        color: inherit;
+        overflow: hidden;
+        speak: none;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        margin: 0 0 0 5px;
+    }
+
+    .womens-category-pants .content,
+    .womens-category-tanks .content,
+    .womens-category-shorts .content,
+    .mens-category-tees .content,
+    .mens-category-hoodies .content,
+    .mens-category-shorts .content,
+    .gear-category-bags .content,
+    .gear-category-equipment .content,
+    .gear-category-watches .content {
+        padding: 20px 0 50px 20px !important;
+        position: static;
+        width: 60%;
+        z-index: 1;
+    }
+
+    .womens-category-pants .title,
+    .womens-category-tanks .title,
+    .womens-category-shorts .title,
+    .mens-category-tees .title,
+    .mens-category-hoodies .title,
+    .mens-category-shorts .title,
+    .gear-category-bags .title,
+    .gear-category-equipment .title,
+    .gear-category-watches .title {
+        font-weight: 400;
+        margin-bottom: 5px;
+    }
+
+    .womens-category-pants .title,
+    .womens-category-tanks .title,
+    .womens-category-shorts .title,
+    .mens-category-tees .title,
+    .mens-category-hoodies .title,
+    .mens-category-shorts .title,
+    .gear-category-bags .title,
+    .gear-category-equipment .title,
+    .gear-category-watches .title,
+    .womens-category-pants .info,
+    .womens-category-tanks .info,
+    .womens-category-shorts .info,
+    .mens-category-tees .info,
+    .mens-category-hoodies .info,
+    .mens-category-shorts .info,
+    .gear-category-bags .info,
+    .gear-category-equipment .info,
+    .gear-category-watches .info {
+        font-size: 1.8rem;
+    }
+
+    .womens-category-pants .title,
+    .womens-category-tanks .title,
+    .womens-category-shorts .title,
+    .mens-category-tees .title,
+    .mens-category-hoodies .title,
+    .mens-category-shorts .title,
+    .gear-category-bags .title,
+    .gear-category-equipment .title,
+    .gear-category-watches .title,
+    .womens-category-pants .info,
+    .womens-category-tanks .info,
+    .womens-category-shorts .info,
+    .mens-category-tees .info,
+    .mens-category-hoodies .info,
+    .mens-category-shorts .info,
+    .gear-category-bags .info,
+    .gear-category-equipment .info,
+    .gear-category-watches .info {
+        font-size: 1.8rem;
+    }
+
+    .womens-category-pants .more,
+    .womens-category-tanks .more,
+    .womens-category-shorts .more,
+    .mens-category-tees .more,
+    .mens-category-hoodies .more,
+    .mens-category-shorts .more,
+    .gear-category-bags .more,
+    .gear-category-equipment .more,
+    .gear-category-watches .more {
+        position: absolute;
+        z-index: 1;
+        bottom: 20px;
+    }
+
+    .womens-category-pants img,
+    .womens-category-tanks img,
+    .womens-category-shorts img,
+    .mens-category-tees img,
+    .mens-category-hoodies img,
+    .mens-category-shorts img,
+    .gear-category-bags img,
+    .gear-category-equipment img,
+    .gear-category-watches img {
+        max-width: 100% !important;
+        position: absolute;
+        z-index: 0;
+        top: 0;
+        right: 0;
+        width: unset;
+        left: 60%;
+    }
+
+    .womens-erin {
+        background: #f4f4f4;
+    }
+    // .sale-main, .mens-main, .gear-main, .womens-main {
+
+    //     max-width: 1080px;
+    // }
+}
+
+@media (min-width: 768px) {
+    .category-cms-page {
+        .womens-main .content,
+        .mens-main .content,
+        .gear-main .content,
+        .new-main .content,
+        .home-main .content,
+        .training-main .content,
+        .sale-main .content {
+            top: 40px;
+            right: 40px;
+            width: 40%;
+        }
+
+        .womens-pants .content,
+        .mens-pants .content {
+            width: 47%;
+            left: 20px;
+            top: 20px;
+        }
+
+        .womens-t-shirts,
+        .mens-t-shirts {
+            height: 372px;
+        }
+
+        .womens-pants,
+        .mens-pants,
+        .gear-fitnes,
+        .gear-equipment,
+        .new-performance,
+        .new-eco {
+            height: 372px;
+        }
+
+        .womens-category-pants,
+        .womens-category-tanks,
+        .womens-category-shorts,
+        .mens-category-tees,
+        .mens-category-hoodies,
+        .mens-category-shorts,
+        .gear-category-bags,
+        .gear-category-equipment,
+        .gear-category-watches {
+            height: 210px;
+        }
+
+        .womens-category-pants,
+        .womens-category-tanks,
+        .womens-category-shorts,
+        .mens-category-tees,
+        .mens-category-hoodies,
+        .mens-category-shorts,
+        .gear-category-bags,
+        .gear-category-equipment,
+        .gear-category-watches {
+            background: #f4f4f4;
+            min-height: 170px;
+        }
+
+        .womens-erin,
+        .home-t-shirts,
+        .collection-erin {
+            display: table;
+        }
+
+        .womens-erin .content,
+        .home-t-shirts .content,
+        .collection-erin .content,
+        .womens-erin .image,
+        .home-t-shirts .image,
+        .collection-erin .image {
+            display: table-cell;
+        }
+
+        .womens-erin .image,
+        .home-t-shirts .image,
+        .collection-erin .image {
+            vertical-align: bottom;
+        }
+
+        .womens-erin .content,
+        .home-t-shirts .content,
+        .collection-erin .content {
+            position: static;
+        }
+
+        .womens-erin .content,
+        .home-t-shirts .content,
+        .collection-erin .content,
+        .womens-erin .image,
+        .home-t-shirts .image,
+        .collection-erin .image {
+            display: table-cell;
+            width: unset;
+        }
+    }
+}
+
+@media (min-width: 640px) {
+    .category-cms-page {
+        .block-promo {
+            margin-bottom: 16px;
+        }
+
+        .block-promo-2columns .block-promo {
+            width: 50%;
+        }
+
+        .block-promo-wrapper:after {
+            clear: both;
+        }
+
+        .block-promo-wrapper .block-promo {
+            float: left;
+            border-right: 16px solid #fff;
+        }
+
+        .block-promo-2columns .block-promo:nth-child(2n),
+        .block-promo-3columns .block-promo:nth-child(3n) {
+            border-right: 0;
+        }
+
+        .block-promo-3columns .block-promo {
+            width: 33.3%;
+        }
+    }
+}
+
+.rtl-root {
+    .category-cms-page .block-promo .icon.more:after {
+        content: '';
+    }
+
+    .category-cms-page .block-promo .icon.more:before {
+        font-family: 'Linearicons', 'Simple Linearicons';
+        content: "\e876";
+        font-size: 12px;
+        line-height: inherit;
+        color: inherit;
+        overflow: hidden;
+        speak: none;
+        font-weight: normal;
+        -webkit-font-smoothing: antialiased;
+        display: inline-block;
+        vertical-align: middle;
+        text-align: center;
+        margin: 0 0 0 5px;
+    }
+
+    .category-cms-page .womens-category-pants img,
+    .category-cms-page .womens-category-tanks img,
+    .category-cms-page .womens-category-shorts img,
+    .category-cms-page .mens-category-tees img,
+    .category-cms-page .mens-category-hoodies img,
+    .category-cms-page .mens-category-shorts img,
+    .category-cms-page .gear-category-bags img,
+    .category-cms-page .gear-category-equipment img,
+    .category-cms-page .gear-category-watches img {
+        right: unset;
+        left: 0;
+    }
+
+    .category-cms-page .womens-category-pants .content,
+    .category-cms-page .womens-category-tanks .content,
+    .category-cms-page .womens-category-shorts .content,
+    .category-cms-page .mens-category-tees .content,
+    .category-cms-page .mens-category-hoodies .content,
+    .category-cms-page .mens-category-shorts .content,
+    .category-cms-page .gear-category-bags .content,
+    .category-cms-page .gear-category-equipment .content,
+    .category-cms-page .gear-category-watches .content {
+        padding: 25px 35px 35px !important;
+    }
+}

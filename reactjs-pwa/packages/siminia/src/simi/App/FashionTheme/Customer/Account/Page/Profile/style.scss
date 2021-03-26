@@ -1,0 +1,127 @@
+.customer-dashboard {
+    /* profile */
+    .account-information-area { 
+        font-size: 16px;
+        line-height: 24px;
+        color: #000000;
+        .row-edit-profile {
+            display: flex;
+        }
+        .title {
+            font-weight: 300;
+            margin: 0 0 16px;
+            font-size: 14px;
+            line-height: 14px;
+            text-transform: uppercase;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            label {
+                font-weight: 300;
+                margin: 0 0 1px;
+                font-size: 10px;
+                line-height: 12px;
+                text-transform: uppercase;
+            }
+            .form-control {
+                height: 48px;
+                font-size: 14px;
+                line-height: 17px;
+                border-radius: 0;
+                box-shadow: none;
+                color: #727272;
+                &.is-invalid {
+                    border-color: #d7282f;
+                }
+            }
+        }
+        #harlows-edit-profile {
+            display: inline-block;
+            width: 100%;
+        }
+        .checkbox-customize {
+            &.first {
+                margin-top: 10px;
+                margin-bottom: 20px;
+                display: inline-block;
+            }
+        }
+        button.save-profile {
+            margin-top: 50px;
+            padding: 11px 18px;
+            min-width: 180px;
+            float: right;
+            background-color: #000000;
+            color: #fff;
+            font-size: 14px;
+            line-height: 17px;
+            text-transform: uppercase;
+            font-weight: 500;
+            height: 40px;
+        }
+        .row-edit-profile .main__edit-column,
+        .row-edit-profile .alternative__edit-column {
+            flex-basis: 425px;
+        }
+        .row-edit-profile .alternative__edit-column {
+            margin-left: 16px;
+        }
+
+            .new_password {
+                margin-bottom: 0;
+            }
+            .password-strength {
+                background: #f3f3f3;
+                height: 25px;
+                font-size: 10px;
+                padding-left: 8px;
+                margin-top: -23px;
+                margin-bottom: 15px;
+            }
+
+        @media screen and (max-width: 767px) {
+            .row-edit-profile {
+                display: block;
+                .alternative__edit-column {
+                    margin-left: 0;
+                    margin-top: 17px;
+                    width: 100%;
+                    &.active {
+                        margin-top: 40px;
+                        .form-group:last-child {
+                            margin-bottom: 32px;
+                        }
+                    }
+                }
+            }
+            .title {
+                margin-bottom: 15px;
+            }
+            button.save-profile {
+                margin-top: 7px;
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.rtl-root {
+    .customer-dashboard {
+        .account-information-area {
+            .row-edit-profile {
+                .alternative__edit-column {
+                    margin-left: unset;
+                    margin-right: 16px;
+                }
+                @media (max-width: 767px) {
+                    .alternative__edit-column {
+                        margin-right: unset;
+                    }
+                }
+            }
+            button.save-profile {
+                float: left;
+            }
+        }
+    }
+}
