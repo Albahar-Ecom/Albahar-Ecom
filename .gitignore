@@ -9,3 +9,5 @@
 /phpserver
 /setup
 /dev
+/app/etc/env.php
+/.gitignore
