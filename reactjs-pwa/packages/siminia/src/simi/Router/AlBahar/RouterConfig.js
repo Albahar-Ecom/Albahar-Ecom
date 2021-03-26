@@ -1,6 +1,6 @@
 import React from 'react'
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent'
-import Home from 'src/simi/App/core/RootComponents/CMS/Home'
+import Home from 'src/simi/App/AlBahar/RootComponents/CMS/Home'
 
 // const Home = (props) => {
 //     return <LazyComponent component={() => import(/* webpackChunkName: "Home"*/'src/simi/App/core/RootComponents/CMS/Home')} {...props}/>
@@ -11,7 +11,7 @@ const Account = (props) => {
 }
 
 const Checkout = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/core/Checkout')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/AlBahar/Checkout')} {...props} />
 }
 
 const Login = (props) => {
@@ -51,7 +51,7 @@ const PPfailure = (props) => {
 }
 
 const NoMatch = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/core/NoMatch')} {...props}/>
+    return <LazyComponent component={() => import(/* webpackChunkName: "NoMatch"*/'src/simi/App/AlBahar/NoMatch')} {...props}/>
 }
 
 

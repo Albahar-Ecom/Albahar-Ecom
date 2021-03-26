@@ -1,6 +1,6 @@
 import React from 'react'
 import Product from 'src/simi/App/core/RootComponents/Product'
-import Category from 'src/simi/App/core/RootComponents/Category'
+import Category from 'src/simi/App/AlBahar/RootComponents/Category'
 import CMS from 'src/simi/App/core/RootComponents/CMS'
 import Simicms from 'src/simi/App/core/Simicms'
 import Loading from 'src/simi/BaseComponents/Loading'
