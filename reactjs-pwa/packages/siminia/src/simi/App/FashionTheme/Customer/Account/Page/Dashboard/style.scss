@@ -1,0 +1,212 @@
+.customer-dashboard {
+    &.dashboard {
+        /* dashboard */
+        .customer-recent-orders {
+            font-size: 14px;
+            line-height: 17px;
+            &.has-order {
+                overflow: auto;
+            }
+            .config-page {
+                margin-top: 30px;
+                float: left;
+                width: 100%;
+                .total-items {
+                    font-size: 16px;
+                    line-height: 19px;
+                    font-weight: 300;
+                }
+                #page-numbers {
+                    border: none;
+                    padding: 0;
+                    display: flex;
+                    align-items: center;
+                    font-size: 14px;
+                    li {
+                        font-size: 16px;
+                        line-height: 19px;
+                        height: 19px;
+                        width: 20px;
+                        display: flex;
+                        justify-content: center;
+                        cursor: pointer;
+                        font-weight: 400;
+                        svg {
+                            width: 19px !important;
+                            height: 19px !important;
+                            color: #000;
+                            fill: #000;
+                        }
+                    }
+                    li.first-page {
+                        svg {
+                            fill: #bababa !important;
+                            cursor: not-allowed;
+                        }
+                    }
+                    li.final-page {
+                        svg {
+                            fill: #bababa !important;
+                            cursor: not-allowed;
+                        }
+                    }
+                }
+            }
+            .view-order {
+                text-decoration: underline;
+                cursor: pointer;
+                white-space: nowrap;
+                font-size: 14px;
+                line-height: 17px;
+                font-weight: 300;
+                color: #000;
+                text-transform: capitalize;
+                display: block;
+                text-underline-position: under;
+            }
+        }
+        .dashboard-acc-information {
+            clear: both;
+            margin-top: 30px;
+            display: inline-block;
+            width: 100%;
+            .acc-information {
+                display: flex;
+                justify-content: space-between;
+                font-size: 14px;
+                line-height: 17px;
+            }
+            .dash-column-box {
+                flex-direction: row;
+            }
+        }
+        .acc-information .dash-column-box:not(:first-of-type),
+        .dashboard-address-book .dash-column-box:not(:first-of-type) {
+            margin-left: 16px;
+        }
+        .dashboard-address-book {
+            margin-top: 30px;
+            .dash-column-box {
+                min-height: auto;
+                justify-content: unset;
+                flex-direction: row;
+                .box-item-address {
+                    flex: 1;
+                }
+                .edit-item {
+                    width: 16px;
+                    align-self: start;
+                    text-decoration: none;
+                    color: #000000;
+                    margin-left: 5px;
+                    cursor: pointer;
+
+                    [class*='icon-'] {
+                        font-size: 16px;
+                    }
+                }
+                p {
+                    margin: 0;
+                }
+            }
+            .address-book__container {
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .dash-column-box {
+            background-color: #ffffff;
+            padding: 24px 16px 24px 24px;
+            flex-basis: 477px;
+            min-height: 162px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            border: 1px solid #bdbdbd;
+            position: relative;
+            font-weight: 300;
+            .box-title {
+                font-weight: 500;
+                margin-bottom: 12px;
+                font-size: 16px;
+                line-height: 19px;
+            }
+            .desc {
+                margin-bottom: 22px;
+            }
+            .edit-link {
+                background-color: #f2f2f2;
+                min-width: 218px;
+                padding: 13.5px;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 17px;
+                cursor: pointer;
+                display: block;
+                text-align: center;
+                color: #000;
+                text-transform: uppercase;
+            }
+            .edit-information {
+                width: 16px;
+                align-self: start;
+                text-decoration: none;
+                color: #000000;
+                margin-left: 5px;
+
+                [class*='icon-'] {
+                    font-size: 16px;
+                }
+            }
+        }
+    }
+    @media (max-width: 767px) {
+        &.dashboard {
+            padding-bottom: 24px;
+            .customer-page-title {
+                margin-bottom: 8px;
+            }
+            .dashboard-acc-information,
+            .dashboard-address-book {
+                margin-top: 16px;
+            }
+            .acc-information,
+            .address-book__container {
+                flex-direction: column;
+            }
+            .acc-information .dash-column-box:not(:first-of-type),
+            .dashboard-address-book .dash-column-box:not(:first-of-type) {
+                margin-left: 0;
+                margin-top: 8px;
+            }
+            .dashboard-address-book .customer-page-title .view-all {
+                float: right;
+            }
+            .dash-column-box {
+                flex-basis: auto;
+            }
+        }
+    }
+}
+
+.rtl-root {
+    .customer-dashboard {
+        &.dashboard {
+            .acc-information .dash-column-box:not(:first-of-type),
+            .dashboard-address-book .dash-column-box:not(:first-of-type) {
+                margin-left: unset;
+                margin-right: 16px;
+            }
+            @media (max-width: 767px) {
+                .acc-information .dash-column-box:not(:first-of-type),
+                .dashboard-address-book .dash-column-box:not(:first-of-type) {
+                    margin-right: unset;
+                }
+            }
+            .dash-column-box .edit-information {
+                margin-left: unset;
+                margin-right: 5px;
+            }
+        }
+    }
+}

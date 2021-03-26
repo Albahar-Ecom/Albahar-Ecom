@@ -1,0 +1,44 @@
+.homepage-wrapper {
+    .home-category {
+        margin-top: 100px;
+        min-height: 615px;
+        .home-category-content {
+            margin-top: 30px;
+            .home-cate-item {
+                a:hover {
+                    text-decoration: none;
+                }
+                .cate-name {
+                    margin-top: 22px;
+                    font-size: 20px;
+                    line-height: 20px;
+                    text-transform: uppercase;
+                    text-align: center;
+                    color: #000;
+                    font-family: 'Playfair Display';
+                    font-weight: 400px;
+                }
+
+                .cate-product-size {
+                    margin-top: 6px;
+                    font-size: 14px;
+                    line-height: 14px;
+                    text-align: center;
+                    color: #727272;
+                    font-size: 400;
+                }
+            }
+        }
+    }
+}
+
+
+
+@media (max-width: 1023px) {
+    .homepage-wrapper {
+        .home-category {
+            margin-top: 30px;
+            min-height: 285px;
+        }
+    }
+}

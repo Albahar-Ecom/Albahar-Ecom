@@ -1,0 +1,69 @@
+.forgot-password-page-success {
+    .fpass-success-text {
+        margin: 40px auto 0;
+        max-width: 572px;
+        background-color: rgba(71, 200, 89, 0.33);
+        padding: 21px 47px 20px 47px;
+        color: #078018;
+        font-weight: 300;
+        line-height: 20px;
+        text-align: left;
+        margin-bottom: 70px;
+        overflow-wrap: break-word;
+    }
+    .buttonContainer {
+        margin: 0 auto;
+        text-align: center;
+        .submitButton {
+            display: flex;
+            justify-content: center;
+            min-height: 48px;
+            font-size: 16px;
+            font-weight: 600;
+            white-space: nowrap;
+            text-align: center;
+            padding-top: 10px;
+            cursor: pointer;
+            border: 0;
+            width: 100%;
+            min-width: 200px;
+            padding-bottom: 10px;
+            color: #fff;
+            background-color: #101820;
+
+            &:hover {
+                opacity: 0.8;
+            }
+            .text-continue {
+                display: block;
+                text-transform: uppercase;
+                height: fit-content;
+                margin-top: 6px;
+                line-height: 16px;
+            }
+        }
+    }
+
+    @media (max-width: 1023px) {
+        .fpass-success-text {
+            width: unset;
+            height: unset;
+            text-align: justify;
+            margin-top: 50px;
+            margin-bottom: 50px;
+        }
+        .buttonContainer {
+            .submitButton {
+                min-height: 40px;
+                max-width: 279px;
+                margin: auto;
+                .text-continue {
+                    font-size: 14px;
+                    font-weight: 500;
+                    line-height: 14px;
+                    margin-top: 4px;
+                }
+            }
+        }
+    }
+}

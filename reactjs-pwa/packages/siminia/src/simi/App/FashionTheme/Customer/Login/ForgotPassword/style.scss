@@ -1,0 +1,49 @@
+.forgot-password-page-wrap {
+    padding: 0 97px;
+    margin-top: 30px;
+    margin-bottom: 18px;
+    .fpass-title {
+        color: #000;
+        font-size: 20px;
+        font-weight: 600;
+        letter-spacing: 1px;
+        line-height: 20px;
+        text-transform: uppercase;
+        text-align: center;
+    }
+    .fpass-instructions {
+        font-weight: 500;
+        margin-top: 30px;
+        color: #727272;
+        font-size: 14px;
+        line-height: 19px;
+        text-align: left;
+        margin-bottom: 13px;
+    }
+
+    &.forgot-password-page-wrap-rtl {
+        .fpass-instructions {
+            text-align: right;
+        }
+    }
+
+    @media (max-width: 640px) {
+        padding: 0 40px;
+    }
+
+    @media (max-width: 450px) {
+        padding: 0 !important;
+        margin-top: 20px !important;
+        .fpass-title {
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 16px;
+        }
+        .fpass-instructions {
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 14px;
+            margin-top: 5px;
+        }
+    }
+}

@@ -1,0 +1,16 @@
+#header-storeview-switch,
+#header-currency-switch {
+    .MuiListItem-button {
+        display: none;
+    }
+}
+.rtl-root {
+    #header-currency-switch,
+    #header-storeview-switch,
+    #my-account,
+    #wish-list,
+    .right-bar-item-rtl {
+        margin-left: 0;
+        margin-right: 35px;
+    }
+}

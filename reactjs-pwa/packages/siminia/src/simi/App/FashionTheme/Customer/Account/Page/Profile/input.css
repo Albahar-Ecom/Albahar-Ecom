@@ -1,0 +1,16 @@
+.root {
+    margin-bottom: 20px;
+}
+.label {
+    font-weight: 300;
+    margin: 0 0 1px;
+    font-size: 10px;
+    line-height: 12px;
+    text-transform: uppercase;
+}
+.requiredSymbol {
+    display: none;
+}
+::placeholder {
+    font-size: 14px;
+}

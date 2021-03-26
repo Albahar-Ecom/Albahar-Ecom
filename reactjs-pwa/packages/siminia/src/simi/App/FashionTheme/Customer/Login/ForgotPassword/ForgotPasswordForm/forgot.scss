@@ -1,0 +1,84 @@
+.forgot-form {
+    margin-top: 3px;
+    .forgot-area {
+        position: relative;
+        i {
+            font-size: 16px;
+            position: absolute;
+            top: 16px;
+            left: 16px;
+            color: #000;
+        }
+        input {
+            min-height: 48px;
+            padding-left: 56px !important;
+            background-color: #f2f2f2;
+            min-width: 572px;
+            width: 100%;
+            border: unset;
+            font-size: 14px;
+            line-height: 19px;
+            &::placeholder {
+                color: #727272;
+                font-size: 14px;
+                line-height: 19px;
+                font-weight: 300;
+            }
+        }
+
+        p {
+            padding: unset;
+            margin: unset;
+            margin-top: 6px;
+            margin-bottom: 20px;
+            display: block;
+            color: #b91c1c;
+            font-size: 12px;
+            line-height: 15px;
+            text-align: justify;
+            font-weight: 300;
+        }
+    }
+    .forgot-submit-area {
+        margin-top: 31px;
+        text-align: center;
+        border: 1px solid;
+        button {
+            font-size: 16px;
+            font-weight: 500 !important;
+            white-space: nowrap;
+            text-align: center;
+            padding-top: 16px !important;
+            cursor: pointer;
+            border: 0;
+            width: 100%;
+            min-width: 200px;
+            padding-bottom: 16px !important;
+            line-height: 16px !important;
+            text-transform: uppercase;
+            background-color: #101820;
+            color: #fff;
+            letter-spacing: 1px;
+            &:disabled{
+                opacity: 0.56;
+            }
+        }
+    }
+}
+
+.rtl-root {
+    .forgot-form {
+        .forgot-area {
+            i {
+                left: unset !important;
+                right: 16px !important;
+            }
+            input {
+                padding-right: 56px !important;
+            }
+            p {
+                text-align: right !important;
+            }
+        }
+    }
+}

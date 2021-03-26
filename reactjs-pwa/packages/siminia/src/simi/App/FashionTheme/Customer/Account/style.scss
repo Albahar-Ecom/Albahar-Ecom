@@ -1,0 +1,344 @@
+.customer-dashboard {
+    font-family: Nunito;
+    padding-top: 40px;
+    padding-bottom: 100px;
+    color: #000000;
+    .dashboard-layout {
+        display: flex;
+        margin-top: 10px;
+    }
+    .dashboard-menu {
+        width: 278px;
+        min-width: 278px;
+    }
+    .menu-header .welcome-customer {
+        font-size: 20px;
+        line-height: 20px;
+        font-weight: 400;
+        color: #000000;
+        margin-bottom: 16px;
+    }
+    .list-menu-item {
+        .list-menu-item-content {
+            padding: 0;
+            outline: none;
+        }
+        .customer-menu-item {
+            font-size: 14px;
+            line-height: 17px;
+            background: #f2f2f2;
+            color: #000000;
+            font-weight: 300;
+            margin-bottom: 16px;
+            display: flex;
+            justify-content: center;
+            text-transform: uppercase;
+            min-height: 48px;
+            &:last-child {
+                background-color: #bdbdbd;
+            }
+            &.active,
+            &:hover {
+                background: #333132;
+                color: #fff;
+            }
+        }
+    }
+    .dashboard-content {
+        width: calc(100% - 294px);
+        margin-left: 16px;
+        margin-right: 0;
+    }
+    .menu-toggle {
+        display: none;
+    }
+    .body-customer-dashboard .footer-app {
+        margin: 0;
+    }
+    .body-customer-dashboard #data-breadcrumb {
+        display: none;
+    }
+    .customer-page-title {
+        font-size: 18px;
+        line-height: 18px;
+        font-weight: 500;
+        margin-bottom: 16px;
+        color: #000000;
+        .view-all {
+            font-size: 12px;
+            line-height: 15px;
+            font-weight: 500;
+            text-transform: uppercase;
+            float: right;
+            color: #000;
+        }
+    }
+
+    .table-siminia {
+        font-size: 14px;
+        line-height: 17px;
+        font-weight: 300;
+        color: #000;
+        tr {
+            box-sizing: border-box;
+            border: 1px solid #bdbdbd;
+            th {
+                font-size: 16px;
+                line-height: 22px;
+            }
+        }
+        > thead > tr,
+        > thead > tr > th {
+            background: #bdbdbd;
+            color: #000000;
+            font-weight: 500;
+            padding: 14.5px 30px;
+        }
+        > tbody > tr > td,
+        > tbody > tr > th,
+        > tfoot > tr > td,
+        > tfoot > tr > th,
+        > thead > tr > td {
+            padding-top: 15px;
+            padding-bottom: 14px;
+            padding-left: 30px;
+            padding-right: 30px;
+        }
+        > tbody > tr > td.order-status {
+            text-transform: capitalize;
+        }
+        &.table-striped > tbody > tr {
+            background: #fff;
+        }
+    }
+
+    .customer-recent-orders #page-numbers li:first-child {
+        margin-left: 0;
+    }
+    .customer-recent-orders #page-numbers li:last-child {
+        margin-right: 0;
+    }
+
+    .icon-page-number {
+        line-height: 0px;
+    }
+
+    .cart-item-value span {
+        color: rgb(171, 69, 47) !important;
+    }
+
+    @media (max-width: 767px) {
+        .dashboard-layout {
+            display: block;
+        }
+        .dashboard-menu {
+            width: 100%;
+        }
+        .dashboard-content {
+            margin-left: 0px !important;
+        }
+        .container {
+            padding: 0;
+        }
+        .menu-header {
+            display: flex;
+            align-items: center;
+            background: #0f7d37;
+            padding-right: 16px;
+        }
+        .menu-header .welcome-customer {
+            background: unset;
+            margin-right: auto;
+            white-space: nowrap;
+            overflow: hidden;
+        }
+        .menu-header .menu-logout svg {
+            fill: #fff !important;
+        }
+        .menu-toggle {
+            display: block;
+            height: 32px;
+            margin-left: 8px;
+            cursor: pointer;
+        }
+        .dashboard-menu .list-menu-item {
+            margin-top: 16px;
+            margin-bottom: 24px;
+            margin-left: 16px;
+            margin-right: 16px;
+            display: none;
+        }
+        .dashboard-content {
+            margin: 0;
+            padding: 16px;
+        }
+        .body-customer-dashboard #data-breadcrumb {
+            display: block;
+        }
+
+        /* dashboard */
+        .table-siminia {
+            table,
+            thead,
+            tbody,
+            th,
+            td,
+            tr {
+                display: block;
+            }
+            thead tr {
+                position: absolute;
+                top: -9999px;
+                left: -9999px;
+            }
+            > tbody > tr > td {
+                border: none;
+                position: relative;
+                padding-left: 40% !important;
+                white-space: normal;
+                text-align: right;
+            }
+            td:before {
+                content: attr(data-title);
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                white-space: nowrap;
+                text-align: left;
+                font-weight: bold;
+            }
+            > tbody > tr > td,
+            > tbody > tr > th,
+            > tfoot > tr > td,
+            > tfoot > tr > th,
+            > thead > tr > td,
+            > thead > tr > th {
+                padding: 2px 24px;
+            }
+            > tbody > tr > td:first-child {
+                padding-top: 16px;
+            }
+            > tbody > tr > td:last-child {
+                padding-bottom: 16px;
+            }
+        }
+
+        .customer-recent-orders .config-page {
+            flex-direction: column;
+            margin-top: 16px;
+        }
+        .customer-recent-orders #page-numbers li {
+            width: 32px;
+            height: 32px;
+            line-height: 32px;
+        }
+        .customer-recent-orders #page-numbers li.icon-page-number svg {
+            width: 26.67px !important;
+            height: 26.67px !important;
+        }
+
+        .customer-recent-orders #page-numbers li:first-child {
+            display: flex;
+            align-items: center;
+        }
+        .customer-recent-orders #page-numbers li:last-child {
+            display: flex;
+            align-items: center;
+        }
+    }
+
+    @media (max-width: 600px) {
+    }
+
+    .is-invalid {
+        border-color: #d7282f;
+    }
+
+    .email-not-edit {
+        color: #d7282f;
+        text-align: center;
+        margin-top: 10px;
+    }
+
+    @media (max-width: 1023px) {
+        .dashboard-menu {
+            display: none;
+        }
+        .dashboard-content {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 1024px) and (max-width: 1919px) {
+        .product-grid .no-product {
+            margin-left: 22px;
+        }
+    }
+    .product-grid .siminia-product-list-item {
+        display: inline-block;
+        padding: 0;
+        margin: 0;
+        margin-top: 16px;
+        vertical-align: top;
+        width: 48%;
+    }
+
+    @media (min-width: 1024px) {
+        .dashboard-content {
+            width: 100%;
+            max-width: calc(100% - 294px);
+        }
+        .product-grid .siminia-product-list-item {
+            width: 25%;
+            padding-left: 22px;
+        }
+    }
+    @media (min-width: 1440px) {
+        .dashboard-menu {
+            min-width: 278px;
+            width: 278px;
+        }
+    }
+
+    @media (min-width: 1920px) {
+        .product-grid .siminia-product-list-item {
+            padding: 0;
+            margin-left: 75px;
+            width: 240px;
+        }
+
+        .product-grid .no-product {
+            margin-left: 40px;
+        }
+
+        .product-grid .siminia-product-list-item.first {
+            margin-left: 40px;
+        }
+    }
+}
+@media (max-width: 767px) {
+    .customer-dashboard {
+        padding-top: 0;
+        &.my-order {
+            padding-bottom: 40px;
+        }
+    }
+}
+
+.rtl-root {
+    .dashboard-content {
+        margin-left: unset;
+        margin-right: 16px;
+    }
+    @media (max-width: 767px) {
+        .dashboard-content {
+            margin-right: unset;
+        }
+    }
+    .customer-page-title {
+        .view-all {
+            float: left;
+        }
+    }
+}

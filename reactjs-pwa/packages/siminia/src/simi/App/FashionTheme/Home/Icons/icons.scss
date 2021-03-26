@@ -1,0 +1,63 @@
+.icons-block {
+    margin-top: 100px;
+    min-height: 108px;
+    .home-icon {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 0 82.5px;
+        .item-wrapper {
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            max-width: 227px;
+            width: 100%;
+            &:last-child {
+                margin-right: 0;
+            }
+            .block-icon {
+                i {
+                    font-size: 42px;
+                    line-height: 42px;
+                }
+            }
+            .title {
+                margin-top: 16px;
+                font-family: 'Playfair Display';
+                font-weight: 400;
+                font-size: 20px;
+                line-height: 20px;
+                text-align: center;
+                color: #000;
+            }
+            .desc {
+                margin-top: 10px;
+                font-size: 14px;
+                line-height: 16px;
+                text-align: center;
+                color: #727272;
+                font-size: 400;
+                margin-top: 10px;
+            }
+        }
+    }
+}
+
+@media(max-width: 1023px) {
+    .icons-block {
+        margin-top: 30px;
+        min-height: 300px;
+    }
+
+    .icons-block .home-icon .item-wrapper {
+        margin-right: 0;
+        margin-top: 30px;
+        width: 100%;
+    }
+
+    .icons-block .home-icon .item-wrapper:first-child {
+        margin-top: 0;
+    }
+}
+
