@@ -2,7 +2,7 @@
 return array (
   'backend' =>
   array (
-    'frontName' => 'adminalbahar',
+    'frontName' => 'admin',
   ),
   'install' =>
   array (
@@ -23,11 +23,11 @@ return array (
     array (
       'default' =>
       array (
-        'host' => 'localhost',
-        'dbname' => 'albahar_dev',
-        'username' => 'root',
-        'password' => 'simicart123@',
-        'model' => 'mysql4',
+	'host' => 'localhost',
+        'dbname' => 'mbqxntbxvm',
+        'username' => 'mbqxntbxvm',
+        'password' => '6e6RGs9Qv4',      
+	'model' => 'mysql4',
         'engine' => 'innodb',
         'initStatements' => 'SET NAMES utf8;',
         'active' => '1',
