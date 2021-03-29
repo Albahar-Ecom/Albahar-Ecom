@@ -311,6 +311,7 @@ return [
         'Mageplaza_Core' => 1,
         'Mageplaza_PdfInvoice' => 1,
         'Mageplaza_Shopbybrand' => 1,
+        'Mageplaza_ShopbybrandGraphQl' => 1,
         'PayPal_Braintree' => 1,
         'PayPal_BraintreeGraphQl' => 1,
         'Simi_Simiconnector' => 1,
