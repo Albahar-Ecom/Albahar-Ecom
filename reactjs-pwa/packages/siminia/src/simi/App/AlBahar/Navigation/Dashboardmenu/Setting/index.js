@@ -2,8 +2,8 @@ import React from 'react'
 import Identify from "src/simi/Helper/Identify";
 import {configColor} from "src/simi/Config";
 import ListItemNested from "src/simi/BaseComponents/MuiListItem/Nested";
-import Storeview from "src/simi/App/Albahar/BaseComponents/Settings/StoreviewMobile/index";
-import Currency from "src/simi/App/Albahar/BaseComponents/Settings/Currency/index";
+import Storeview from "src/simi/App/AlBahar/BaseComponents/Settings/StoreviewMobile/index";
+import Currency from "src/simi/App/AlBahar/BaseComponents/Settings/Currency/index";
 import SettingIcon from 'src/simi/BaseComponents/Icon/Settings'
 const Setting  = (props) => {
     const merchantConfigs = Identify.getStoreConfig()
