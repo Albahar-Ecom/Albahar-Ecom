@@ -4,7 +4,10 @@
 /vendor
 /pub/media
 /pub/static
-/lib
+/lib/*
+!/lib
+!/lib/internal
+!/lib/internal/Mageplaza
 /bin
 /phpserver
 /setup
