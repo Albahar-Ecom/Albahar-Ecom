@@ -4,7 +4,7 @@ import { compose } from 'redux';
 
 import CartCounter from './cartCounter';
 
-import Basket from "src/simi/BaseComponents/Icon/Basket";
+import ShoppingCart from "src/simi/App/AlBahar/BaseComponents/Icon/ShoppingCart";
 import classify from 'src/classify';
 import defaultClasses from './cartTrigger.css'
 import Identify from 'src/simi/Helper/Identify'
@@ -38,7 +38,7 @@ const Trigger = props => {
 
     const cartIcon = <React.Fragment>
         <div className={classes['item-icon']} style={{ display: 'flex', justifyContent: 'center' }}>
-            <Basket style={{ width: 30, height: 30, display: 'block', margin: 0 }} />
+            <ShoppingCart style={{ width: 30, height: 30, display: 'block', margin: 0 }} />
         </div>
         {!isPhone &&
             <div className={classes['item-text']}>

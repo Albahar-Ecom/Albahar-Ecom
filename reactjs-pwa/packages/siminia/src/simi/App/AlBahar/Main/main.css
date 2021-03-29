@@ -14,3 +14,24 @@
     padding-top: 30px;
     padding-bottom: 10px;
 }
+
+.scroll_to_top {
+    display: none;
+    position: fixed;
+    right: 10px;
+    bottom: 170px;
+    z-index: 10000;
+    cursor: pointer;
+}
+
+.scroll_to_top:hover svg {
+    color: #ccc !important;
+}
+
+@media screen and (max-width: 1023px) {
+    select, textarea, input[type="text"], input[type="password"],
+    input[type="datetime"], input[type="datetime-local"],
+    input[type="date"], input[type="month"], input[type="time"],
+    input[type="week"], input[type="number"], input[type="email"],
+    input[type="tel"], input[type="url"]{ font-size: 16px !important; }
+}

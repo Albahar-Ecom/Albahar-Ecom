@@ -343,6 +343,14 @@ body.fixed-scroll {
     text-align: center;
     white-space: nowrap;
 }
+/* .menu-my-account, .menu-settings {
+    position: absolute;
+    background: #fff;
+    z-index: 2;
+    border: 1px solid #f3f3f3;
+    box-shadow: 2px 2px 0 0 rgba(0,0,0,0.14);
+    margin-top: 8px;
+} */
 .list-menu-account, list-menu-settings {
     padding-top: 4px;
     padding-bottom: 4px;

@@ -92,11 +92,11 @@ class Settings extends React.Component {
                             {Identify.__('Language')}
                         </div>
                     </div>
-                    <div className={classes['right-bar-item']} id="header-currency-switch" style={{ opacity: 0 }}>
+                    {/* <div className={classes['right-bar-item']} id="header-currency-switch" style={{ opacity: 0 }}>
                         <div className={classes["item-text"]} style={{ whiteSpace: 'nowrap' }}>
                             {Identify.__('Currency')}
                         </div>
-                    </div>
+                    </div> */}
                 </React.Fragment>
             )
             if (!storeConfig || !storeConfig.simiStoreConfig)
@@ -114,7 +114,7 @@ class Settings extends React.Component {
                 </div>
             )
 
-            const hasCurrencyConfig = storeConfig.simiStoreConfig.config.base.currencies.length > 1
+            // const hasCurrencyConfig = storeConfig.simiStoreConfig.config.base.currencies.length > 1
             const currencyIcon = <div className={classes["currency_ic"]}> {storeConfig.simiStoreConfig.currency} </div>
             return (
                 <React.Fragment>
@@ -126,7 +126,7 @@ class Settings extends React.Component {
                                 {storeViewOptions}
                             </div>
                         </div> : ''}
-                    {hasCurrencyConfig ?
+                    {/* {hasCurrencyConfig ?
                         <div className={classes['right-bar-item']} id="header-currency-switch">
                             <div style={{ position: 'relative' }} ref={node => {
                                 this.currencyAnchorEl = node;
@@ -141,7 +141,7 @@ class Settings extends React.Component {
                                 </div>
                                 {this.renderCurrencyOptions()}
                             </div>
-                        </div> : ''}
+                        </div> : ''} */}
                 </React.Fragment>
             );
         } catch (err) {
