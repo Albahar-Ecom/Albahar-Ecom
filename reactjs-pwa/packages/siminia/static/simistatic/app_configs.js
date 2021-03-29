@@ -2,7 +2,7 @@ var DASHBOARD_CONFIG = {
     "app-configs": [
         {
             "app_images": {
-                "logo": "\/static\/simicart_logo.svg"
+                "logo": "\/static\/logo.png"
             },
             "theme": {
                 "key_color": "#ffffff",

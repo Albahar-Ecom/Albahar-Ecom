@@ -7,7 +7,7 @@
   "background_color": "#fff",
   "description": "Shop the look",
   "icons": [{
-    "src": "/static/icons/siminia_circle_512.png",
+    "src": "/static/icons/icon.png",
     "sizes": "512x512",
     "type": "image/png"
   }
