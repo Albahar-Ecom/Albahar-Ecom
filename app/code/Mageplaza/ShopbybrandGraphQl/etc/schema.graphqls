@@ -1,0 +1,90 @@
+type Query {
+    mpbrand(
+        filter: MageplazaBrandsFilterInput @doc(description: "Identifies which Mageplaza Brands attributes to search for and return."),
+        pageSize: Int = 5 @doc(description: "Number of items should be shown on the page"),
+        currentPage: Int = 1 @doc(description: "Allow page number to start from 1"),
+        storeId: Int = 0 @doc(description: "Store View Id")
+    ): MageplazaBrandsOutput
+    @resolver(class: "Mageplaza\\ShopbybrandGraphQl\\Model\\Resolver\\Brands") @doc(description: "Queries search for Mageplaza Brands that match the filtered criteria.")
+    mpbrandCategories (
+        id: Int @doc(description: "Id of the brand category")
+    ): [MageplazaBrandsCategories]
+    @resolver(class: "Mageplaza\\ShopbybrandGraphQl\\Model\\Resolver\\BrandCategory") @doc(description: "The query searches for brand categories that match the searched criteria and filtered attributes")
+    brandConfig (
+        storeId: Int = 0 @doc(description: "Store View Id")
+    ) : BrandConfig
+    @resolver(class: "Mageplaza\\ShopbybrandGraphQl\\Model\\Resolver\\BrandConfigResolver") @doc(description: "The brand config query") @cache(cacheable: false)
+}
+input MageplazaBrandsFilterInput {
+    brand_id: FilterTypeInput @doc(description: "Brand Id")
+    option_id: FilterTypeInput @doc(description: "Option Id")
+    url_key: FilterTypeInput @doc(description: "URL Key")
+    is_featured: FilterTypeInput @doc(description: "Show brand on Featured block")
+    value: FilterTypeInput @doc(description: "Brand Name")
+    default_value: FilterTypeInput @doc(description: "Brand Default Value")
+}
+type MageplazaBrandsOutput {
+    items: [MageplazaBrands] @doc(description: "MageplazaBrand data is satisfied"),
+    total_count: Int @doc(description: "The total number of results returned when a query is applied"),
+    page_info: SearchResultPageInfo @doc(description: "An object that includes the page info and current page values specified in the query")
+}
+
+type MageplazaBrands {
+  brand_id: Int @doc(description: "Brand Id")
+  attribute_id: Int @doc(description: "Brand Attribute Id")
+  option_id: Int @doc(description: "Option Id")
+  value: String @doc(description: "Brand Name")
+  default_value: String @doc(description: "Brand Default Value")
+  store_id: Int @doc(description: "Store Id")
+  page_title: String @doc(description: "Brand Page Title")
+  url_key: String @doc(description: "Url Key")
+  image: String @doc(description: "Brand Image URL") @resolver(class: "Mageplaza\\ShopbybrandGraphQl\\Model\\Resolver\\Brands\\BrandImage")
+  is_featured: Int @doc(description: "Show brand on Featured block")
+  short_description: String @doc(description: "Short Description")
+  description: String @doc(description: "Description")
+  static_block: String @doc(description: "Static Block")
+  meta_title: String @doc(description: "Meta Title")
+  meta_keywords: String @doc(description: "Meta Keywords")
+  meta_description: String @doc(description: "Meta Description")
+  product_quantity: Int @doc(description: "Product Quantity of Brand")
+  mpbrandCategories: [MageplazaBrandsCategories] @doc(description: "The categories assigned to a brand") @resolver(class: "Mageplaza\\ShopbybrandGraphQl\\Model\\Resolver\\Categories")
+}
+
+type MageplazaBrandsCategoriesOutput {
+    total_count: Int @doc(description: "The total number of results returned when a query is applied"),
+    items: [MageplazaBrandsCategories] @doc(description: "Mageplaza Shopbybrand Category data is satisfied")
+}
+
+type MageplazaBrandsCategories {
+  cat_id: Int @doc(description: "Brand Category Id")
+  status: Int @doc(description: "Status")
+  store_ids: String @doc(description: "Store Ids")
+  name: String @doc(description: "Name")
+  url_key: String @doc(description: "URL Key")
+  meta_title: String @doc(description: "Meta Title")
+  meta_keywords: String @doc(description: "Meta Keywords")
+  meta_description: String @doc(description: "Meta Description")
+  meta_robots: String @doc(description: "Meta Robots")
+  created_at: String @doc(description: "Creation date of the category")
+  updated_at: String @doc(description: "Last modification date of the category")
+  mpbrand: [MageplazaBrands] @doc(description: "The list of brands assigned to the category") @resolver(class: "Mageplaza\\ShopbybrandGraphQl\\Model\\Resolver\\Category\\Brands")
+}
+
+interface ProductInterface {
+    mpbrand: MageplazaBrands @doc(description: "Mageplaza Shopbybrand Attribute data") @resolver(class: "Mageplaza\\ShopbybrandGraphQl\\Model\\Resolver\\Product\\Brand")
+}
+
+type BrandConfig @doc(description: "The type contains information about a brand config") {
+    brand_list_name : String @doc(description: "The Brand List Name assigned to the store")
+    brandlist_style : Int @doc(description: "Style on Brand List Page. List: 0, Alphabet: 1")
+    display_option : Int @doc(description: "The display option on Brand List Page. Logo Only: 0, Logo and Label: 1, Label Only: 2")
+    brand_list_logo_width : Int @doc(description: "Logo Width on Brand List Page")
+    brand_list_logo_height : Int @doc(description: "Logo Height on Brand List Page")
+    color : String @doc(description: "Color on Brand List Page")
+    show_description : Boolean @doc(description: "Show Brand description on Brand List Page")
+    show_product_qty : Boolean @doc(description: "Show product qty on Brand List Page")
+    custom_css : String @doc(description: "Custom css on Brand List Page")
+    show_brand_info : String @doc(description: "Show brand info on product page")
+    logo_width_on_product_page : Int @doc(description: "logo Width on product page")
+    logo_height_on_product_page : Int @doc(description: "logo Height on product page")
+}
