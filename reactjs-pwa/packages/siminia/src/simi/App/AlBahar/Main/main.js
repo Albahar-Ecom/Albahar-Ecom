@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { bool } from 'prop-types';
 
 import Footer from 'src/simi/App/core/Footer';
-import Header from 'src/simi/App/core/Header'
+import Header from 'src/simi/App/AlBahar/Header'
 import Identify from 'src/simi/Helper/Identify'
 import {saveCategoriesToDict} from 'src/simi/Helper/Url'
 import Connection from 'src/simi/Network/SimiConnection'
