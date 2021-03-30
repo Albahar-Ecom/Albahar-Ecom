@@ -1,62 +1,80 @@
 import React, { useState } from "react";
-import TextBox from 'src/simi/BaseComponents/TextBox';
 import { Whitebtn } from 'src/simi/BaseComponents/Button';
 import Identify from "src/simi/Helper/Identify";
-import { SimiMutation } from 'src/simi/Network/Query'
-import CUSTOMER_NEWSLETTER_UPDATE from 'src/simi/queries/customerNewsletterUpdate.graphql';
-import Loading from "src/simi/BaseComponents/Loading";
+import MUTATION_GRAPHQL from 'src/simi/queries/guestSubscribe.graphql'
+import { smoothScrollToView } from 'src/simi/Helper/Behavior';
+import { connect } from 'src/drivers';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { useSubscribeEmail } from 'src/simi/talons/Subscribe/useSubscribeEmail';
+
+require('./newsletter.scss')
 
 const Newsletter = props => {
-    const { classes } = props;
+    const { toggleMessages } = props;
 
-    const [email, setEmail] = useState('');
+    const talonProps = useSubscribeEmail({
+        query: { subscribeMutation: MUTATION_GRAPHQL }
+    });
+
+    const {
+        subscribeError,
+        isSubmitting,
+        isSuccess,
+        handleSubscribe
+    } = talonProps;
+
+    if (subscribeError) {
+        toggleMessages([{ type: 'error', message: subscribeError, auto_dismiss: true }]);
+        smoothScrollToView($("#id-message"));
+    }
+
+    if (isSuccess) {
+        console.log(isSuccess)
+        toggleMessages([{ type: 'success', message: isSuccess, auto_dismiss: true }]);
+        smoothScrollToView($("#id-message"));
+    }
+
+    const onChangeInput = (e) => {
+        if ($(e.target).val()) {
+            $(e.target).removeClass('in-valid');
+            $(e.target).closest('#footer-newsletter-form').find('.message-error').addClass('hidden');
+        }
+    }
+
+    const onSubmitForm = (e) => {
+        e.preventDefault();
+        const form = $("#footer-newsletter-form")
+        const emailField = form.find('input[name="newsletter_email"]');
+        form.find('.message-error').addClass('hidden');
+        emailField.removeClass('in-valid');
+        if (!emailField.val() || !emailField.val().trim()) {
+            emailField.addClass('in-valid');
+            form.find('.message-error').removeClass('hidden');
+            return;
+        } 
+        const emailVal = emailField.val().trim();
+        handleSubscribe({ email: emailVal });
+    }
 
     return (
-        <div className={classes["app-newsletter"]}>
-            <div className={`container ${classes["app--flex"]} ${classes["pd-10-15"]}`}>
-                <div className={classes["newsletter__text"]}>
-                    <h4 className={classes["newsletter-title"]}>
-                        {Identify.__(
-                            "Stay up to date and never miss an offer! Sign up today"
-                        )}
-                    </h4>
-                    <span className={classes["arrow-triangle"]} />
+        <div className="footer-newsletter">
+            <form id="footer-newsletter-form" method="POST" onSubmit={onSubmitForm}>
+                <div className="newsletter-input-group">
+                    <input type="email" name="newsletter_email" placeholder={Identify.__("Enter email")} onChange={onChangeInput}/>
+                    <Whitebtn type="submit" disabled={isSubmitting} className="newsletter-button" text={Identify.__("Subscribe")}/>
                 </div>
-                <SimiMutation mutation={CUSTOMER_NEWSLETTER_UPDATE}>
-                    {(updateCustomer, { loading, data }) => {
-                        console.log(data);
-                        if (loading) return <Loading />
-                        return (
-                            <form
-                                className={classes["newsletter__form"]}
-                                onSubmit={e => {
-                                    e.preventDefault();
-                                    updateCustomer({ variables: { email, isSubscribed: true } })
-                                }}
-                            >
-                                <TextBox
-                                    // label={Identify.__("Newsletter")}
-                                    type="email"
-                                    name="email"
-                                    parentclasses={classes}
-                                    placeholder={Identify.__("Enter email address")}
-                                    id="harlow-newsletter"
-                                    defaultValue={email}
-                                    onChange={e => setEmail(e.target.value)}
-                                />
-                                <Whitebtn
-                                    type="submit"
-                                    className="btn-secondary"
-                                    text={Identify.__("Sign Up")}
-                                />
-                            </form>
-                        )
-                    }}
-                </SimiMutation>
-
-            </div>
+                <div className="message-error text-left hidden">{Identify.__('Invalid field')}</div>
+            </form>
+ 
         </div>
     )
 }
 
-export default Newsletter;
+const mapDispatchToProps = {
+    toggleMessages,
+}
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Newsletter);

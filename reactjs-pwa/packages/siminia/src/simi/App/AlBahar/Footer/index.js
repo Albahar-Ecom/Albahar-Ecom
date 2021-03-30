@@ -8,7 +8,7 @@ import Copyright from './Copyright';
 import Facebook from 'src/simi/BaseComponents/Icon/Facebook'
 import Twitter from 'src/simi/BaseComponents/Icon/Twitter'
 import Instagram from 'src/simi/BaseComponents/Icon/Instagram'
-import Expansion from 'src/simi/BaseComponents/Expansion'
+import Expansion from 'src/simi/App/AlBahar/BaseComponents/Expansion'
 import { useWindowSize } from '@magento/peregrine';
 import Newsletter from './Newsletter'
 
@@ -97,7 +97,7 @@ const Footer = props => {
                                     {Identify.__("Customer Services")}
                                 </span>
                                 {listPages(pageCustomerServices)}
-                            </React.Fragment> : <Expansion id={pagec1} title={Identify.__("Customer Services")} content={listPages(pageCustomerServices)} icon_color="#FFFFFF" handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} />}
+                            </React.Fragment> : <Expansion id={pagec1} title={Identify.__("Customer Services")} content={listPages(pageCustomerServices)} icon_color="#333" handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} />}
                         </div>
                         <div className={`${classes['col-custom-20pr']} ${classes['col-mobile-pd-0']}`}>
                             {!isPhone ? <React.Fragment>
@@ -105,10 +105,17 @@ const Footer = props => {
                                     {Identify.__("Our Policies")}
                                 </span>
                                 {listPages(pagePolicies)}
-                            </React.Fragment> : <Expansion id={pagep2} title={Identify.__("Our Policies")} content={listPages(pagePolicies)} icon_color="#FFFFFF" handleExpand={(pagep2) => handleExpand(pagep2)} expanded={expanded} />}
+                            </React.Fragment> : <Expansion id={pagep2} title={Identify.__("Our Policies")} content={listPages(pagePolicies)} icon_color="#333" handleExpand={(pagep2) => handleExpand(pagep2)} expanded={expanded} />}
                         </div>
-                        {/* <div className={`${classes['col-custom-20pr']} hidden-xs`} />
-                        <div className={`${classes['col-custom-20pr']} hidden-xs`} /> */}
+                         <div className={`${classes['col-custom-20pr']}`}>
+                            <span className={classes["footer--custom_title"]}>
+                                {Identify.__("Newsletter")}
+                            </span>
+                            <span className={classes["footer--custom_desc"]}>
+                                {Identify.__("Sign Up for Our Newsletter:")}
+                            </span>
+                            <Newsletter classes={classes} />
+                        </div>
                         <div className={`${classes["col-custom-20pr"]}`}>
                             <span className={classes["footer--custom_title"]}>
                                 {Identify.__("Get in touch today on")}
@@ -125,7 +132,7 @@ const Footer = props => {
                                 className={classes["footer--custom_title"]}
                                 style={{
                                     display: "block",
-                                    marginTop: "40px"
+                                    marginTop: "30px"
                                 }}
                             >
                                 {Identify.__("Connect")}
@@ -141,12 +148,6 @@ const Footer = props => {
                                     <Instagram className={classes["instagram-icon"]} style={{ width: "50px", height: "50px" }} />
                                 </a>
                             </div>
-                        </div>
-                        <div className={`${classes['col-custom-20pr']} ${classes['col-mobile-pd-0']}`}>
-                            <span className={classes["footer--custom_title"]}>
-                                {Identify.__("Newsletter")}
-                            </span>
-                            <Newsletter classes={classes} />
                         </div>
                     </div>
                 </div>

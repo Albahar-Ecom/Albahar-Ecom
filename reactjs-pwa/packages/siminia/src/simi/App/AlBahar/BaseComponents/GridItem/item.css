@@ -56,14 +56,14 @@ Grid item
 
 .siminia-product-des .product-name.small {
     width: 100%;
-    font-size: 17px;
+    font-size: 16px;
     margin-bottom: 10px;
     margin-bottom: 8px;
     text-align: start;
-    font-weight: 500;
+    font-weight: 400;
     text-overflow: ellipsis;
     overflow: hidden;
-    line-height: 22px;
+    line-height: 24px;
     max-height: 44px;
 }
 
@@ -74,16 +74,16 @@ Grid item
 }
 
 .siminia-product-des .price {
-    font-weight: 500;
-    font-size: 14px;
-    float: left;
+    font-size: 16px;
+    line-height: 19px;
+    font-weight: bold;
     margin-bottom: 3px;
+    color: #6D9EEB !important;
 }
 
 .siminia-product-des .old {
     font-weight: 500;
     font-size: 14px;
-    float: left;
 }
 
 /*
@@ -123,7 +123,7 @@ Rate
 }
 .siminia-product-grid-item .siminia-product-des {
     text-align: left;
-    margin: 8px auto 0 auto;
+    margin: 16px auto 0 auto;
     overflow: hidden;
 }
 

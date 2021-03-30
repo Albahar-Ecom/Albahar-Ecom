@@ -38,13 +38,11 @@ const Trigger = props => {
 
     const cartIcon = <React.Fragment>
         <div className={classes['item-icon']} style={{ display: 'flex', justifyContent: 'center' }}>
-            <ShoppingCart style={{ width: 30, height: 30, display: 'block', margin: 0 }} />
+            <ShoppingCart style={{ width: 20, height: 30, display: 'block', margin: 0 }} />
         </div>
-        {!isPhone &&
-            <div className={classes['item-text']}>
-                {Identify.__('Basket')}
-            </div>
-        }
+        <div className={classes['item-text']}>
+            {Identify.__('Cart')}
+        </div>
     </React.Fragment>
 
     return (
