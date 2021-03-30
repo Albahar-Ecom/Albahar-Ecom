@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import defaultClasses from './item.css';
 import { configColor } from 'src/simi/Config';
 import PropTypes from 'prop-types';
@@ -14,9 +14,22 @@ import { StaticRate } from 'src/simi/BaseComponents/Rate';
 import Identify from 'src/simi/Helper/Identify';
 import { productUrlSuffix, saveDataToUrl } from 'src/simi/Helper/Url';
 import Quantity from './qty'
+import { useHistory } from '@magento/venia-drivers';
+import {useGridItem} from 'src/simi/App/AlBahar/talons/Category/useGridItem'
+import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import {
+    ADD_SIMPLE_MUTATION,
+} from 'src/simi/App/AlBahar/RootComponents/Product/ProductFullDetail/productFullDetail.gql';
+
+import { connect } from 'src/drivers';
+import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 
 const Griditem = props => {
-    const { lazyImage } = props;
+    const { lazyImage, toggleMessages } = props;
+    const history = useHistory();
+    const [{ cartId }] = useCartContext();
+    let quantity = 1;
+
     const item = prepareProduct(props.item);
     const logo_url = logoUrl();
     const { classes } = props
@@ -35,6 +48,23 @@ const Griditem = props => {
         }
     };
 
+    const handleLink = useCallback((location) => {
+        history.push(location)
+    })
+
+
+    const {
+        handleAddCart, 
+    } = useGridItem({
+        cartId,
+        handleLink,
+        location,
+        toggleMessages,
+        mutations: {
+            addSimpleToCartMutation: ADD_SIMPLE_MUTATION
+        }
+    })
+
     const image = (
         <div className={itemClasses["siminia-product-image"]} style={{
             borderColor: configColor.image_border_color,
@@ -48,6 +78,10 @@ const Griditem = props => {
         </div>
     )
 
+    const handleSetQty = useCallback((qty) => {
+        quantity = qty 
+    })
+
     return (
         <div className={`${itemClasses["product-item"]} ${itemClasses["siminia-product-grid-item"]} siminia-product-grid-item`}>
             {lazyImage ? <LazyLoad placeholder={<img alt={name} src={logo_url} style={{ maxWidth: 60, maxHeight: 60 }} />}>{image}</LazyLoad> : image}
@@ -60,11 +94,11 @@ const Griditem = props => {
                 <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} onClick={() => props.handleLink(location)}>
                     <Price prices={price} type={type_id} classes={itemClasses} />
                 </div>
-                <div className="add-to-cart-action">
-                    <div className="quantity">
-                        <Quantity />
+                <div className={itemClasses['add-to-cart-action']}>
+                    <div className={itemClasses['quantity']}>
+                        <Quantity handleSetQty={handleSetQty}/>
                     </div>
-                    <div className="add-to-cart-btn">
+                    <div className={itemClasses['add-to-cart-btn']} onClick={() => handleAddCart(item, quantity)}>
                         {Identify.__('Add to cart')}
                     </div>
                 </div>
@@ -80,4 +114,13 @@ Griditem.contextTypes = {
     lazyImage: PropTypes.bool,
 }
 
-export default Griditem;
+
+const mapDispatchToProps = {
+    toggleMessages
+};
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Griditem);
+
