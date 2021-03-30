@@ -13,6 +13,7 @@ import Image from 'src/simi/BaseComponents/Image';
 import { StaticRate } from 'src/simi/BaseComponents/Rate';
 import Identify from 'src/simi/Helper/Identify';
 import { productUrlSuffix, saveDataToUrl } from 'src/simi/Helper/Url';
+import Quantity from './qty'
 
 const Griditem = props => {
     const { lazyImage } = props;
@@ -59,7 +60,14 @@ const Griditem = props => {
                 <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} onClick={() => props.handleLink(location)}>
                     <Price prices={price} type={type_id} classes={itemClasses} />
                 </div>
-                <div className="add-to-cart-action"></div>
+                <div className="add-to-cart-action">
+                    <div className="quantity">
+                        <Quantity />
+                    </div>
+                    <div className="add-to-cart-btn">
+                        {Identify.__('Add to cart')}
+                    </div>
+                </div>
             </div>
         </div>
     );
