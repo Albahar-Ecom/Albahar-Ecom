@@ -5,7 +5,7 @@ import { useWindowSize, useToasts } from '@magento/peregrine';
 import {
     CHECKOUT_STEP,
     useCheckoutPage
-} from 'src/simi/talons/CheckoutPage/useCheckoutPage';
+} from 'src/simi/App/AlBahar/talons/CheckoutPage/useCheckoutPage';
 
 import Button from '@magento/venia-ui/lib/components/Button';
 import Icon from '@magento/venia-ui/lib/components/Icon';
@@ -35,7 +35,6 @@ import { Redirect } from '@magento/venia-drivers';
 const errorIcon = <Icon src={AlertCircleIcon} size={20} />;
 
 const CheckoutPage = props => {
-    console.log('run')
     const { classes: propClasses } = props;
     const talonProps = useCheckoutPage({
         ...CheckoutPageOperations
@@ -52,6 +51,7 @@ const CheckoutPage = props => {
         error,
         handleSignIn,
         handlePlaceOrder,
+        handlePlaceOrderAfter,
         hasError,
         isCartEmpty,
         isGuestCheckout,
@@ -106,6 +106,15 @@ const CheckoutPage = props => {
             handlePlaceOrder();
         }
     }, [checkoutStep, isUpdating, placeOrderLoading, orderDetailsLoading, handlePlaceOrder, orderNumber, isCartEmpty, isLoading, orderDetailsData])
+    
+    useEffect(() => {
+        if ((checkoutStep === CHECKOUT_STEP.REVIEW) 
+            && !isUpdating && !placeOrderLoading && !orderDetailsLoading && !isLoading
+            && orderNumber && !orderDetailsData
+        ) {
+            handlePlaceOrderAfter(orderNumber);
+        }
+    }, [checkoutStep, isUpdating, placeOrderLoading, orderDetailsLoading, isLoading, orderNumber, orderDetailsData])
 
     const classes = mergeClasses(defaultClasses, propClasses);
 
@@ -261,7 +270,7 @@ const CheckoutPage = props => {
                         {/* {placeOrderButton} */}
                     </div>
                 </div>
-            </div >
+            </div>
         );
     }
 

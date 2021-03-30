@@ -50,10 +50,12 @@ export const fullFillAddress = (values, billingForm = false) => {
             if (!submitValues.street1) submitValues.street1 = address_fields_config.street_default || 'NA'; //billing address using street1 and street2 instead of array
             if (!submitValues.postalCode) submitValues.postalCode = address_fields_config.zipcode_default || 'NA'; //billing address using postalCode key
             if (!submitValues.phoneNumber) submitValues.phoneNumber = address_fields_config.telephone_default || 'NA';
+            if (!submitValues.state) submitValues.state = address_fields_config.region_id_default || 'NA';
         } else {
             if (!submitValues.street || !submitValues.street[0]) submitValues.street = [address_fields_config.street_default || 'NA'];
             if (!submitValues.postcode) submitValues.postcode = address_fields_config.zipcode_default || 'NA';
             if (!submitValues.telephone) submitValues.telephone = address_fields_config.telephone_default || 'NA';
+            if (!submitValues.state) submitValues.state = address_fields_config.region_id_default || 'NA';
         }
         return submitValues
     }

@@ -1,0 +1,17 @@
+.root {
+    
+}
+.mainContainer {
+    padding: 1.5rem 0;
+    margin: 1.5rem 0;
+    background-color: #ffeaea;
+    color: #d7282f;
+}
+.heading {
+    text-align: center;
+    padding: .5rem;
+}
+.messageText {
+    text-align: center;
+    padding: .5rem;
+}

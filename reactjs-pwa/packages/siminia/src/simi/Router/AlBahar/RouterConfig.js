@@ -14,6 +14,10 @@ const Checkout = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Checkout"*/'src/simi/App/AlBahar/Checkout')} {...props} />
 }
 
+const CheckoutFailure = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "CheckoutFailure"*/'src/simi/App/AlBahar/Checkout/checkoutPageFailure')} {...props} />
+}
+
 const Login = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props} />
 }
@@ -91,6 +95,10 @@ const router = {
     checkout: {
         path: '/checkout.html',
         render: (location) => <Checkout {...location} />
+    },
+    checkout_failure: {
+        path: '/checkout-failure.html',
+        render: (location) => <CheckoutFailure {...location} />
     },
     login: {
         path: '/login.html',

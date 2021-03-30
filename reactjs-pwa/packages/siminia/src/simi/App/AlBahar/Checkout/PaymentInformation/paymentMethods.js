@@ -10,6 +10,8 @@ import CreditCard from './creditCard';
 import PlainOffline from './SimiPayments/PlainOffline';
 import PurchaseOrder from './SimiPayments/PurchaseOrder/index';
 import StripeIntegration from './SimiPayments/StripeIntegration/index';
+import Paytap from './SimiPayments/Paytap';
+
 import paymentMethodOperations from './paymentMethods.gql';
 import defaultClasses from './paymentMethods.css';
 
@@ -21,6 +23,7 @@ const PAYMENT_METHOD_COMPONENTS_BY_CODE = {
     purchaseorder: PurchaseOrder,
     paypal_express: PlainOffline,
     stripe_payments: StripeIntegration,
+    tap: Paytap,
     // etc
 };
 
