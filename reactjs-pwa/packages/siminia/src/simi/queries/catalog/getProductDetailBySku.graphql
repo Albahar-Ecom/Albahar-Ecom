@@ -76,6 +76,17 @@ query productDetail($sku: String, $onServer: Boolean!) {
             #         percent_off
             #     }
             # }
+            mpbrand {
+                ... on MageplazaBrands {
+                    brand_id
+                    value
+                    default_value
+                    url_key
+                    image
+                    short_description
+                    product_quantity
+                }
+            }
         }
     }
 }

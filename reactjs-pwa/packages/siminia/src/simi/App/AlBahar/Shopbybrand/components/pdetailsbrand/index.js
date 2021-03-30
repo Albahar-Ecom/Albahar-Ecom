@@ -10,10 +10,19 @@ const Pdetailsbrand = props => {
     if (!props.product || !props.product.mpbrand || !props.product.mpbrand.url_key)
         return ''
 
-    const brandConfiguration = storage.getItem('simiBrandConfiguration');
+    // const brandConfiguration = storage.getItem('STORE_CONFIG');
+    const storeConfig = sessionStorage.getItem('STORE_CONFIG');
+    let configData = {};
+    try {
+        configData = JSON.parse(storeConfig) || null;
+    } catch (err) {
+        configData = storeConfig;
+    }
+    const { brandConfig: brandConfiguration } = configData || {};
+
     if (!brandConfiguration || !brandConfiguration.show_brand_info)
         return ''
-
+    
     const {
         show_brand_info, logo_width_on_product_page, logo_height_on_product_page
     } = brandConfiguration;

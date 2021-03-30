@@ -26,6 +26,7 @@ import Skeleton from 'react-loading-skeleton';
 import AddToWishlist from './AddToWishlist';
 import * as Constants from 'src/simi/Config/Constants';
 import TierPrices from './TierPrices';
+import Pdetailsbrand from '../../../Shopbybrand/components/pdetailsbrand/index';
 
 import {
     ADD_CONFIGURABLE_MUTATION,
@@ -548,6 +549,7 @@ class ProductFullDetail extends Component {
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections} />
                     </div>
                     {price_tiers && <TierPrices price_tiers={price_tiers} />}
+                    <Pdetailsbrand product={product} />
                     {short_desc && <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>}
                     <div className="options">{productOptions}</div>
                     {hasStock && <div className="cart-actions">
