@@ -114,7 +114,17 @@ const CheckoutPage = props => {
 
     let checkoutContent;
 
-    if (orderNumber && !isPreventPreview) {
+    if (orderNumber) {
+        if (isPreventPreview) {
+            return (
+                <div className={`${classes.root} container`}>
+                    <div className={classes.heading_container}>
+                        <h2 className={classes.heading}>{Identify.__('This page will be redirected within seconds!')}</h2>
+                    </div>
+                </div>
+            );
+        }
+        
         if (
             orderDetailsData && orderDetailsData.cart && orderDetailsData.cart.items
             && orderDetailsData.cart.items.length
