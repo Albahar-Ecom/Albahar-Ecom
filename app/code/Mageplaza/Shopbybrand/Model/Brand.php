@@ -520,4 +520,20 @@ class Brand extends AbstractModel implements BrandInterface
     {
         return $this->setData(self::STORE_LABELS, $storeLabels);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getProductQuantity()
+    {
+        return $this->getData(self::PRODUCT_QUANTITY);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function setProductQuantity($quantity)
+    {
+        return $this->setData(self::PRODUCT_QUANTITY, $quantity);
+    }
 }

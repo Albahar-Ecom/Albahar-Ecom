@@ -121,6 +121,10 @@ class BrandRepository implements BrandRepositoryInterface
      * @var BrandCategoryResource
      */
     protected $brandCategoryResource;
+    /**
+     * @var BrandConfigFactory
+     */
+    protected $brandConfigFactory;
 
     /**
      * BrandRepository constructor.
@@ -138,6 +142,7 @@ class BrandRepository implements BrandRepositoryInterface
      * @param ProductCollectionFactory $productCollectionFactory
      * @param Visibility $visibleProducts
      * @param FilterManager $filter
+     * @param BrandConfigFactory $brandConfigFactory
      * @param Helper $helper
      */
     public function __construct(
@@ -154,6 +159,7 @@ class BrandRepository implements BrandRepositoryInterface
         ProductCollectionFactory $productCollectionFactory,
         Visibility $visibleProducts,
         FilterManager $filter,
+        BrandConfigFactory $brandConfigFactory,
         Helper $helper
     ) {
         $this->eavAttribute = $eavAttribute;
@@ -170,14 +176,19 @@ class BrandRepository implements BrandRepositoryInterface
         $this->productCollectionFactory = $productCollectionFactory;
         $this->visibleProducts = $visibleProducts;
         $this->brandCategoryResource = $brandCategoryResource;
+        $this->brandConfigFactory = $brandConfigFactory;
     }
 
     /**
      * @inheritdoc
      */
-    public function getBrandList()
+    public function getBrandList($storeId = null)
     {
-        $collection = $this->helper->getBrandList();
+        $collection = $this->helper->getBrandList(null, null, $storeId);
+        /** @var Brand $brand */
+        foreach ($collection->getItems() as $brand) {
+            $brand->setProductQuantity(count($this->getProductList($brand->getOptionId())));
+        }
 
         return $collection->getItems();
     }
@@ -189,6 +200,10 @@ class BrandRepository implements BrandRepositoryInterface
     {
         $collection = $this->helper->getBrandList();
         $collection->addFieldToFilter('is_featured', 1);
+        /** @var Brand $brand */
+        foreach ($collection->getItems() as $brand) {
+            $brand->setProductQuantity(count($this->getProductList($brand->getOptionId())));
+        }
 
         return $collection->getItems();
     }
@@ -200,6 +215,10 @@ class BrandRepository implements BrandRepositoryInterface
     {
         $collection = $this->helper->getBrandList();
         $collection->addFieldToFilter('tdv.value', ['like' => $name . '%']);
+        /** @var Brand $brand */
+        foreach ($collection->getItems() as $brand) {
+            $brand->setProductQuantity(count($this->getProductList($brand->getOptionId())));
+        }
 
         return $collection->getItems();
     }
@@ -228,6 +247,7 @@ class BrandRepository implements BrandRepositoryInterface
         $optionId = $product->getData($this->helper->getAttributeCode($storeId));
         $brand = $this->brandFactory->create();
         $this->resourceModel->load($brand, $optionId, 'option_id');
+        $brand->setProductQuantity(count($this->getProductList($brand->getOptionId())));
 
         return $brand;
     }
@@ -547,5 +567,23 @@ class BrandRepository implements BrandRepositoryInterface
         }
 
         return true;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getBrandConfigs($storeId = null)
+    {
+        /** @var BrandConfig $model */
+        $model     = $this->brandConfigFactory->create();
+        $brandPage = $this->helper->getBrandConfig(null, $storeId);
+        foreach ($brandPage as $key => $value) {
+            $model->setData($key, $value);
+        }
+        $model->setShowBrandInfo($this->helper->getConfigGeneral('show_brand_info', $storeId));
+        $model->setLogoWidthOnProductPage($this->helper->getConfigGeneral('logo_width_on_product_page', $storeId));
+        $model->setLogoHeightOnProductPage($this->helper->getConfigGeneral('logo_height_on_product_page', $storeId));
+
+        return $model;
     }
 }

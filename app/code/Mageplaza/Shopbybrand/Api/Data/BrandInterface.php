@@ -64,6 +64,8 @@ interface BrandInterface
 
     const IS_DEFAULT = 'is_default';
 
+    const PRODUCT_QUANTITY = 'product_quantity';
+
     const ATTRIBUTES = [
         self::BRAND_ID,
         self::OPTION_ID,
@@ -310,4 +312,20 @@ interface BrandInterface
      * @return $this
      */
     public function setStoreLabels(array $storeLabels = null);
+
+    /**
+     * Get product quantity for brand
+     *
+     * @return Int
+     */
+    public function getProductQuantity();
+
+    /**
+     * Set product quantity for brand
+     *
+     * @param int $quantity
+     *
+     * @return $this
+     */
+    public function setProductQuantity($quantity);
 }

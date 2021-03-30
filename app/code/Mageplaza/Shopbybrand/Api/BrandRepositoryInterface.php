@@ -29,10 +29,11 @@ interface BrandRepositoryInterface
 {
     /**
      * Get brand list
+     * @param int|null $storeId
      *
      * @return \Mageplaza\Shopbybrand\Api\Data\BrandInterface[]
      */
-    public function getBrandList();
+    public function getBrandList($storeId = null);
 
     /**
      * Get brand feature list
@@ -166,4 +167,11 @@ interface BrandRepositoryInterface
      * @throws \Magento\Framework\Exception\NoSuchEntityException
      */
     public function deleteCategory($categoryId);
+
+    /**
+     * @param string|null $storeId
+     *
+     * @return \Mageplaza\Shopbybrand\Api\Data\BrandConfigInterface
+     */
+    public function getBrandConfigs($storeId = null);
 }

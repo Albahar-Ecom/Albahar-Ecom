@@ -555,10 +555,11 @@ class Data extends AbstractData
     /**
      * @param null $type
      * @param null $ids
+     * @param null $storeId
      *
      * @return Attribute\Option\Collection
      */
-    public function getBrandList($type = null, $ids = null)
+    public function getBrandList($type = null, $ids = null, $storeId = null)
     {
         /** @var Brand $brands */
         $brands = $this->_brandFactory->create();
@@ -569,12 +570,12 @@ class Data extends AbstractData
                 break;
             //Get Brand List Filtered by Brand First Char
             case self::BRAND_FIRST_CHAR:
-                $list = $brands->getBrandCollection();
+                $list = $brands->getBrandCollection($storeId);
                 break;
             default:
                 //Get Brand List
                 if (!$this->brandCollectionCache) {
-                    $this->brandCollectionCache = $brands->getBrandCollection();
+                    $this->brandCollectionCache = $brands->getBrandCollection($storeId);
                 }
                 $list = $this->brandCollectionCache;
         }

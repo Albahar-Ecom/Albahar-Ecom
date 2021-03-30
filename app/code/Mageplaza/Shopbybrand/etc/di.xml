@@ -25,6 +25,7 @@
     <preference for="Mageplaza\Shopbybrand\Api\BrandRepositoryInterface" type="Mageplaza\Shopbybrand\Model\BrandRepository" />
     <preference for="Mageplaza\Shopbybrand\Api\Data\BrandInterface" type="Mageplaza\Shopbybrand\Model\Brand" />
     <preference for="Mageplaza\Shopbybrand\Api\Data\BrandCategoryInterface" type="Mageplaza\Shopbybrand\Model\Category" />
+    <preference for="Mageplaza\Shopbybrand\Api\Data\BrandConfigInterface" type="Mageplaza\Shopbybrand\Model\BrandConfig" />
     <type name="Magento\Catalog\Model\Layer\FilterList">
         <plugin name="mp_brand_filterlist" type="Mageplaza\Shopbybrand\Plugin\Model\FilterList" sortOrder="100"/>
     </type>
