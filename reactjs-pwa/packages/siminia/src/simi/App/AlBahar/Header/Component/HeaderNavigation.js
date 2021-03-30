@@ -20,7 +20,6 @@ class Navigation extends React.Component {
         const showMenuTrigger = false;
         if (window.DESKTOP_MENU) {
             const menuItemsData = window.DESKTOP_MENU;
-            console.log(menuItemsData);
             menuItems = menuItemsData.map((item, index) => {
                 if (item.children && item.children.length > 0) {
                     let title = item.name
@@ -164,6 +163,11 @@ class Navigation extends React.Component {
                             </NavTrigger>
                         }
                         {menuItems}
+                        <Link className={`${classes["nav-item"]} nav-item nav-item-container`}
+                            key={'brand'} to={'/brand.html'}
+                            style={{ color: 'white', textDecoration: 'none' }}>
+                            {Identify.__('Brands')}
+                        </Link>
                     </div>
                 </div>
             </div>
