@@ -210,7 +210,7 @@ const CustomerForm = props => {
                 {
                     (simiCIMenabled && (getCIMConf('company') !== 3)) &&
                     <div>
-                        <Field id="company" label={Identify.__('Company')} classes={classes.cimfield}>
+                        <Field id="company" label={Identify.__('Company')} className={classes.cimfield}>
                             <TextInput field="company" validate={getCIMConf('company') === 1 ? isRequired : false} />
                         </Field>
                     </div>

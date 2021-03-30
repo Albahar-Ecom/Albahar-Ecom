@@ -269,18 +269,24 @@ export const useCheckoutPage = props => {
         // });
     }, [setToFetchOrderDetails, history]);
 
-    // to handle anything action after place order success
-    const handlePlaceOrderAfter = useCallback(async (orderNumber) => {
-        const selectedPaymentMethod = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'simi_selected_payment_code')
+    const paymentMethodCode = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'simi_selected_payment_code');
+    let isPreventPreview = false;
+    if (paymentMethodCode === 'tap') {
+        isPreventPreview = true;
+    }
 
-        // call event after place order for Tap payment
-        if (selectedPaymentMethod === "tap") {
-            const storeConfig = Identify.getStoreConfig();
-            const {storeConfig: { base_link_url }} = storeConfig || {};
-            window.location.href = base_link_url+'simicustompayment/paytap/redirect?order_id='+orderNumber;
+    useEffect(() => {
+        // call event after place order
+        if (placeOrderCalled && placeOrderData && placeOrderData.placeOrder.order.order_number) {
+            const orderNumber = placeOrderData.placeOrder.order.order_number;
+            // for Tap payment
+            if (paymentMethodCode === "tap") {
+                const storeConfig = Identify.getStoreConfig();
+                const {storeConfig: { base_link_url }} = storeConfig || {};
+                window.location.href = base_link_url+'simicustompayment/paytap/redirect?order_id='+orderNumber;
+            }
         }
-        
-    }, [history]);
+    }, [placeOrderCalled, placeOrderData, paymentMethodCode])
 
     //virtual cart handler
     useEffect(() => {
@@ -344,7 +350,7 @@ export const useCheckoutPage = props => {
         customer,
         handleSignIn,
         handlePlaceOrder,
-        handlePlaceOrderAfter,
+        isPreventPreview,
         hasError: !!checkoutError,
         isCartEmpty: !(checkoutData && checkoutData.cart.total_quantity),
         isGuestCheckout: !isSignedIn,

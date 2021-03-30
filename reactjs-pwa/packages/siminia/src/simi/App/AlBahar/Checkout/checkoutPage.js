@@ -51,7 +51,7 @@ const CheckoutPage = props => {
         error,
         handleSignIn,
         handlePlaceOrder,
-        handlePlaceOrderAfter,
+        isPreventPreview,
         hasError,
         isCartEmpty,
         isGuestCheckout,
@@ -107,15 +107,6 @@ const CheckoutPage = props => {
         }
     }, [checkoutStep, isUpdating, placeOrderLoading, orderDetailsLoading, handlePlaceOrder, orderNumber, isCartEmpty, isLoading, orderDetailsData])
     
-    useEffect(() => {
-        if ((checkoutStep === CHECKOUT_STEP.REVIEW) 
-            && !isUpdating && !placeOrderLoading && !orderDetailsLoading && !isLoading
-            && orderNumber && !orderDetailsData
-        ) {
-            handlePlaceOrderAfter(orderNumber);
-        }
-    }, [checkoutStep, isUpdating, placeOrderLoading, orderDetailsLoading, isLoading, orderNumber, orderDetailsData])
-
     const classes = mergeClasses(defaultClasses, propClasses);
 
     const windowSize = useWindowSize();
@@ -123,7 +114,7 @@ const CheckoutPage = props => {
 
     let checkoutContent;
 
-    if (orderNumber) {
+    if (orderNumber && !isPreventPreview) {
         if (
             orderDetailsData && orderDetailsData.cart && orderDetailsData.cart.items
             && orderDetailsData.cart.items.length
