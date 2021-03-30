@@ -47,7 +47,19 @@ const PaypalExpress = (props) => {
 }
 
 const PPfailure = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "PaypalExpress"*/'src/simi/App/core/Payment/Paypalexpress/PPfailure')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "PPfailure"*/'src/simi/App/core/Payment/Paypalexpress/PPfailure')} {...props} />
+}
+
+const BrandCategory = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "BrandCategory"*/'src/simi/App/AlBahar/Shopbybrand/components/category/index')} {...props} />
+}
+
+const BrandDetails = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "BrandDetails"*/'src/simi/App/AlBahar/Shopbybrand/components/branddetails/index')} {...props} />
+}
+
+const BrandList = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "BrandList"*/'src/simi/App/AlBahar/Shopbybrand/components/brands/index')} {...props} />
 }
 
 const NoMatch = (props) => {
@@ -135,6 +147,18 @@ const router = {
     ppExpressFailure: {
         path: '/paypal_express_failure.html',
         render: location => <PPfailure {...location} />
+    },
+    brandCategory: {
+        path: '/brand/category/:categoryUrl?',
+        render: location => <BrandCategory {...location} />
+    },
+    brandDetails: {
+        path: '/brand/:brandUrl?',
+        render: location => <BrandDetails {...location} />
+    },
+    brandList: {
+        path: '/brand.html',
+        render: location => <BrandList {...location} />
     },
     noMatch: {
         component: location => <NoMatch {...location} />
