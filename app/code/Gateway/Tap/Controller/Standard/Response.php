@@ -1,74 +1,13 @@
 <?php
 
 namespace Gateway\Tap\Controller\Standard;
-use Magento\Sales\Model\Order\Payment\Transaction;
-use Magento\Sales\Model\Order\Payment\Transaction\ManagerInterface;
-use Magento\Framework\App\Action\Context;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Model\Service\InvoiceService;
-use Magento\Sales\Api\Data\CreditmemoInterface;
-// use Magento\Sales\Model\Service\InvoiceService;
-use Magento\Customer\Model\Session;
-//use Magento\Framework\DB\Transaction;
 
 class Response extends \Gateway\Tap\Controller\Tap
 {
-
-	 // public function __construct(\Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder){
-	 // 	$this->transactionBuilder = $transactionBuilder;
-
-	 // }
-	public function createTransaction($order = null, $paymentData = array())
-    {
-        try {
-            //get payment object from order object
-            $payment = $order->getPayment();
-            $payment->setLastTransId($paymentData['ref']);
-            $payment->setTransactionId($paymentData['ref']);
-            $payment->setAdditionalInformation(
-                [\Magento\Sales\Model\Order\Payment\Transaction::RAW_DETAILS => (array) $paymentData]
-            );
-            $formatedPrice = $order->getBaseCurrency()->formatTxt(
-                $order->getGrandTotal()
-            );
- 
-            $message = __('The authorized amount is %1.', $formatedPrice);
-            //get the object of builder class
-            $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-			$transactionBuilder = $objectManager->get('\Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface');
-            $trans = $transactionBuilder;
-            $transaction = $trans->setPayment($payment)
-            ->setOrder($order)
-            ->setTransactionId($paymentData['ref'])
-            ->setAdditionalInformation(
-                [\Magento\Sales\Model\Order\Payment\Transaction::RAW_DETAILS => (array) $paymentData]
-            )
-            ->setFailSafe(true)
-            //build method creates the transaction and returns the object
-            ->build(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE);
- 
-            $payment->addTransactionCommentsToOrder(
-                $transaction,
-                $message
-            );
-            $payment->setParentTransactionId(null);
-            $payment->save();
-            $order->save();
- 
-            return  $transaction->save()->getTransactionId();
-        } catch (Exception $e) {
-            //log errors here
-        }
-    }
     public function execute()
     {
 		$orderId	=	$_REQUEST['trackid'];
-		//var_dump($orderID);exit;
-		$ref = $_REQUEST['ref'];
-		//echo $ref;exit;
 		$order 		=	$this->getOrderById($orderId);
-		$payment = $order->getPayment();
-		//$payment->setTransactionId('12121212121')->setIsTransactionClosed(0);
 		$comment 	= 	"";
 		$successFlag= 	false;
 		
@@ -76,49 +15,9 @@ class Response extends \Gateway\Tap\Controller\Tap
         {
 			if($_REQUEST['result']=='SUCCESS')
 			{
-				$transaction_id = $this->createTransaction($order , $_REQUEST);
-
-				$objectManager2 = \Magento\Framework\App\ObjectManager::getInstance();
-				$invioce = $objectManager2->get('\Magento\Sales\Model\Service\InvoiceService')->prepareInvoice($order);
-				$invioce->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::CAPTURE_ONLINE);
-				$invioce->register();
-				
-				$invioce->setState(\Magento\Sales\Model\Order\Invoice::STATE_PAID);
-            	$invioce->setTransactionId($ref);
-            	$invioce->save();
-
-            	$payment->setTransactionId($ref);
-    			$payment->setParentTransactionId($payment->getTransactionId());
-    			$transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_AUTH, null, true, ""
-    			);
-    			$transaction->setIsClosed(true);
-
-            	// $objectManager4 = \Magento\Sales\Api\Data\ObjectManager::getInstance();
-            	// $creditMemo = $objectManager4->set($offlineRequested = false);
-            	
-    //         	$objectManager3 = \Magento\Framework\App\ObjectManager::getInstance();
-    // //         	$payment->setTransactionId($ref);
-    // // 			$payment->setParentTransactionId($payment->getTransactionId());
-    // // 			$transaction = $payment->addTransaction(Mage_Sales_Model_Order_Payment_Transaction::TYPE_AUTH, null, true, ""
-    // // 			);
-    // // $transaction->setIsClosed(true);
-    //         	$transactionSave = $objectManager3->get('\Magento\Framework\DB\Transaction')->addObject($invioce)->addObject(
-    //             	$invioce->getOrder()
-    //             );
-    // //             //var_dump($transactionSave);exit;
-    //              $transactionSave->save();
-    //              //$this->invoiceSender->send($invoice);
-    // //         	//send notification code
-    //         	$order->addStatusHistoryComment(
-    //             	__('Notified customer about invoice #%1.', $invioce->getId())
-    //         	)
-    //         ->setIsCustomerNotified(true)
-    //         ->save();
-				$params = $this->getRequest()->getParams();		
-				//var_dump($params);exit;	
+				$params = $this->getRequest()->getParams();			
 				if($this->getTapModel()->validateResponse($params))
 				{
-                    //echo "here";exit;
 					$successFlag = true;
 					$comment .=  '<br/><b>Tap payment successful</b><br/><br/>Tap ID - '.$_REQUEST['ref'].'<br/><br/>Order ID - '.$_REQUEST['trackid'].'<br/><br/>Payment Type - '.$_REQUEST['crdtype'].'<br/><br/>Payment ID - '.$_REQUEST['payid'];
 					$order->setStatus($order::STATE_PROCESSING);
@@ -170,9 +69,6 @@ class Response extends \Gateway\Tap\Controller\Tap
 		{
 			$this->messageManager->addError( __($errorMsg) );
 		}
-        //echo "here2";exit;
-        //echo $returnUrl;exit;
-        //var_dump($this->getResponse());exit;
         $this->getResponse()->setRedirect($returnUrl);
     }
 

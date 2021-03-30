@@ -11,10 +11,6 @@ class Tap extends \Magento\Payment\Model\Method\AbstractMethod
     protected $_code = self::CODE;
     protected $_isGateway = true;
     protected $_isOffline = true;
-    protected $_canRefund = true;
-    protected $_canCapture = true;
-    protected $_canAuthorize = true;
-    protected $_canRefundInvoicePartial = true;
     protected $helper;
     protected $_minAmount = null;
     protected $_maxAmount = null;
@@ -32,14 +28,7 @@ class Tap extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Gateway\Tap\Helper\Data $helper,
-        \Magento\Sales\Model\Order $order,
-        \Magento\Sales\Model\Order\CreditmemoFactory $creditmemoFactory,
-        \Magento\Sales\Model\Order\Invoice $invoice,
-        \Magento\Sales\Model\Service\CreditmemoService $creditmemoService,
-        \Magento\Framework\App\Request\Http $request
-      
-
+        \Gateway\Tap\Helper\Data $helper
     ) {
         $this->helper = $helper;
         parent::__construct(
@@ -55,67 +44,7 @@ class Tap extends \Magento\Payment\Model\Method\AbstractMethod
         $this->_minAmount = "0.100";
         $this->_maxAmount = "1000000";
         $this->urlBuilder = $urlBuilder;
-        $this->order = $order;
-        $this->creditmemoFactory = $creditmemoFactory;
-        $this->creditmemoService = $creditmemoService;
-        $this->invoice = $invoice;
-        $this->request = $request;
-       
     }
-
-    public function refund(\Magento\Payment\Model\InfoInterface $payment, $amount){
-        $mid = $this->getConfigData("MID");
-        $mode = $this->getConfigData('debug');
-        if ($mode == 1) {
-            $url = 'http://tapapi.gotapnow.com/TapWebConnect/Tap/WebPay/Refund';
-        }
-        else {
-            $url = 'https://www.gotapnow.com/TapWebConnect/Tap/WebPay/Refund';
-        }
-
-
-        $order_id = $this->request->getParam('order_id');
-        $transactionId = $payment->getParentTransactionId();
-;
-        $curl = curl_init();
-
-        curl_setopt_array($curl, array(
-        CURLOPT_URL => $url,
-        CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_ENCODING => "",
-        CURLOPT_MAXREDIRS => 10,
-        CURLOPT_TIMEOUT => 30,
-        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-        CURLOPT_CUSTOMREQUEST => "POST",
-        CURLOPT_POSTFIELDS => "{\"TapRefID\":\"$transactionId\",\"OrdID\":\"$order_id\",\"IBAN\":\"sample string 3\",\"AccountName\":\"Sarah Khaled\",\"Amount\":\"$amount\",\"MerchantID\":\"$mid\"}",
-          CURLOPT_HTTPHEADER => array(
-            "content-type: application/json"
-        ),
-    ));
-
-$response = curl_exec($curl);
-$err = curl_error($curl);
-
-curl_close($curl);
-
-if ($err) {
-    $this->debugData(['transaction_id' => $transactionId, 'exception' => $err->getMessage()]);
-    $this->_logger->error(__('Payment refunding error.'));
-} else {
-  echo $response;
-}
-
-        //echo $mid;exit;
-        
-        $payment
-            ->setTransactionId($transactionId . '-' . \Magento\Sales\Model\Order\Payment\Transaction::TYPE_REFUND)
-            ->setParentTransactionId($transactionId)
-            ->setIsTransactionClosed(1)
-            ->setShouldCloseParentTransaction(1);
-        return $this;
-        //exit;
-    }
-
 
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
@@ -139,7 +68,6 @@ if ($err) {
 
 	public function buildTapRequest($order)
     {
-
 		$billing_address = $order->getBillingAddress();
         $params = array('MEID' => $this->getConfigData("MID"),  
 						'UName' => $this->getConfigData("merchant_username"),  				
@@ -177,7 +105,6 @@ if ($err) {
 					document.tap.submit();
 					function encodeTxnRequest()
 					{
-						alert(hi);
 						document.tap.submit();
 					}
 				</script>
@@ -228,7 +155,6 @@ if ($err) {
         return $url;
     }
 
-
     public function getReturnUrl()
     {
         
@@ -239,15 +165,9 @@ if ($err) {
         
     }
 	
-    
 	public function validateResponse($returnParams) 
 	{
 		$orderId	=	$_REQUEST['trackid'];
-        $ref = $_REQUEST['ref'];
-        $order = $this->getOrder();
-        //$order = Mage::getModel('sales/order')->loadByIncrementId($orderId);
-        //var_dump($order);exit;
-        //var_dump($orderId);exit;
         $key		=	$this->getConfigData("MID");
 		$salt		=	$this->getConfigData("merchant_key");
 		$RefID		=	$_REQUEST['ref'];

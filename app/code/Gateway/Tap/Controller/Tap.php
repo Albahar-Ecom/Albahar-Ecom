@@ -98,9 +98,6 @@ abstract class Tap extends \Magento\Framework\App\Action\Action
         return $order_info;
     }
 
-    protected function refund() {
-        exit;
-    }
     /**
      * Get order object
      *
