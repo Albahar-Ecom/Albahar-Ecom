@@ -104,12 +104,13 @@
     opacity: 0.6;
 }
 .right-bar-item .item-text {
-    line-height: 19px;
+    line-height: 18px;
+    font-size: 14px;
     color: #333132 !important;
 }
 .app-nav {
     min-height: 43px;
-    background: #333132;
+    background: #0082FF;
     color: #fff;
 }
 .main-nav {

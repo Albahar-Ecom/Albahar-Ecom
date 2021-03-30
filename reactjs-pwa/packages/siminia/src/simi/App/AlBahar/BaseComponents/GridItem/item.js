@@ -4,7 +4,7 @@ import { configColor } from 'src/simi/Config';
 import PropTypes from 'prop-types';
 import ReactHTMLParse from 'react-html-parser';
 import { mergeClasses } from 'src/classify';
-import Price from 'src/simi/BaseComponents/Price';
+import Price from 'src/simi/App/AlBahar/BaseComponents/Price';
 import { prepareProduct } from 'src/simi/Helper/Product';
 import { Link } from 'src/drivers';
 import LazyLoad from 'src/simi/BaseComponents/LazyLoad';
@@ -57,8 +57,9 @@ const Griditem = props => {
                 </div> : ''}
                 <div role="presentation" className={`${itemClasses["product-name"]} ${itemClasses["small"]}`} onClick={() => props.handleLink(location)}>{ReactHTMLParse(name)}</div>
                 <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} onClick={() => props.handleLink(location)}>
-                    <Price prices={price} type={type_id} />
+                    <Price prices={price} type={type_id} classes={itemClasses} />
                 </div>
+                <div className="add-to-cart-action"></div>
             </div>
         </div>
     );

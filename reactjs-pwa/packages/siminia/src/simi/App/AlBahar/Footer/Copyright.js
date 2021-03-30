@@ -39,21 +39,10 @@ const Copyright = props => {
                             <img src={KnetImage} alt="" style={{marginLeft: 13}}/>
                         </div>
                     </div>
-                </div>
-                <div className={`row ${classes['pd-tb-15']}`}>
-                    <div className={`col-xs-6 ${classes["app--flex"]}`} style={{ frontSize: '13px' }}>
-                        <span>
+                    <div className="col-xs-12">
+                        <div className={classes["copy-right"]}> 
                             &copy; {copyright}
-                        </span>
-                    </div>
-                    <div
-                        className="col-xs-6 text-right"
-                        style={{ fontSize: "13px" }}
-                    >
-                        {Identify.__(footer_title1 ? footer_title1 : "eCommerce by ")}
-                        <a target='blank' href={footer_link ? footer_link : '#'} style={{ color: "#FC565A" }}>
-                            {Identify.__(footer_title2 ? footer_title2 : "Simicart")}
-                        </a>
+                        </div>
                     </div>
                 </div>
             </div>
