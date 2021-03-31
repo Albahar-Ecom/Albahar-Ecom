@@ -5,22 +5,35 @@ import {productUrlSuffix, cateUrlSuffix} from 'src/simi/Helper/Url';
 const BannerItem = props => {
     const { history, item, isPhone } = props;
 
-    let action = () => {}
-    if (parseInt(item.type, 10) === 1) {
-        //product detail
-        if (item.url_key) {
-            action = () => history.push(item.url_key + productUrlSuffix());
+    const renderBannerTitle = item => {
+        let action = () => {}
+        if (parseInt(item.type, 10) === 1) {
+            //product detail
+            if (item.url_key) {
+                action = () => history.push(item.url_key + productUrlSuffix());
+            }
+        } else if(parseInt(item.type, 10) === 2){
+            //category
+            if (item.url_path) {
+                action = () => history.push(item.url_path + cateUrlSuffix());
+            }
+        } else {
+            action = (e) => {
+                e.preventDefault();
+                window.open(item.banner_url);
+            }
         }
-    } else if(parseInt(item.type, 10) === 2){
-        //category
-        if (item.url_path) {
-            action = () => history.push(item.url_path + cateUrlSuffix());
-        }
-    } else {
-        action = (e) => {
-            e.preventDefault();
-            window.open(item.banner_url);
-        }
+
+        return(
+            <div role="presentation" className="banner-title" onClick={action}>
+                <div className="bannner-content">
+                    <div className="title">{item.banner_title}</div>
+                </div>
+                <Colorbtn 
+                    text={"Show"}
+                    className="banner-action"/>
+            </div>
+        )
     }
     
     const w = '100%';
@@ -45,8 +58,8 @@ const BannerItem = props => {
         <div 
             style={{position: 'relative', maxWidth: w, minHeight: h}} 
             className="banner-item"
-            onClick={action}
         >
+            {renderBannerTitle(item)}
             <img className="img-responsive" width={w} height={h} src={img} alt={item.banner_title}/>
         </div>
     )

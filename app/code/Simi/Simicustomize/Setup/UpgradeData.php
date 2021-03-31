@@ -45,11 +45,11 @@ class UpgradeData implements UpgradeDataInterface
 
         if (version_compare($context->getVersion(), '0.0.2') < 0) {
             $page = $this->_pageFactory->create();
-            // faq 
-            if (!$page->load('faq', 'identifier')->getId()) {
-                $aboutPage = [
+            // albahar faq 
+            if (!$page->load('albahar-faq', 'identifier')->getId()) {
+                $faqPage = [
                     'title' => 'FAQ',
-                    'identifier' => 'faq',
+                    'identifier' => 'albahar-faq',
                     'stores' => [0],
                     'is_active' => 1,
                     'content_heading' => 'FAQ',
@@ -122,7 +122,7 @@ class UpgradeData implements UpgradeDataInterface
                     'page_layout' => '1column'
                 ];
 
-                $page1->setData($aboutPage)->save();
+                $page->setData($faqPage)->save();
             }
 
         }

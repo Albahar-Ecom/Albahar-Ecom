@@ -32,7 +32,7 @@ const Home = props => {
                 component = <HomeCat catData={data} history={history} isPhone={isPhone} />
                 break;
             case 'products':
-                component = <ProductList homeData={data} history={history} />
+                component = <ProductList homeData={data} history={history} isPhone={isPhone}/>
                 break;
             default:
                 break
@@ -43,10 +43,10 @@ const Home = props => {
     return (
         <div className="home-page">
             {renderContent('banner', data)}
-            {renderContent('category', data)}
             <LazyLoad placeholder={<LoadingSpiner />}>
                 {renderContent('products', data)}
             </LazyLoad>
+            {renderContent('category', data)}
         </div >
     );
 }
