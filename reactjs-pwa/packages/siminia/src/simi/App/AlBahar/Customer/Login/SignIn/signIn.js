@@ -82,7 +82,7 @@ const SignIn = props => {
                     <li>
                         <SocialButton
                             provider='google'
-                            appId='788184555937-4rs4j3lu4kc0fcseu5g1idjghjj69g03.apps.googleusercontent.com'
+                            appId='788184555937-b6u723gprqal06e0rshmet8sjh4de11s.apps.googleusercontent.com'
                             onLoginSuccess={handleSocialLogin}
                             onLoginFailure={handleSocialLoginFailure}>
                             <GoogleIcon style={{ width: 20, height: 20 }} />

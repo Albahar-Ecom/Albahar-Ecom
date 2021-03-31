@@ -14,6 +14,7 @@ use Magento\Framework\GraphQl\Exception\GraphQlInputException;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
 use Magento\Integration\Api\CustomerTokenServiceInterface;
+use Magento\Framework\Exception\AlreadyExistsException;
 
 /**
  * Customers Token resolver, used for GraphQL request processing.
@@ -34,17 +35,31 @@ class SocialGenerateCustomerToken implements ResolverInterface {
 	 */
 	private $tokenModelFactory;
 
+    /**
+     * @var CustomerInterfaceFactory
+     */
+    private $customerFactory;
+
+    /**
+     * @var AccountManagementInterface
+     */
+    private $accountManagement;
+
 	/**
 	 * @param CustomerTokenServiceInterface $customerTokenService
 	 */
 	public function __construct(
 		CustomerTokenServiceInterface $customerTokenService,
 		\Magento\Customer\Model\Customer $customer,
+        \Magento\Customer\Api\Data\CustomerInterfaceFactory $customerFactory,
+        \Magento\Customer\Api\AccountManagementInterface $accountManagement,
 		\Magento\Integration\Model\Oauth\TokenFactory $tokenModelFactory
 	) {
 		$this->customerTokenService = $customerTokenService;
 		$this->customer             = $customer;
 		$this->tokenModelFactory    = $tokenModelFactory;
+        $this->customerFactory      = $customerFactory;
+        $this->accountManagement = $accountManagement;
 	}
 
 	/**
@@ -57,9 +72,9 @@ class SocialGenerateCustomerToken implements ResolverInterface {
 		array $value = null,
 		array $args = null
 	) {
-		if ( empty( $args['email'] ) ) {
-			throw new GraphQlInputException( __( 'Specify the "email" value.' ) );
-		}
+		// if ( empty( $args['email'] ) ) {
+		// 	throw new GraphQlInputException( __( 'Specify the "email" value.' ) );
+		// }
 
 		if ( empty( $args['id'] ) ) {
 			throw new GraphQlInputException( __( 'Specify the "id" value.' ) );
@@ -74,7 +89,11 @@ class SocialGenerateCustomerToken implements ResolverInterface {
 		}
 
 		if ( ! $currentCustomer->getId() ) {
-			throw new GraphQlInputException( __( 'Can\'t found an account associate with your email' ) );
+            $customer = $this->customerFactory->create();
+			$customer->setWebsiteId($websiteId);
+            $customer->setEmail($args['email']);
+            
+            $currentCustomer = $this->accountManagement->createAccount($customer);
 		}
 
 		try {
