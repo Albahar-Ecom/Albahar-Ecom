@@ -13,6 +13,8 @@ require('./signIn.scss');
 
 const SignIn = props => {
 
+    const {onSocialLogin} = props
+
     const handleForgotPassword = () => {
         props.onForgotPassword();
     };
