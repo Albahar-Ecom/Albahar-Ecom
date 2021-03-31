@@ -122,10 +122,7 @@ const Footer = props => {
                             </span>
                             <ul className={classes["list-contact"]}>
                                 <li>
-                                    <a href={`tel:842466517968`}>84 - 24 - 6651 - 7968</a>
-                                </li>
-                                <li>
-                                    {/* <a href={`mailto:Support@simicart.com `}>Support@simicart.com</a> */}
+                                    <a href={`tel:1848848`}>1848848</a>
                                 </li>
                             </ul>
                             <span

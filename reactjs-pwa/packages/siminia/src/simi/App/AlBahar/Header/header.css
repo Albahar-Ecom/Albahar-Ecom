@@ -10,6 +10,11 @@
 .header-app-bar button {
     width: unset;
 }
+.header-logo {
+    min-width: 254px;
+    display: flex;
+    justify-content: flex-start;
+}
 .header-logo .siminia-logo {
     cursor: pointer;
     display: flex;

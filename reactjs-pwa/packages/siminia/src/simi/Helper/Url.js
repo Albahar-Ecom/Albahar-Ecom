@@ -41,6 +41,7 @@ Logo Url
 export const logoUrl = () => {
     const dbConfig = Identify.getAppDashboardConfigs()
     if (dbConfig && dbConfig["app-configs"] && dbConfig["app-configs"][0] &&  dbConfig["app-configs"][0]["app_images"] && dbConfig["app-configs"][0]["app_images"]["logo"]) {
+        console.log(dbConfig["app-configs"][0]["app_images"]["logo"])
         return dbConfig["app-configs"][0]["app_images"]["logo"]
     }
     return window.SMCONFIGS.logo_url ?

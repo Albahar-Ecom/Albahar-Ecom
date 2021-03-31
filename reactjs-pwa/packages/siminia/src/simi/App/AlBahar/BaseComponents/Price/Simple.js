@@ -32,9 +32,9 @@ class Simple extends Abstract {
             
             price_label = (
                 <div className="regular-price">
-                    <span className="regular-price-label">{Identify.__('Regular Price')}: </span>
-                    <span className="regular-price-value">{this.formatPrice(this.prices.regularPrice.amount.value, this.prices.regularPrice.amount.currency, false)} </span>
-                    <span className={`${classes["sale_off"]} sale_off`}>-{this.prices.discount_percent}%</span>
+                    {/* <span className="regular-price-label">{Identify.__('Regular Price')}: </span> */}
+                    <strike><span className="regular-price-value">{this.formatPrice(this.prices.regularPrice.amount.value, this.prices.regularPrice.amount.currency, false)} </span></strike>
+                    {/* <span className={`${classes["sale_off"]} sale_off`}>-{this.prices.discount_percent}%</span> */}
                 </div>
             );
         } else {

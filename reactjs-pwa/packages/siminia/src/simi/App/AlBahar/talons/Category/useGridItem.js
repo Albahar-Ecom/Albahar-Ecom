@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useCallback } from 'react';
 import { simiUseMutation as useMutation } from 'src/simi/Network/Query';
 import { useWindowSize } from '@magento/peregrine';
 import Identify from 'src/simi/Helper/Identify';
@@ -22,6 +22,10 @@ export const useGridItem = props => {
 
     const handleAddCart = useCallback(
         async (item, quantity = 1) => {
+            const {stock_status} = item
+
+            if(stock_status === "OUT_OF_STOCK") return
+            
             if (item.type_id === 'simple' && (!item.hasOwnProperty('options') || (item.hasOwnProperty('options') && item.options === null))) {
                 showFogLoading();
                 try {
