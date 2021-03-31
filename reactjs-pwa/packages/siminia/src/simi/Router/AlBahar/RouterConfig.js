@@ -19,7 +19,7 @@ const CheckoutFailure = (props) => {
 }
 
 const Login = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/core/Customer/Login')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "Login"*/'src/simi/App/AlBahar/Customer/Login')} {...props} />
 }
 
 const Cart = (props) => {
