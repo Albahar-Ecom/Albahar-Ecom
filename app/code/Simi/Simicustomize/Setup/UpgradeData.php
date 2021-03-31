@@ -43,10 +43,10 @@ class UpgradeData implements UpgradeDataInterface
     {
         $setup->startSetup();
 
-        if (version_compare($context->getVersion(), '0.0.1') < 0) {
-            $page1 = $this->_pageFactory->create();
+        if (version_compare($context->getVersion(), '0.0.2') < 0) {
+            $page = $this->_pageFactory->create();
             // faq 
-            if (!$page1->load('faq', 'identifier')->getId()) {
+            if (!$page->load('faq', 'identifier')->getId()) {
                 $aboutPage = [
                     'title' => 'FAQ',
                     'identifier' => 'faq',
