@@ -1,6 +1,14 @@
+
 .grid-item-quantity {
     display: flex;
     align-items: center;
+    position: relative;
+    &.out-of-stock {
+        .btn-plus, .btn-minus {
+            background-color: #999999;
+        }
+     
+    }
 
     .btn-plus, .btn-minus {
         width: 30px;
@@ -22,3 +30,39 @@
         text-align: center;
     }
 }
+
+@media(max-width: 1023px) {
+    .grid-item-quantity {
+        .quantity-input {
+            width: 100%;
+            margin: 0;
+            border-radius: 4px;
+            background-color: #FFFFFF;
+        }
+
+        .btn-plus, .btn-minus {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+          
+        }
+
+        .btn-plus {
+            right: 15px;
+        }
+
+        .btn-minus {
+            left: 15px;
+        }
+    }
+
+    .siminia-product-grid-item {
+        .product-prices {
+            .price-value, .regular-price {
+                width: 100%;
+            }
+        }
+    }
+    
+} 

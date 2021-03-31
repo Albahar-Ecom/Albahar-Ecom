@@ -14,7 +14,6 @@ import LazyLoad from 'src/simi/BaseComponents/LazyLoad';
 
 require('./home.scss');
 const Home = props => {
-    console.log('run')
     const { history } = props;
     const talonProps = useHome({ queries: { getHomeQuery: GET_HOME_DATA } })
     const { data, error, loading } = talonProps
@@ -33,7 +32,7 @@ const Home = props => {
                 component = <HomeCat catData={data} history={history} isPhone={isPhone} />
                 break;
             case 'products':
-                component = <ProductList homeData={data} history={history} />
+                component = <ProductList homeData={data} history={history} isPhone={isPhone}/>
                 break;
             default:
                 break
@@ -44,10 +43,10 @@ const Home = props => {
     return (
         <div className="home-page">
             {renderContent('banner', data)}
-            {renderContent('category', data)}
             <LazyLoad placeholder={<LoadingSpiner />}>
                 {renderContent('products', data)}
             </LazyLoad>
+            {renderContent('category', data)}
         </div >
     );
 }

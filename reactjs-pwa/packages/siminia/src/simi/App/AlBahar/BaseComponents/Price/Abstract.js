@@ -24,7 +24,6 @@ class Abstract extends React.Component{
             return
         const {props} = this
         const classes = props.classes?props.classes:{}
-        console.log(props.classes)
         style.price = {...style.price,...this.props.stylePrice};
         style.specialPrice = {...style.specialPrice,...this.props.styleSpecialPrice};
         if (special) {

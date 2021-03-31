@@ -35,7 +35,8 @@ const Griditem = props => {
     const { classes } = props
     if (!item) return '';
     const itemClasses = mergeClasses(defaultClasses, classes);
-    const { name, url_key, id, price, type_id, small_image, rating_summary, review_count } = item;
+    const { name, url_key, stock_status, id, price, type_id, small_image, rating_summary, review_count } = item;
+    console.log(item)
     const product_url = `/${url_key}${productUrlSuffix()}`;
 
     saveDataToUrl(product_url, item);
@@ -55,6 +56,7 @@ const Griditem = props => {
 
     const {
         handleAddCart, 
+        isPhone
     } = useGridItem({
         cartId,
         handleLink,
@@ -82,6 +84,8 @@ const Griditem = props => {
         quantity = qty 
     })
 
+    const isOutOfStock = stock_status === "OUT_OF_STOCK"
+
     return (
         <div className={`${itemClasses["product-item"]} ${itemClasses["siminia-product-grid-item"]} siminia-product-grid-item`}>
             {lazyImage ? <LazyLoad placeholder={<img alt={name} src={logo_url} style={{ maxWidth: 60, maxHeight: 60 }} />}>{image}</LazyLoad> : image}
@@ -94,11 +98,11 @@ const Griditem = props => {
                 <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} onClick={() => props.handleLink(location)}>
                     <Price prices={price} type={type_id} classes={itemClasses} />
                 </div>
-                <div className={itemClasses['add-to-cart-action']}>
+                <div className={`${itemClasses['add-to-cart-action']}`}>
                     <div className={itemClasses['quantity']}>
-                        <Quantity handleSetQty={handleSetQty}/>
+                        <Quantity handleSetQty={handleSetQty} isOutOfStock={isOutOfStock} isPhone={isPhone}/>
                     </div>
-                    <div className={itemClasses['add-to-cart-btn']} onClick={() => handleAddCart(item, quantity)}>
+                    <div className={`${itemClasses['add-to-cart-btn']} ${isOutOfStock ? itemClasses['out-of-stock'] : ''}`} onClick={() => handleAddCart(item, quantity)}>
                         {Identify.__('Add to cart')}
                     </div>
                 </div>

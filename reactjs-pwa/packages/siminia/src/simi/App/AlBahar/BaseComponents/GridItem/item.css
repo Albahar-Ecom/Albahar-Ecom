@@ -29,12 +29,32 @@
     color: #fff;
     background-color: #0082FF;
     border-radius: 4px;
+    text-align: center;
 }
 
 .quantity {
     margin-right: 10px;
     margin-top: 10px;
 }
+
+@media (max-width: 1023px) {
+    .add-to-cart-btn {
+        width: 100%;
+        margin-top: 7px;
+    }
+
+    .quantity {
+        width: 100%;
+        margin-right: 0;
+        margin-top: 12px;
+    }
+
+    .add-to-cart-action {
+        margin-top: 0;
+    }
+}
+
+
 
 @media (min-width: 1024px) {
     .siminia-product-list-item{
@@ -87,7 +107,7 @@ Grid item
     text-overflow: ellipsis;
     overflow: hidden;
     line-height: 24px;
-    max-height: 48px;
+    height: 48px;
 }
 
 .siminia-product-des .product-short-description {
@@ -105,8 +125,29 @@ Grid item
 }
 
 .siminia-product-des .old {
-    font-weight: 500;
-    font-size: 14px;
+    font-weight: 400;
+    color: #999999 !important;
+    margin-left: 7px;
+}
+
+@media(max-width: 1023px) {
+    .siminia-product-des .old {
+        margin-left: 0px;
+    }
+
+    .product-prices {
+        min-height: 48px;
+    }
+}
+
+.product-prices {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.out-of-stock {
+    background-color: #999999;
 }
 
 /*

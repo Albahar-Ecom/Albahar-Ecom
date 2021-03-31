@@ -22,6 +22,10 @@ export const useGridItem = props => {
 
     const handleAddCart = useCallback(
         async (item, quantity = 1) => {
+            const {stock_status} = item
+
+            if(stock_status === "OUT_OF_STOCK") return
+            
             if (item.type_id === 'simple' && (!item.hasOwnProperty('options') || (item.hasOwnProperty('options') && item.options === null))) {
                 showFogLoading();
                 try {
