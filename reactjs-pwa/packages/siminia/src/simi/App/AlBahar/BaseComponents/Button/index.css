@@ -1,0 +1,36 @@
+.siminia-color-btn {
+    white-space: nowrap;
+    text-align: center;
+    padding-top: 10px;
+    cursor: pointer;
+    font-weight: 400;
+    margin-left: 5px;
+    color: rgb(0 130 255);
+    background: transparent;
+    border: 1px solid rgb(47, 183, 236);
+    border-radius: 4pt;
+    height: 48px;
+    font-size: 16px;
+    width: 200px;
+    user-select: none;
+}
+
+.siminia-color-btn:hover {
+    opacity: 0.8;
+}
+
+.siminia-white-btn {
+    background-color: white;
+    height: 45px;
+    font-size: 16px;
+    text-align: center;
+    color: #38404A;
+    padding-top: 11px;
+    border: solid #38404A 1px;
+    cursor: pointer;
+}
+
+.siminia-white-btn:hover {
+    padding-top: 10px;
+    border: solid #38404A 2px;
+}
