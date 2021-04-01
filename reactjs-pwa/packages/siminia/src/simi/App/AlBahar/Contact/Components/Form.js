@@ -5,7 +5,7 @@ import { validateEmail } from 'src/simi/Helper/Validation';
 // import {compose} from 'redux';
 import classify from "src/classify";
 import defaultClasses from "../style.css";
-import {Colorbtn} from '../../../../BaseComponents/Button';
+import {Colorbtn} from '../../BaseComponents/Button';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { connect } from 'src/drivers';
