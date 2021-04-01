@@ -3,8 +3,13 @@ interface ProductInterface {
 	simiRelatedProduct: [SimiRelatedProduct] @doc(description: "Customize Related Product") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\Product\\RelatedProduct")
 }
 
+type SimiStoreConfigDetails {
+	facebook_config: SimiFacebookConfig @doc(description: "Facebook Configuration")
+	google_config: SimiGoogleConfig @doc(description: "Google Configuration")
+}
+
 type Mutation {
-	socialGenerateCustomerToken(email: String, id: String!): MbCustomerToken @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\SocialGenerateCustomerToken") @doc(description:"Retrieve the customer token by email. Strong validate social user before generate token")
+	socialGenerateCustomerToken(email: String!, id: String!, firstname: String, lastname: String): MbCustomerToken @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\SocialGenerateCustomerToken") @doc(description:"Retrieve the customer token by email. Strong validate social user before generate token")
 }
 
 type MbCustomerToken {
@@ -14,5 +19,14 @@ type MbCustomerToken {
 type SimiRelatedProduct {
 	sku: String
 }
+
+type SimiFacebookConfig {
+	app_id: String
+}
+
+type SimiGoogleConfig {
+	login_client_id: String
+}
+
 
 
