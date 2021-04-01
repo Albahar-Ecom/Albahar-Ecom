@@ -33,7 +33,7 @@ class Related extends \Magento\Framework\View\Element\Template
         \Magento\Backend\Block\Template\Context $context,
         \Simi\Simicustomize\Helper\Data $helperData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Reports\Model\ResourceModel\Product\CollectionFactory $collectionFactory,
+        \Magento\Reports\Model\ResourceModel\Product\collectionFactory $collectionFactory,
         \Magento\CatalogInventory\Helper\Stock $stockHelper
     )
     {

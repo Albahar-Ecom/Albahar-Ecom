@@ -1,5 +1,6 @@
-type Query {
-    simiRelatedProduct(productId: Int!): [ProductInterface] @doc(description: "customize related product") @resolver(class: "Simi\\SimiconnectorGraphQl\\Model\\Resolver\\Theme\\SimiCMSpage")
+
+interface ProductInterface {
+	simiRelatedProduct: [SimiRelatedProduct] @doc(description: "Customize Related Product") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\Product\\RelatedProduct")
 }
 
 type Mutation {
@@ -9,3 +10,9 @@ type Mutation {
 type MbCustomerToken {
 	token: String @doc(description: "The customer token")
 }
+
+type SimiRelatedProduct {
+	sku: String
+}
+
+

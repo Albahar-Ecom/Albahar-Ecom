@@ -5,7 +5,7 @@
  */
 declare( strict_types=1 );
 
-namespace Simi\Simicustomize\Model\Resolver;
+namespace Simi\Simicustomize\Model\Resolver\Product;
 
 use Magento\Framework\Exception\AuthenticationException;
 use Magento\Framework\GraphQl\Config\Element\Field;
@@ -49,7 +49,7 @@ class RelatedProduct implements ResolverInterface {
         \Simi\Simicustomize\Helper\Data $helperData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Reports\Model\ResourceModel\Product\Collection $collectionFactory,
+        \Magento\Reports\Model\ResourceModel\Product\CollectionFactory $collectionFactory,
         \Magento\CatalogInventory\Helper\Stock $stockHelper
 	) {
         $this->helperData = $helperData;
@@ -69,27 +69,29 @@ class RelatedProduct implements ResolverInterface {
 		array $value = null,
 		array $args = null
 	) {
-		if ( empty( $args['product_id'] ) ) {
-			throw new GraphQlInputException( __( 'Specify the "product_id" value.' ) );
-		}
+        if (!isset($value['model'])) {
+            throw new GraphQlInputException(__('Value must contain "model" property.'));
+        }
 
-		$product = $this->$productFactory->create()->load($args['product_id']);
+        $productModel = $value['model'];
 
-        $relatedProduct = $product->getRelatedProductCollection();
+		$product = $this->productFactory->create()->load((int)$productModel->getId());
+
+        $relatedProducts = $product->getRelatedProductCollection();
 
         $enable = $this->helperData->getAutoRelatedProductEnableConfig();
 
-        if(!$enable) {
+        if($enable) {
             $ids = $product->getCategoryIds();
             $category = null;
             if (!empty($ids)) {
-                $category = $this->categoryFactory-create()->load($ids[0]);
+                $category = $this->categoryFactory->create()->load($ids[0]);
             }
 
             if($category) {
 				$limit = $this->helperData->getAutoRelatedProductLimitConfig();
 				
-                $relatedProduct = $this->reportProductCollectionFactory->create()
+                $relatedProducts = $this->reportProductCollectionFactory->create()
                     ->addAttributeToFilter('visibility', array(
                         \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
                         \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG
@@ -100,17 +102,21 @@ class RelatedProduct implements ResolverInterface {
                     ->setPageSize($limit);
 
                 if ($product) {
-                    $relatedProduct->addAttributeToFilter('entity_id', array(
-                            'neq' => $currentProduct->getId())
+                    $relatedProducts->addAttributeToFilter('entity_id', array(
+                            'neq' => $product->getId())
                     );
                 }
                 
-                $this->stockHelper->addInStockFilterToCollection($relatedProduct);
-
-                return $relatedProduct;
+                $this->stockHelper->addInStockFilterToCollection($relatedProducts);
             }
         }
 
-        return [];
+        $products = [];
+
+        foreach ($relatedProducts as $key => $relatedProduct) {
+            $products[] = ['sku' => $relatedProduct->getSku()];
+        }
+
+        return $products;
 	}
 }
