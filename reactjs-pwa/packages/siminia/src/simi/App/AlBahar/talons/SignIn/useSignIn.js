@@ -149,14 +149,14 @@ export const useSignIn = props => {
     }, [setDefaultUsername, showCreateAccount]);
 
     const handleSocialLogin = useCallback(
-        async ({ email, id }) => {
+        async ({ email, id, lastName, firstName }) => {
             showFogLoading();
             try {
                 // Get source cart id (guest cart id).
                 const sourceCartId = cartId;
 
                 const signInResponse = await signInSocial({
-                    variables: { email, id }
+                    variables: { email, id, lastName, firstName }
                 });
 
                 const token = signInResponse.data.socialGenerateCustomerToken.token;
