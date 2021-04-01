@@ -310,11 +310,20 @@ class Simistoreconfigdataprovider extends DataProviderInterface
                     $arrayContactWebsites[] = $contactWebsite;
                 }
             }
+            $contactOthers = $this->getStoreConfig('siminiaconfig/contactus/other');
+            $arrayContactOthers = [];
+            if ($contactOthers) {
+                $contactOthers = $this->serializer->unserialize($contactOthers);
+                foreach ($contactOthers as $contactOther) {
+                    $arrayContactOthers[] = $contactOther;
+                }
+            }
             $configArray['pwacontactus'] = [
                 'listEmail' => $arrayContactEmails,
                 'listHotline' => $arrayContactHotlines,
                 'listSms' => $arrayContactSms,
-                'listWebsite' => $arrayContactWebsites
+                'listWebsite' => $arrayContactWebsites,
+                'listOther' => $arrayContactOthers
             ];
         }
         if ($this->getStoreConfig('simiconnector/terms_conditions/enable_terms')) {

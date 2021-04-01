@@ -221,6 +221,7 @@ type SimiStoreConfigDetailsPWAContactUs {
     listHotline : [ SimiContactHotLine ]
     listSms : [ SimiContactSMS ]
     listWebsite : [ SimiContactWebsite ]
+    listOther : [ SimiContactOther ]
 }
 
 type SimiStoreConfigDetailsInstantContact {
@@ -352,6 +353,11 @@ type SimiContactSMS {
 
 type SimiContactWebsite {
     contact_website : String
+}
+
+type SimiContactOther {
+    label: String
+    value: String
 }
 
 

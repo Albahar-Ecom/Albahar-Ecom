@@ -105,24 +105,25 @@
                 </item>
             </argument>
         </column>
-        <column name="attach">
+        <column name="attach" class="Simi\Simiconnector\Ui\Component\Listing\Column\File">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
-                    <item name="filter" xsi:type="string">file</item>
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="bodyTmpl" xsi:type="string">ui/grid/cells/html</item>
                     <item name="label" xsi:type="string" translate="true">Attachment</item>
                     <item name="sortOrder" xsi:type="number">70</item>
                 </item>
             </argument>
         </column>
-        <column name="website">
+        <!-- <column name="website">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">
                     <item name="label" xsi:type="string" translate="true">From website</item>
                     <item name="sortOrder" xsi:type="number">80</item>
                 </item>
             </argument>
-        </column>
-        <column name="action">
+        </column> -->
+        <!-- <column name="action">
             <argument name="data" xsi:type="array">
                 <item name="options" xsi:type="object">Simi\Simiconnector\Model\ContactUs\Action</item>
                 <item name="config" xsi:type="array">
@@ -133,7 +134,7 @@
                     <item name="sortOrder" xsi:type="number">90</item>
                 </item>
             </argument>
-        </column>
+        </column> -->
         <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date">
             <argument name="data" xsi:type="array">
                 <item name="config" xsi:type="array">

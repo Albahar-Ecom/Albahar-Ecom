@@ -125,6 +125,10 @@ query storeConfigData($storeId: Int, $currency: String) {
                 listWebsite {
                     contact_website
                 }
+                listOther {
+                    label
+                    value
+                }
             }
             rating_form {
                 rate_code

@@ -18,17 +18,26 @@ const Info = (props) => {
         storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.pwacontactus) {
         contactus = storeConfig.simiStoreConfig.config.pwacontactus
     }
-    if (contactus && contactus.listEmail) {
-        listEmails = contactus.listEmail
+
+    const {
+        listEmail,
+        listHotline,
+        listSms,
+        listWebsite,
+        listOther: listOthers,
+    } = contactus || {}
+
+    if (listEmail) {
+        listEmails = listEmail
     }
-    if (contactus && contactus.listHotline) {
-        listHotlines = contactus.listHotline
+    if (listHotline) {
+        listHotlines = listHotline
     }
-    if (contactus && contactus.listSms) {
-        listSmsPhoneNumber = contactus.listSms
+    if (listSms) {
+        listSmsPhoneNumber = listSms
     }
-    if (contactus && contactus.listWebsite) {
-        listWebsites = contactus.listWebsite
+    if (listWebsite) {
+        listWebsites = listWebsite
     }
 
     const listEmailHtml = (list) => {
@@ -80,24 +89,12 @@ const Info = (props) => {
 
     return (
         <div className={classes['contact-info']}>
-            {listEmails.length > 0 && <div className={classes['contact-item']}>
-                <div className="contact-item-icon">
-                    <EmailIcon />
-                </div>
-                <div className={classes['item-content']}>
-                    <div className={classes['contact-title']}>
-                        {Identify.__("Email")}
-                    </div>
-                    <ul className="list-sub-item">
-                        {listEmailHtml(listEmails)}
-                    </ul>
-                </div>
-            </div>}
+            <h1>{Identify.__('Contact Us')}</h1>
 
             {listHotlines.length > 0 && <div className={classes['contact-item']}>
-                <div className="contact-item-icon">
+                {/* <div className="contact-item-icon">
                     <Phone />
-                </div>
+                </div> */}
                 <div className={classes['item-content']}>
                     <div className={classes['contact-title']}>
                         {Identify.__("Hotline")}
@@ -109,9 +106,9 @@ const Info = (props) => {
             </div>}
 
             {listSmsPhoneNumber.length > 0 && <div className={classes['contact-item']}>
-                <div className="contact-item-icon">
+                {/* <div className="contact-item-icon">
                     <EmailIcon />
-                </div>
+                </div> */}
                 <div className={classes['item-content']}>
                     <div className={classes['contact-title']}>
                         {Identify.__("Whatsapp (Through website)")}
@@ -122,10 +119,24 @@ const Info = (props) => {
                 </div>
             </div>}
 
-            {listWebsites.length > 0 && <div className={classes['contact-item']}>
-                <div className="contact-item-icon">
-                    <Home />
+            {listEmails.length > 0 && <div className={classes['contact-item']}>
+                {/* <div className="contact-item-icon">
+                    <EmailIcon />
+                </div> */}
+                <div className={classes['item-content']}>
+                    <div className={classes['contact-title']}>
+                        {Identify.__("Email")}
+                    </div>
+                    <ul className="list-sub-item">
+                        {listEmailHtml(listEmails)}
+                    </ul>
                 </div>
+            </div>}
+
+            {listWebsites.length > 0 && <div className={classes['contact-item']}>
+                {/* <div className="contact-item-icon">
+                    <Home />
+                </div> */}
                 <div className={classes['item-content']}>
                     <div className={classes['contact-title']}>
                         {Identify.__("website")}
@@ -135,6 +146,23 @@ const Info = (props) => {
                     </ul>
                 </div>
             </div>}
+
+            {listOthers && listOthers.length > 0 && listOthers.map((item, index) => {
+                if (!item.value) return null;
+                return <div className={classes['contact-item']}>
+                    {/* <div className="contact-item-icon">
+                        <Home />
+                    </div> */}
+                    <div className={classes['item-content']} key={index}>
+                        <div className={classes['contact-title']}>
+                            {Identify.__(item.label)}
+                        </div>
+                        <ul className="list-sub-item">
+                            <li>{item.value}</li>
+                        </ul>
+                    </div>
+                </div>
+            })}
         </div>
     )
 }

@@ -656,7 +656,7 @@
                     <comment>List telephone number at contact page</comment>
                 </field>
                 <field id="sms" translate="label" sortOrder="19" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>SMS</label>
+                    <label>SMS or Whatsapp</label>
                     <frontend_model>Simi\Simiconnector\Block\Adminhtml\Form\Field\Sms</frontend_model>
                     <backend_model>Simi\Simiconnector\Config\Backend\SimiConfig</backend_model>
                     <comment>List telephone number receive SMS at contact page</comment>
@@ -666,6 +666,12 @@
                     <frontend_model>Simi\Simiconnector\Block\Adminhtml\Form\Field\Website</frontend_model>
                     <backend_model>Simi\Simiconnector\Config\Backend\SimiConfig</backend_model>
                     <comment>List links at contact page.</comment>
+                </field>
+                <field id="other" translate="label" sortOrder="39" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Other Info</label>
+                    <frontend_model>Simi\Simiconnector\Block\Adminhtml\Form\Field\Other</frontend_model>
+                    <backend_model>Simi\Simiconnector\Config\Backend\SimiConfig</backend_model>
+                    <comment>List other information at contact page</comment>
                 </field>
             </group>
             <group id="footer_link" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">

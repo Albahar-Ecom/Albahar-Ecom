@@ -9,25 +9,29 @@ import Identify from 'src/simi/Helper/Identify';
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb";
 import { smoothScrollToView } from 'src/simi/Helper/Behavior';
 
+require('./style.scss');
+
 const Contact = props => {
+
+    const {classes} = props;
 
     useEffect(() => {
         smoothScrollToView($('#root'));
     }, []);
 
     return (
-        <div className="contact-page">
+        <div className={`contact-page ${classes['contact-page']}`}>
             {TitleHelper.renderMetaHeader({
                 title: Identify.__("Contact"),
                 desc: Identify.__("Contact")
             })}
             <BreadCrumb breadcrumb={[{ name: 'Home', link: '/' }, { name: 'Contact Us' }]} />
             <div className="container">
-                <div className="col-xs-12 col-sm-6">
-                    <ContactForm />
-                </div>
-                <div className="col-xs-12 col-sm-6">
+                <div className="col-xs-12 col-sm-12">
                     <Info />
+                </div>
+                <div className="col-xs-12 col-sm-12">
+                    <ContactForm />
                 </div>
             </div>
         </div>
