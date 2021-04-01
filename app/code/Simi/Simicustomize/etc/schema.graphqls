@@ -1,3 +1,7 @@
+type Query {
+    simiRelatedProduct(productId: Int!): [ProductInterface] @doc(description: "customize related product") @resolver(class: "Simi\\SimiconnectorGraphQl\\Model\\Resolver\\Theme\\SimiCMSpage")
+}
+
 type Mutation {
 	socialGenerateCustomerToken(email: String, id: String!): MbCustomerToken @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\SocialGenerateCustomerToken") @doc(description:"Retrieve the customer token by email. Strong validate social user before generate token")
 }
