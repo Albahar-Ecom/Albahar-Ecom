@@ -43,12 +43,12 @@ const SignIn = props => {
     const handleSocialFacebookLogin = (user) => {
         if (user && onSocialLogin) {
             const { _profile } = user;
-            
+            window.facebookUser = user
             onSocialLogin({ 
                 email: _profile.email, 
                 id: _profile.id, 
                 lastName: _profile.last_name, 
-                firstname: _profile.first_name 
+                firstName: _profile.first_name 
             });
         }
     }
@@ -56,7 +56,7 @@ const SignIn = props => {
     const handleSocialGoogleLogin = (user) => {
         if (user && onSocialLogin) {
             const { _profile } = user;
-
+            window.googleUser = user
             onSocialLogin({ 
                 email: _profile.email, 
                 id: _profile.id,
