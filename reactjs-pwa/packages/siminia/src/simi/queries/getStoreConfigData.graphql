@@ -137,6 +137,12 @@ query storeConfigData($storeId: Int, $currency: String) {
                     value
                 }
             }
+            facebook_config {
+                app_id
+            }
+            google_config {
+                login_client_id
+            }
         }
     }
     availableStores {
@@ -227,19 +233,5 @@ query storeConfigData($storeId: Int, $currency: String) {
             code
             name
         }
-    }
-    brandConfig {
-    	brand_list_name
-    	brandlist_style
-    	display_option
-    	brand_list_logo_width
-    	brand_list_logo_height
-    	color
-    	show_description
-	    show_product_qty
-	    custom_css
-	    show_brand_info
-	    logo_width_on_product_page
-	    logo_height_on_product_page
     }
 }
