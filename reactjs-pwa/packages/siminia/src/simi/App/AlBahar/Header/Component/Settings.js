@@ -3,7 +3,7 @@ import Identify from "src/simi/Helper/Identify";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
-import Storeview from "src/simi/App/AlBahar/BaseComponents/Settings/Storeview/index";
+import Storeview from "src/simi/BaseComponents/Settings/Storeview/index";
 import Currency from "src/simi/BaseComponents/Settings/Currency/index";
 import CountryFlag from 'src/simi/BaseComponents/CountryFlag'
 
@@ -41,11 +41,26 @@ class Settings extends React.Component {
         if (!storeViewOptions)
             return false
         return (
-            <div className={classes["menu-settings"]}>
-                <div className={classes["list-menu-settings"]}>
-                    {storeViewOptions}
-                </div>
-            </div>
+            <Popper open={open} anchorEl={this.storeAnchorEl}
+                placement="bottom-start"
+                transition disablePortal>
+                {({ TransitionProps }) => (
+                    <Grow
+                        {...TransitionProps}
+                        id="menu-list-grow"
+                        style={{ transformOrigin: 'center bottom' }}
+                    >
+
+                        <div className={classes["menu-settings"]}>
+                            <ClickAwayListener onClickAway={this.handleClose}>
+                                <div className={classes["list-menu-settings"]}>
+                                    {storeViewOptions}
+                                </div>
+                            </ClickAwayListener>
+                        </div>
+                    </Grow>
+                )}
+            </Popper>
         )
     }
 
@@ -115,7 +130,7 @@ class Settings extends React.Component {
             )
 
             // const hasCurrencyConfig = storeConfig.simiStoreConfig.config.base.currencies.length > 1
-            const currencyIcon = <div className={classes["currency_ic"]}> {storeConfig.simiStoreConfig.currency} </div>
+            // const currencyIcon = <div className={classes["currency_ic"]}> {storeConfig.simiStoreConfig.currency} </div>
             return (
                 <React.Fragment>
                     {storeViewOptions ?
@@ -123,6 +138,14 @@ class Settings extends React.Component {
                             <div style={{ position: 'relative' }} ref={node => {
                                 this.storeAnchorEl = node;
                             }}>
+                                <div role="presentation" onClick={() => this.handleToggleStoreview()}>
+                                    <div className={classes["item-icon"]} style={{ display: 'flex', justifyContent: 'center' }}>
+                                        {storeIcon}
+                                    </div>
+                                    <div className={classes["item-text"]} style={{ whiteSpace: 'nowrap' }}>
+                                        {Identify.__('Language')}
+                                    </div>
+                                </div>
                                 {storeViewOptions}
                             </div>
                         </div> : ''}

@@ -5,11 +5,9 @@ import getCategory from 'src/simi/queries/catalog/getCategory.graphql'
 import Loading from "src/simi/BaseComponents/Loading";
 import { GridItem } from "src/simi/App/AlBahar/BaseComponents/GridItem";
 import { applySimiProductListItemExtraField } from 'src/simi/Helper/Product'
-import SlickCarousel from 'src/simi/App/AlBahar/BaseComponents/SlickCarousel';
 
 const ProductItem = props => {
-    const { dataProduct, history, isPhone } = props;
-    console.log('run', isPhone)
+    const { dataProduct, history } = props;
     const { data } = simiUseQuery(getCategory, {
         variables: {
             id: Number(dataProduct.category_id),
@@ -26,7 +24,7 @@ const ProductItem = props => {
 
     if (!data) return <Loading />
 
-    const renderProductItem = (item, index) => {
+    const renderProductItem = (item, lastInRow) => {
         const itemData = {
             ...item,
             small_image:
@@ -34,11 +32,11 @@ const ProductItem = props => {
         }
         return (
             <div
-                key={index}
-                className={`horizontal-item`}
-                // style={{
-                //     display: 'inline-block',
-                // }}
+                key={`horizontal-item-${item.id}`}
+                className={`horizontal-item ${lastInRow ? 'last' : 'middle'}`}
+                style={{
+                    display: 'inline-block',
+                }}
             >
                 <GridItem
                     item={itemData}
@@ -48,21 +46,21 @@ const ProductItem = props => {
         );
     }
 
-    const renderProductCarousel = (items) => {
-        return (
-            <SlickCarousel
-                items={items}
-                renderItem={renderProductItem}
-                autoplay={false}
-                infinite={true}
-            />
-        )
-    }
-
     const renderProductGrid = (items) => {
-        return items.map((item, index) => {
-            return renderProductItem(item, index)
-        })
+        const products = items.map((item, index) => {
+            return renderProductItem(item, (index % 4 === 3))
+        });
+
+        return (
+            <div className="horizontal-flex" style={{
+                width: '100%',
+                flexWrap: 'wrap',
+                display: 'flex',
+                direction: Identify.isRtl() ? 'rtl' : 'ltr'
+            }}>
+                {products}
+            </div>
+        )
     }
 
     if (data.simiproducts.hasOwnProperty('items') && data.simiproducts.total_count > 0) {
@@ -70,10 +68,7 @@ const ProductItem = props => {
         return (
             <div className="product-list">
                 <div className="product-horizotal">
-                    {isPhone 
-                        ? renderProductGrid(productItem.items) 
-                        : renderProductCarousel(productItem.items)
-                    }
+                    {renderProductGrid(productItem.items)}
                 </div>
             </div>
         )

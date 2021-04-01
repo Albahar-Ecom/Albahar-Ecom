@@ -3,7 +3,7 @@ import ProductDetail from './ProductDetail';
 import Identify from 'src/simi/Helper/Identify';
 
 const ProductList = props => {
-    const { homeData, history, isPhone} = props;
+    const { homeData, history} = props;
     const renderListProduct = () => {
         if(
             homeData.hasOwnProperty('simiProductlist')
@@ -19,7 +19,7 @@ const ProductList = props => {
                             <div className="default-productlist-title">
                                 {item.list_title}
                             </div>
-                            <ProductDetail isPhone={isPhone} dataProduct={item} history={history}/>
+                            <ProductDetail dataProduct={item} history={history}/>
                         </div>
                     )
                 return ''

@@ -1,7 +1,7 @@
 import React from "react";
 import {defaultStyle} from 'src/simi/BaseComponents/Icon/Consts'
 
-const ChevronCircleUp = props => {
+const ChevronLeft = props => {
     const color = props.color ? {fill: props.color} : {};
     const style = {...defaultStyle, ...props.style, ...color}
 
@@ -16,10 +16,7 @@ const ChevronCircleUp = props => {
                 </g>
             </g>
         </svg>
-
-
-
     );
 }
 
-export default ChevronCircleUp;
+export default ChevronLeft;

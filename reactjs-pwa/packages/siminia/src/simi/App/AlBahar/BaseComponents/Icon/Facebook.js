@@ -1,5 +1,5 @@
 import React from "react"
-import {defaultStyle} from './Consts'
+import {defaultStyle} from 'src/simi/BaseComponents/Icon/Consts'
 
 const Facebook = props => {
     const color = props.color ? {fill: props.color} : {};

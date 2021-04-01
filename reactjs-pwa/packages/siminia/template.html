@@ -40,9 +40,6 @@
                 media_url_prefix :'pub/'
             };
         </script>
-        <!-- Pixel Code for https://www.widgetsquad.com/ -->
-        <script async src="https://www.widgetsquad.com/pixel/86szpgvax7kwnf9l18n1c74yktim54kq"></script>
-        <!-- END Pixel Code -->
         <script src="/static/simistatic/app_configs.js"></script>
         <script src="/static/simistatic/jquery.min.js"></script>
         <link rel="stylesheet" href="/static/simistatic/style.css" async></link>
@@ -100,6 +97,42 @@
                 <img src="/static/icons/icon.png" alt="Splash Screen" width="30%" height="auto">
             </div>
         </div>
+
+        <script>
+            var url = 'https://wati-integration-service.clare.ai/ShopifyWidget/shopifyWidget.js?87345';
+            var s = document.createElement('script');
+            s.type = 'text/javascript';
+            s.async = true;
+            s.src = url;
+            var options = {
+              "enabled":true,
+              "chatButtonSetting":{
+                  "backgroundColor":"#4dc247",
+                  "ctaText":"Live Chat Support",
+                  "borderRadius":"25",
+                  "marginLeft":"0",
+                  "marginBottom":"50",
+                  "marginRight":"50",
+                  "position":"left"
+              },
+              "brandSetting":{
+                  "brandName":"Al-Bahar Online",
+                  "brandSubTitle":"",
+                  "brandImg":"https://cdn.clare.ai/wati/images/WATI_logo_square_2.png",
+                  "welcomeText":"Hi, there!\nHow can I help you?",
+                  "backgroundColor":"#0a5f54",
+                  "ctaText":"Start Chat",
+                  "borderRadius":"25",
+                  "autoShow":false,
+                  "phoneNumber":"9651848848"
+              }
+            };
+            s.onload = function() {
+                CreateWhatsappChatWidget(options);
+            };
+            var x = document.getElementsByTagName('script')[0];
+            x.parentNode.insertBefore(s, x);
+        </script>
 
         <!-- Fallback for when JavaScript is disabled. -->
         <noscript>
