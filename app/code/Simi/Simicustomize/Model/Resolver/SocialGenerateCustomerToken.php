@@ -92,7 +92,8 @@ class SocialGenerateCustomerToken implements ResolverInterface {
             $customer = $this->customerFactory->create();
 			$customer->setWebsiteId($websiteId);
             $customer->setEmail($args['email']);
-            
+            $customer->setFirstname('Social Login');
+            $customer->setLastname('Social Login');
             $currentCustomer = $this->accountManagement->createAccount($customer);
 		}
 
