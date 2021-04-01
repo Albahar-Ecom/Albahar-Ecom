@@ -27,7 +27,7 @@ const Cart = (props) => {
 }
 
 const Contact = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Contact"*/'src/simi/App/core/Contact/Contact')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "Contact"*/'src/simi/App/AlBahar/Contact')} {...props} />
 }
 
 const Product = (props) => {

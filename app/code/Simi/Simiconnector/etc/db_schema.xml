@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="simiconnector_contactus" resource="default" engine="innodb" comment="Contact Us Table">
+        <column xsi:type="tinyint"    name="id" nullable="false" unsigned="true" identity="true" comment="Identifier"/>
+        <column xsi:type="mediumtext" name="firstname" nullable="true" comment="Firstname"/>
+        <column xsi:type="mediumtext" name="lastname" nullable="true" comment="Lastname"/>
+        <column xsi:type="mediumtext" name="email" nullable="true" comment="Email"/>
+        <column xsi:type="mediumtext" name="subject" nullable="true" comment="Subject"/>
+        <column xsi:type="longtext"   name="message" nullable="true" comment="Message"/>
+        <column xsi:type="mediumtext" name="attach" nullable="true" comment="File attachment"/>
+        <column xsi:type="tinyint"    name="website_id" nullable="true" unsigned="true" comment="Website ID"/>
+        <column xsi:type="timestamp"  name="created_at" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="id"/>
+        </constraint>
+    </table>
+</schema>
