@@ -46,13 +46,13 @@ class UpgradeData implements UpgradeDataInterface
     {
         $setup->startSetup();
 
-        if (version_compare($context->getVersion(), '0.0.3') < 0) {
+        if (version_compare($context->getVersion(), '0.0.4') < 0) {
             $cmsPage = $this->_pageFactory->create();
             // albahar faq 
-            if (!$cmsPage->load('albahar-faq', 'identifier')->getId()) {
+            if (!$cmsPage->load('faq', 'identifier')->getId()) {
                 $faqPage = [
                     'title' => 'FAQ',
-                    'identifier' => 'albahar-faq',
+                    'identifier' => 'faq',
                     'stores' => [0],
                     'is_active' => 1,
                     'content_heading' => 'FAQ',
