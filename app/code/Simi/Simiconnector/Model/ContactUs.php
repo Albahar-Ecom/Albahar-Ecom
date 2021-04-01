@@ -51,7 +51,7 @@ class ContactUs extends \Magento\Framework\Model\AbstractModel
                 $random = rand().md5(time());
                 $nameParts = explode('.', $name);
                 $nameExt = $nameParts[1] ?? '';
-                $fileName = $nameParts[0] . rand().md5(time()) . $nameExt;
+                $fileName = $nameParts[0] .'_'. rand().md5(time()) .'.'. $nameExt;
                 $filePath = self::ATTACHMENT_DIR . $fileName;
                 $fileFullPath = $saveDir.$fileName;
     

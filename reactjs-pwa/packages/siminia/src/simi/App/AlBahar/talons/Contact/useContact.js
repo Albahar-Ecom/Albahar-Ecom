@@ -36,13 +36,14 @@ export const useContact = (props) => {
     }, [message, sendError, sendLoading]);
 
     const uploadFile = useCallback(async (postData) => {
-        showFogLoading();
-        setIsUploadFileLoading(true);
-        sendRequest('/rest/V1/simiconnector/base64file', (result) => {
-            setBase64file(result);
-            setIsUploadFileLoading(false);
-            hideFogLoading();
-        }, 'POST', {}, postData);
+        setBase64file(postData);
+        // showFogLoading();
+        // setIsUploadFileLoading(true);
+        // sendRequest('/rest/V1/simiconnector/base64file', (result) => {
+        //     setBase64file(result);
+        //     setIsUploadFileLoading(false);
+        //     hideFogLoading();
+        // }, 'POST', {}, postData);
     });
 
 

@@ -1,13 +1,16 @@
+.contact-page {
+    padding-top: 30px;
+}
+
 .form-container{
-    padding: 60px 80px 70px;
 }
 
 .form-container h2{
     color: #333132;
-    font-size: 37px;
-    font-weight: bold;
-    line-height: 45px;
-    margin: 0 0 40px;
+    text-transform: uppercase;
+    font-size: 21px;
+    font-weight: 400;
+    border-bottom: 1px solid #e6e6e6;
 }
 
 .form-container .base-textField {
@@ -25,6 +28,7 @@
     line-height: 24px;
     resize: vertical;
 }
+
 .contact-action-flex {
     display: flex;
     justify-content: space-between;
@@ -44,45 +48,25 @@
     padding-top: 0;
 }
 
-@media screen and (max-width: 425px){
-    .form-container{
-        padding: 60px 0 70px;
-    }
-
-    .contact-info{
-        padding: 0 0 70px !important;
-    }
+.contact-info h1 {
+    color: #333132;
+    text-transform: uppercase;
+    font-size: 21px;
+    font-weight: 400;
+    margin-bottom: 15px;
 }
-
-@media screen and (max-width: 1024px){
-    .form-container{
-        padding: 60px 0 70px !important;
-    }
-}
-
-@media screen and (min-width: 768px){
-    .contact-info{
-        padding: 145px 80px 70px;
-    }
-}
-
 
 .contact-info .contact-item{
-    padding: 12px 0;
-}
-
-.contact-item{
     display: flex;
     align-items: flex-start;
-    padding-inline-start: 15px;
+    padding-bottom: 12px;
 }
 
 .contact-item .item-content{
-    padding-inline-start: 18px;
 }
 
 .contact-item .contact-title {
-    font-size: 15px;
+    font-size: 13px;
     text-transform: uppercase;
     padding-bottom: 5px;
     font-weight: 600;
