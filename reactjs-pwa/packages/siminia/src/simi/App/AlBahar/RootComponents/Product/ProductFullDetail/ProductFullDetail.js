@@ -447,7 +447,7 @@ class ProductFullDetail extends Component {
         const { optionCodes, optionSelections } = state;
         const { history, toggleMessages } = props;
         const product = prepareProduct(props.product);
-        const { type_id, name, simiExtraField, sku, stock_status, review_count, rating_summary, product_links, price_tiers } = product;
+        const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, price_tiers } = product;
         const short_desc = (product.short_description && product.short_description.html) ? product.short_description.html : '';
         const hasStock = stock_status && stock_status === 'OUT_OF_STOCK' ? false : true;
 
@@ -516,10 +516,14 @@ class ProductFullDetail extends Component {
                 )
             }}
         </SimiMutation>);
-
-        const listLinkRelated = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'related');
+        
+        let listLinkRelated = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'related');
+        let relatedMaxProduct = 8
+        if(simiRelatedProduct && simiRelatedProduct.length && simiRelatedProduct.length > 0) {
+            listLinkRelated = simiRelatedProduct
+            relatedMaxProduct = simiRelatedProduct.length
+        }    
         const listLinkCrossSell = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'crosssell');
-
         return (
             <div className="container product-detail-root">
                 {this.breadcrumb(product)}
@@ -576,7 +580,7 @@ class ProductFullDetail extends Component {
                     <div className="techspec"><Techspec product={product} /></div> : ''}
                 {/* Customize remove review */}
                 {/* <div className="review-list"><ReviewList sku={sku} rate={rating_summary} review_count={review_count} product={product} /></div> */}
-                {listLinkRelated ? <LinkedProduct product_links={listLinkRelated} link_type="related" history={history} /> : ''}
+                {listLinkRelated ? <LinkedProduct product_links={listLinkRelated} link_type="related" history={history} maxProduct={relatedMaxProduct}/> : ''}
                 {listLinkCrossSell ? <LinkedProduct product_links={listLinkCrossSell} link_type="crosssell" history={history} /> : ''}
             </div>
         );

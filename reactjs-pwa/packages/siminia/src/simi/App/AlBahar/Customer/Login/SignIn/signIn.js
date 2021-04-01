@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useMemo} from 'react';
 import { Form } from 'informed';
 import Field from '@magento/venia-ui/lib/components/Field';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
@@ -15,6 +15,17 @@ const SignIn = props => {
 
     const {onSocialLogin} = props
 
+    const {simiStoreConfig} = Identify.getStoreConfig() || {};
+
+    let facebookAppId = null
+    if(simiStoreConfig.config && simiStoreConfig.config.facebook_config && simiStoreConfig.config.facebook_config.app_id) {
+        facebookAppId = simiStoreConfig.config.facebook_config.app_id
+    }
+    let googleClientId = null
+    if(simiStoreConfig.config && simiStoreConfig.config.google_config && simiStoreConfig.config.google_config.login_client_id) {
+        googleClientId = simiStoreConfig.config.google_config.login_client_id
+    }
+
     const handleForgotPassword = () => {
         props.onForgotPassword();
     };
@@ -29,17 +40,67 @@ const SignIn = props => {
         props.showCreateAccountForm();
     };
 
-    const handleSocialLogin = (user) => {
+    const handleSocialFacebookLogin = (user) => {
         if (user && onSocialLogin) {
             const { _profile } = user;
-            console.log(_profile)
-            onSocialLogin({ email: _profile.email, id: _profile.id });
+            
+            onSocialLogin({ 
+                email: _profile.email, 
+                id: _profile.id, 
+                lastName: _profile.last_name, 
+                firstname: _profile.first_name 
+            });
+        }
+    }
+
+    const handleSocialGoogleLogin = (user) => {
+        if (user && onSocialLogin) {
+            const { _profile } = user;
+
+            onSocialLogin({ 
+                email: _profile.email, 
+                id: _profile.id,
+                lastName: _profile.family_name, 
+                firstname: _profile.given_name 
+            });
         }
     }
 
     const handleSocialLoginFailure = (err) => {
         console.error(err)
     }
+
+    const socialLogin = useMemo(() => {
+        if(!facebookAppId && !googleClientId) {
+            return null
+        }
+
+        return (
+            <div className="signInWithSocial">
+                <div className="socialTitle"><span>{Identify.__('Or Login With')}</span></div>
+                <ul className="socialList">
+                    <li>
+                        <SocialButton
+                            provider='google'
+                            appId={googleClientId}
+                            onLoginSuccess={handleSocialGoogleLogin}
+                            onLoginFailure={handleSocialLoginFailure}>
+                            <GoogleIcon style={{ width: 20, height: 20 }} />
+                        </SocialButton>
+                    </li>
+                    <li>
+                        <SocialButton
+                            provider='facebook'
+                            appId={facebookAppId}
+                            onLoginSuccess={handleSocialFacebookLogin}
+                            onLoginFailure={handleSocialLoginFailure}>
+                            <FacebookIcon style={{ width: 20, height: 20 }} fill={'#fff'} />
+                        </SocialButton>
+                    </li>
+                </ul>
+            </div>
+        )
+    })
 
     return (
         <div className='root sign-in-form'>
@@ -76,29 +137,7 @@ const SignIn = props => {
                     {Identify.__('Forgot password?')}
                 </button>
             </Form>
-            <div className="signInWithSocial">
-                <div className="socialTitle"><span>{Identify.__('Or Login With')}</span></div>
-                <ul className="socialList">
-                    <li>
-                        <SocialButton
-                            provider='google'
-                            appId='788184555937-b6u723gprqal06e0rshmet8sjh4de11s.apps.googleusercontent.com'
-                            onLoginSuccess={handleSocialLogin}
-                            onLoginFailure={handleSocialLoginFailure}>
-                            <GoogleIcon style={{ width: 20, height: 20 }} />
-                        </SocialButton>
-                    </li>
-                    <li>
-                        <SocialButton
-                            provider='facebook'
-                            appId='442617646953904'
-                            onLoginSuccess={handleSocialLogin}
-                            onLoginFailure={handleSocialLoginFailure}>
-                            <FacebookIcon style={{ width: 20, height: 20 }} fill={'#fff'} />
-                        </SocialButton>
-                    </li>
-                </ul>
-            </div>
+            {socialLogin}
             <div className='signInDivider' />
             
             <div className='showCreateAccountButtonCtn'>

@@ -8,11 +8,11 @@ import { useLinkedProducts } from 'src/simi/talons/LinkedProducts/useLinkedProdu
 require('./linkedProduct.scss');
 
 const LinkedProducts = props => {
-    const { history, link_type, product_links } = props;
+    const { history, link_type, product_links, maxProduct } = props;
     if (!product_links || !product_links instanceof Array || (product_links instanceof Array && !product_links.length)) return null;
 
-    const skuValues = product_links && product_links.length && product_links.map(value => value.linked_product_sku);
-    const maxItem = 8;
+    let skuValues = product_links && product_links.length && product_links.map(value => value.linked_product_sku || value.sku);
+    let maxItem = maxProduct;
 
     const talonProps = useLinkedProducts({
         skuValues,
@@ -79,4 +79,9 @@ const LinkedProducts = props => {
     return null;
 
 }
+
+LinkedProducts.defaultProps = {
+    maxProduct: 8
+}
+
 export default LinkedProducts;
