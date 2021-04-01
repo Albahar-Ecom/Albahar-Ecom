@@ -10,5 +10,8 @@
         <route id="simiconnector" frontName="simiconnector">
             <module name="Simi_Simiconnector" before="Magento_Backend" />
         </route>
+        <route id="simiadmin" frontName="simiadmin">
+            <module name="Simi_Simiconnector" before="Magento_Backend" />
+        </route>
     </router>
 </config>

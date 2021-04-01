@@ -507,10 +507,15 @@ type CustomerOrders {
 
 input ContactusInput {
 	name: String @doc(description: "The customer's full name")
+	firstname: String @doc(description: "The customer's first name")
+	lastname: String @doc(description: "The customer's last name")
 	email: String @doc(description: "The customer's email address")
 	phone: String @doc(description: "The customer's Telephone")
+	subject: String @doc(description: "The subject")
 	message: String @doc(description: "The customer's message")
 	company: String @doc(description: "The customer's company")
+	attach: String @doc(description: "The attach file")
+	base64file: String @doc(description: "The attach base64 file data")
 }
 
 type ContactusOutput {

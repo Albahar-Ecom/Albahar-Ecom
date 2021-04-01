@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Simi\Simiconnector\Api\Base64fileInterface" type="Simi\Simiconnector\Model\Api\Base64file" />
+
+    <!--Grid collection-->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="simi_contactus_listing_data_source" xsi:type="string">Simi\Simiconnector\Model\ResourceModel\ContactUs\Grid\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <!--Virtual model-->
+    <virtualType name="Simi\Simiconnector\Model\ResourceModel\ContactUs\Grid\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">simiconnector_contactus</argument>
+            <argument name="resourceModel" xsi:type="string">Simi\Simiconnector\Model\ResourceModel\ContactUs</argument>
+        </arguments>
+    </virtualType>
+</config>
