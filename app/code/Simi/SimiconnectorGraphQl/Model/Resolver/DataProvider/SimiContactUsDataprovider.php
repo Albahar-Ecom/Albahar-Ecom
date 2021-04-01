@@ -47,6 +47,10 @@ class SimiContactUsDataprovider
             $contactUs->setData($input);
             if (isset($input['attach']) && isset($input['base64file'])) {
                 $contactUs->saveAttachment($input['base64file'], $input['attach']);
+                $input['attach_name'] = $input['attach'];
+                $input['attach'] = $contactUs->getAttachment();
+                $input['attach_file'] = $contactUs->getAttachment();
+                $input['attach_url'] = $contactUs->getAttachment();
             }
             $contactUs->setWebsiteId($this->storeManager->getWebsite()->getId());
             $contactUs->save();

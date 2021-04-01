@@ -4,21 +4,25 @@ namespace Simi\Simiconnector\Model;
 
 use Magento\Framework\Filesystem;
 use Magento\Framework\App\Filesystem\DirectoryList;
+use Magento\Store\Model\StoreManagerInterface;
 
 class ContactUs extends \Magento\Framework\Model\AbstractModel
 {
     const ATTACHMENT_DIR = 'simiconnector/contactus/';
 
     protected $fileSystem;
+    protected $storeManager;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
         \Magento\Framework\Registry $registry,
         \Simi\Simiconnector\Model\ResourceModel\ContactUs $resource,
         \Simi\Simiconnector\Model\ResourceModel\ContactUs\Collection $resourceCollection,
-        Filesystem $fileSystem
+        Filesystem $fileSystem,
+        StoreManagerInterface $storeManager
     ) {
         $this->fileSystem = $fileSystem;
+        $this->storeManager = $storeManager;
 
         parent::__construct(
             $context,
@@ -67,5 +71,16 @@ class ContactUs extends \Magento\Framework\Model\AbstractModel
             }
         }
         return $this;
+    }
+
+    /**
+     * @return string url
+     */
+    public function getAttachment(){
+        if ($this->getAttach()) {
+            $baseUrl = $this->storeManager->getStore()->getBaseUrl(\Magento\Framework\UrlInterface::URL_TYPE_MEDIA);
+            return $baseUrl . $this->getAttach();
+        }
+        return '';
     }
 }
