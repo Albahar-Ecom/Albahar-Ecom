@@ -1,3 +1,8 @@
+
+interface ProductInterface {
+	simiRelatedProduct: [SimiRelatedProduct] @doc(description: "Customize Related Product") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\Product\\RelatedProduct")
+}
+
 type Mutation {
 	socialGenerateCustomerToken(email: String, id: String!): MbCustomerToken @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\SocialGenerateCustomerToken") @doc(description:"Retrieve the customer token by email. Strong validate social user before generate token")
 }
@@ -5,3 +10,9 @@ type Mutation {
 type MbCustomerToken {
 	token: String @doc(description: "The customer token")
 }
+
+type SimiRelatedProduct {
+	sku: String
+}
+
+

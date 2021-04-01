@@ -3,8 +3,8 @@ import Loading from 'src/simi/BaseComponents/Loading'
 import Identify from 'src/simi/Helper/Identify'
 import ProductFullDetail from './ProductFullDetail';
 import getUrlKey from 'src/util/getUrlKey';
-import connectorGetProductDetailByUrl from 'src/simi/queries/catalog/getProductDetail.graphql';
-import connectorGetProductDetailBySku from 'src/simi/queries/catalog/getProductDetailBySku.graphql'
+import connectorGetProductDetailByUrl from 'src/simi/App/AlBahar/queries/catalog/getProductDetail.graphql';
+import connectorGetProductDetailBySku from 'src/simi/App/AlBahar/queries/catalog/getProductDetailBySku.graphql'
 import { Simiquery } from 'src/simi/Network/Query'
 import { smoothScrollToView } from 'src/simi/Helper/Behavior'
 import { saveDataToUrl, productUrlSuffix } from 'src/simi/Helper/Url';
