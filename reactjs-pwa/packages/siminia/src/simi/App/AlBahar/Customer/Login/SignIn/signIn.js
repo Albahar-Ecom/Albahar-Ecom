@@ -40,28 +40,15 @@ const SignIn = props => {
         props.showCreateAccountForm();
     };
 
-    const handleSocialFacebookLogin = (user) => {
+    const handleSocialLogin = (user) => {
         if (user && onSocialLogin) {
             const { _profile } = user;
             window.facebookUser = user
             onSocialLogin({ 
                 email: _profile.email, 
                 id: _profile.id, 
-                lastName: _profile.last_name, 
-                firstName: _profile.first_name 
-            });
-        }
-    }
-
-    const handleSocialGoogleLogin = (user) => {
-        if (user && onSocialLogin) {
-            const { _profile } = user;
-            window.googleUser = user
-            onSocialLogin({ 
-                email: _profile.email, 
-                id: _profile.id,
-                lastName: _profile.family_name, 
-                firstname: _profile.given_name 
+                lastName: _profile.lastName, 
+                firstName: _profile.firstName 
             });
         }
     }
@@ -83,7 +70,7 @@ const SignIn = props => {
                         <SocialButton
                             provider='google'
                             appId={googleClientId}
-                            onLoginSuccess={handleSocialGoogleLogin}
+                            onLoginSuccess={handleSocialLogin}
                             onLoginFailure={handleSocialLoginFailure}>
                             <GoogleIcon style={{ width: 20, height: 20 }} />
                         </SocialButton>
@@ -92,7 +79,7 @@ const SignIn = props => {
                         <SocialButton
                             provider='facebook'
                             appId={facebookAppId}
-                            onLoginSuccess={handleSocialFacebookLogin}
+                            onLoginSuccess={handleSocialLogin}
                             onLoginFailure={handleSocialLoginFailure}>
                             <FacebookIcon style={{ width: 20, height: 20 }} fill={'#fff'} />
                         </SocialButton>
