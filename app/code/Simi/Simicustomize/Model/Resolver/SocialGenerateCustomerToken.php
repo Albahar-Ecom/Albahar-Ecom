@@ -72,12 +72,22 @@ class SocialGenerateCustomerToken implements ResolverInterface {
 		array $value = null,
 		array $args = null
 	) {
-		// if ( empty( $args['email'] ) ) {
-		// 	throw new GraphQlInputException( __( 'Specify the "email" value.' ) );
-		// }
+		if ( empty( $args['email'] ) ) {
+			throw new GraphQlInputException( __( 'Specify the "email" value.' ) );
+		}
 
 		if ( empty( $args['id'] ) ) {
 			throw new GraphQlInputException( __( 'Specify the "id" value.' ) );
+		}
+
+		$firstName = rand(1000, 10000);
+		if(!empty($args['firstname'])) {
+			$firstName = $args['firstname'];
+		}
+
+		$lastName = "Customer";
+		if(!empty($args['firstname'])) {
+			$lastName = $args['firstname'];
 		}
 
 		try {
@@ -92,8 +102,8 @@ class SocialGenerateCustomerToken implements ResolverInterface {
             $customer = $this->customerFactory->create();
 			$customer->setWebsiteId($websiteId);
             $customer->setEmail($args['email']);
-            $customer->setFirstname('Social Login');
-            $customer->setLastname('Social Login');
+            $customer->setFirstname($firstName);
+            $customer->setLastname($lastName);
             $currentCustomer = $this->accountManagement->createAccount($customer);
 		}
 

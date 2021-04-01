@@ -9,7 +9,7 @@
             <label>SimiCart PWA-Studio</label>
             <tab>simi</tab>
             <resource>Simi_Simi::config_simi</resource>
-            <group id="related_product" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="related_product" translate="label" type="text" sortOrder="100" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Auto Related Product</label>
                 <field id="enable" translate="label" type="select" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Enable Auto Related Products</label>
@@ -24,13 +24,13 @@
                     <label>Limit</label>
                 </field>
             </group>
-            <group id="facebook" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="facebook" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Facebook Config</label>
                 <field id="app_id" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>App ID</label>
                 </field>
             </group>
-            <group id="google" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="google" translate="label" type="text" sortOrder="300" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Google Config</label>
                 <field id="login_client_id" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Social Login Client ID</label>
