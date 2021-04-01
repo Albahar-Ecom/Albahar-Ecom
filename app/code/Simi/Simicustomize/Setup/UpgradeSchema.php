@@ -4,7 +4,7 @@
  * Copyright © 2018 Simi. All rights reserved.
  */
 
-namespace Simi\Simiconnector\Setup;
+namespace Simi\Simicustomize\Setup;
 
 use Magento\Framework\Setup\UpgradeSchemaInterface;
 use Magento\Framework\Setup\SchemaSetupInterface;
