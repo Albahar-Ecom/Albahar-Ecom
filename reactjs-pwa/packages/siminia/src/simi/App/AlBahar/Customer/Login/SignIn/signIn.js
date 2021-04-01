@@ -43,7 +43,10 @@ const SignIn = props => {
     const handleSocialLogin = (user) => {
         if (user && onSocialLogin) {
             const { _profile } = user;
-            window.facebookUser = user
+            window.profile = _profile
+            window.lastName = _profile.lastName
+            window.firstName = _profile.firstName 
+            console.log(_profile)
             onSocialLogin({ 
                 email: _profile.email, 
                 id: _profile.id, 

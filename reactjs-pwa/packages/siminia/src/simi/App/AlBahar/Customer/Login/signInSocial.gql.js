@@ -4,8 +4,9 @@ export const SIGN_IN_SOCIAL_MUTATION = gql`
     mutation socialGenerateCustomerToken(
         $email: String!, 
         $id: String!,
-        $firstName: String,
-        $lastName: String
+        $lastName: String,
+        $firstName: String
+  
     ) {
         socialGenerateCustomerToken(
             email: $email, 
