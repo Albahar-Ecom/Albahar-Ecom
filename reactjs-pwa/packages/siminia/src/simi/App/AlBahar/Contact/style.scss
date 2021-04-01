@@ -1,0 +1,15 @@
+.contact-page {
+    #contact-form {
+        .form-row {
+            display: flex;
+            grid-gap: 15px;
+        }
+        .form-section {
+            margin-top: 15px;
+            margin-bottom: 15px;
+        }
+        .form-group {
+            width: 100%;
+        }
+    }
+}

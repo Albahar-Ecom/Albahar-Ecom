@@ -5,7 +5,7 @@ import { validateEmail } from 'src/simi/Helper/Validation';
 // import {compose} from 'redux';
 import classify from "src/classify";
 import defaultClasses from "../style.css";
-import {Colorbtn} from '../../../../BaseComponents/Button';
+import {Colorbtn} from '../../BaseComponents/Button';
 import {showFogLoading, hideFogLoading} from 'src/simi/BaseComponents/Loading/GlobalLoading'
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { connect } from 'src/drivers';
@@ -103,6 +103,28 @@ const Form = (props) => {
         }
     }
 
+    const onChangeFile = (e) => {
+        const input = e.target;
+        const file = input.files && input.files[0] || '';
+        if (file) {
+            const reader = new FileReader();
+            reader.readAsDataURL(file);
+            reader.onload = function (e) {
+                // const result = e.target.result;
+                if (reader.result) {
+                    let base64 = reader.result.split("base64,");
+                    base64 = base64[base64.length-1];
+                    base64 = base64.split('"');
+                    base64 = base64[0];
+                    uploadFile(base64);
+                }
+            };
+            reader.onerror = function (error) {
+                console.warn('Error: ', error);
+            };
+        }
+    }
+
     const handleSubmit = (e) => {
         e.preventDefault();
         const isValidated = validateForm()
@@ -113,6 +135,8 @@ const Form = (props) => {
                 let field = form[i];
                 formData[field.name] = field.value;
             }
+            const attach = document.querySelector('input[name="attach"]');
+            formData.attach = attach && attach.files && attach.files[0].name || '';
             formData.base64file = base64file;
             // showFogLoading();
             // sendContact(formData, this.proceedData)
@@ -127,7 +151,7 @@ const Form = (props) => {
         <div className={classes['form-container']}>
             <form id="contact-form" onSubmit={handleSubmit} encType="multipart/form-data">
                 <div className="form-section">
-                    <h3>{Identify.__("PERSONAL INFO")}</h3>
+                    <h2>{Identify.__("PERSONAL INFO")}</h2>
                 </div>
 
                 <div className="form-row">
@@ -155,14 +179,10 @@ const Form = (props) => {
                 </div>
 
                 <div className="form-section">
-                    <h3>{Identify.__("MESSAGE")}</h3>
+                    <h2>{Identify.__("MESSAGE")}</h2>
                 </div>
 
                 <div className="form-row">
-                    {/* <div className='form-group'>
-                        <input type="text" onChange={onChange} className={`form-control ${classes['base-textField']} required`} name="company" placeholder="Company Name *" />
-                    </div> */}
-                    
                     <div className="form-group">
                         <label htmlFor="subject">{Identify.__('Subject')}</label>                    
                         <select onChange={onChange} className={`form-control ${classes['base-textField']}`} name="subject">
@@ -172,13 +192,26 @@ const Form = (props) => {
                             <option value="Others">{Identify.__('Others')}</option>
                         </select>
                     </div>
+                </div>
+
+                <div className="form-row">
                     <div className="form-group fg-textarea">
                         <label htmlFor="message">{Identify.__('Message')} <span>*</span></label>                    
                         <textarea onChange={onChange} className={`form-control ${classes['base-textareaField']} required`} name="message" cols="30" rows="5"></textarea>
                     </div>
+                </div>
+
+                {/* <div className="form-row">
+                    <div className='form-group'>
+                        <input type="text" onChange={onChange} className={`form-control ${classes['base-textField']} required`} name="company" placeholder="Company Name *" />
+                    </div>
+                </div> */}
+
+                <div className="form-row">
                     <div className="form-group">
                         <label htmlFor="attach">{Identify.__('Attachment')}</label>                    
-                        <input type="file" onChange={onChange} className={`form-control ${classes['base-textField']}`} name="attach" />
+                        <input type="file" onChange={onChangeFile} className={`form-control ${classes['base-textField']}`} name="attach" />
+                        {base64file && <span>{Identify.__('File uploaded!')}</span>}
                     </div>
                 </div>
                 
@@ -186,7 +219,6 @@ const Form = (props) => {
                     <span className={classes["requirement"]}>{Identify.__('* Required fields')}</span>
                     <Colorbtn type="submit" className={classes['submit-btn']} text="Submit"/>
                 </div>
-                {/* <button></button> */}
             </form>
         </div>
     );

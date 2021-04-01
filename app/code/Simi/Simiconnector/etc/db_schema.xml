@@ -9,6 +9,7 @@
         <column xsi:type="mediumtext" name="subject" nullable="true" comment="Subject"/>
         <column xsi:type="longtext"   name="message" nullable="true" comment="Message"/>
         <column xsi:type="mediumtext" name="attach" nullable="true" comment="File attachment"/>
+        <column xsi:type="mediumtext" name="email_sent" nullable="true" comment="Email send status"/>
         <column xsi:type="tinyint"    name="website_id" nullable="true" unsigned="true" comment="Website ID"/>
         <column xsi:type="timestamp"  name="created_at" on_update="false" nullable="true" default="CURRENT_TIMESTAMP" comment="Created At"/>
         <constraint xsi:type="primary" referenceId="PRIMARY">
