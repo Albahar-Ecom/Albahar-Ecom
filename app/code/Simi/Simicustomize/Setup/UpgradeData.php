@@ -6,6 +6,7 @@ use Magento\Cms\Model\PageFactory;
 use Magento\Framework\Setup\ModuleContextInterface;
 use Magento\Framework\Setup\ModuleDataSetupInterface;
 use Magento\Framework\Setup\UpgradeDataInterface;
+use Magento\Framework\DB\Ddl\Table;
 
 class UpgradeData implements UpgradeDataInterface
 {
@@ -126,6 +127,16 @@ class UpgradeData implements UpgradeDataInterface
                 ];
 
                 $cmsPage->setData($faqPage)->save();
+            }
+        }
+
+        if (version_compare($context->getVersion(), '0.0.5') < 0) {
+            if ($setup->tableExists('sales_order_item')) {
+                $connection = $setup->getConnection();
+                $connection->addColumn($setup->getTable('sales_order_item'), 'bu', [
+                    'type' => Table::TYPE_TEXT,
+                    'comment' => 'Business Unit',
+                ]);
             }
         }
 

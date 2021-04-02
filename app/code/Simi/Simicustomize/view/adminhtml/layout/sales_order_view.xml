@@ -1,0 +1,46 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" layout="admin-2columns-left" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
+    <!-- <body>
+        <referenceContainer name="left">
+            <block class="Magento\Sales\Block\Adminhtml\Order\View\Tabs" name="sales_order_tabs">
+                <block class="Magento\Sales\Block\Adminhtml\Order\View\Tab\Info" name="order_tab_info" template="Magento_Sales::order/view/tab/info.phtml">
+                    <block class="Magento\Sales\Block\Adminhtml\Order\View\Items" name="order_items" template="Magento_Sales::order/view/items.phtml">
+                        <arguments>
+                            <argument name="columns" xsi:type="array">
+                                <item name="bu" xsi:type="string" translate="true">Business Unit</item>
+                            </argument>
+                        </arguments>
+                        <block class="Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer" as="default" name="default_order_items_renderer" template="Magento_Sales::order/view/items/renderer/default.phtml">
+                            <arguments>
+                                <argument name="columns" xsi:type="array">
+                                    <item name="bu" xsi:type="string" translate="false">col-bu</item>
+                                </argument>
+                            </arguments>
+                        </block>
+                    </block>
+                </block>
+            </block>
+        </referenceContainer>
+    </body> -->
+    <referenceBlock name="order_items">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="bu" xsi:type="string" translate="true">Business Unit</item>
+            </argument>
+        </arguments>
+        <block class="Magento\Sales\Block\Adminhtml\Items\Column\Name" name="column_bu" template="Simi_Simicustomize::items/column/bu.phtml" group="column"/>
+    </referenceBlock>
+    <referenceBlock name="default_order_items_renderer">
+        <arguments>
+            <argument name="columns" xsi:type="array">
+                <item name="bu" xsi:type="string" translate="false">col-bu</item>
+            </argument>
+        </arguments>
+    </referenceBlock>
+</page>

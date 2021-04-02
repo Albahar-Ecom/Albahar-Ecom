@@ -1,0 +1,23 @@
+<?php
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+
+?>
+<?php
+/**
+ * @var $block \Magento\Sales\Block\Adminhtml\Items\Column\Name
+ * @var \Magento\Framework\View\Helper\SecureHtmlRenderer $secureRenderer
+ */
+?>
+
+<?php
+/** @var \Magento\Catalog\Helper\Data $catalogHelper */
+$catalogHelper = $block->getData('catalogHelper');
+?>
+<?php if ($_item = $block->getItem()): ?>
+    <div id="order_item_<?= (int) $_item->getId() ?>_bu" class="product-title">
+        <?= $block->escapeHtml($_item->getBu()) ?>
+    </div>
+<?php endif; ?>
