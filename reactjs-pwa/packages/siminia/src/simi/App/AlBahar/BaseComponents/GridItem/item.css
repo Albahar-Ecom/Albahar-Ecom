@@ -107,7 +107,7 @@ Grid item
     text-overflow: ellipsis;
     overflow: hidden;
     line-height: 24px;
-    height: 48px;
+    max-height: 48px;
 }
 
 .siminia-product-des .product-short-description {
@@ -207,10 +207,6 @@ Rate
 }
 .siminia-product-grid-item .special-price-label {
     margin-left: 8px !important;
-}
-.siminia-product-grid-item .prices-layout {
-    font-size: 14px;
-    line-height: 24px;
 }
 .siminia-product-grid-item .incl-tax-label {
     margin-left: 8px;

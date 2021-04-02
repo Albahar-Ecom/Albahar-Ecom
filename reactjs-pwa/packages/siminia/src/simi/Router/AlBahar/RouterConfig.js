@@ -35,7 +35,7 @@ const Product = (props) => {
 }
 
 const Search = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Search"*/'src/simi/App/core/RootComponents/Search')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "Search"*/'src/simi/App/AlBahar/RootComponents/Search')} {...props} />
 }
 
 const Logout = (props) => {

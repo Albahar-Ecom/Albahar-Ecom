@@ -524,6 +524,8 @@ class ProductFullDetail extends Component {
             relatedMaxProduct = simiRelatedProduct.length
         }    
         const listLinkCrossSell = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'crosssell');
+
+        console.log(price_tiers)
         return (
             <div className="container product-detail-root">
                 {this.breadcrumb(product)}
@@ -546,9 +548,9 @@ class ProductFullDetail extends Component {
                 <div className="main-actions">
                     {/* Customize remove review /*}
                     {/* {review_count ? <div className="top-review"><TopReview app_reviews={review_count ? { rate: rating_summary, number: review_count } : { rate: 0, number: 0 }} /></div> : ''} */}
-                    <div role="presentation" className="review-btn" onClick={() => smoothScrollToView($('#product-detail-new-review'))}>
+                    {/* <div role="presentation" className="review-btn" onClick={() => smoothScrollToView($('#product-detail-new-review'))}>
                         {review_count ? Identify.__('Submit Review') : Identify.__('Be the first to review this product')}
-                    </div>
+                    </div> */}
                     <div className="product-price">
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections} />
                     </div>
