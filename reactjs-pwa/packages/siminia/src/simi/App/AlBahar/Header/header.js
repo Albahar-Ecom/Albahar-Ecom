@@ -51,7 +51,7 @@ class Header extends React.Component{
                 <Link to='/'>
                     <img
                         src={logoUrl()}
-                        alt="siminia-logo" style={!isPhone?{width: 214, height: 69}:{width: 180, height: 30}}/>
+                        alt="siminia-logo" style={!isPhone?{width: 214, height: 69}:{width: 180, height: 48}}/>
                 </Link>
             </div>
         )
