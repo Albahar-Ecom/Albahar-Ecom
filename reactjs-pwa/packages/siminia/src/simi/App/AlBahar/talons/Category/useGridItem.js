@@ -2,6 +2,7 @@ import { useCallback } from 'react';
 import { simiUseMutation as useMutation } from 'src/simi/Network/Query';
 import { useWindowSize } from '@magento/peregrine';
 import Identify from 'src/simi/Helper/Identify';
+import { smoothScrollToView } from 'src/simi/Helper/Behavior'
 import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/GlobalLoading';
 
 export const useGridItem = props => {
@@ -37,9 +38,21 @@ export const useGridItem = props => {
                         }
                     });
                     hideFogLoading();
+                    smoothScrollToView($('#root'))
                     toggleMessages([{ type: 'success', message: Identify.__("Add product to cart successfully!"), auto_dismiss: true }]);
                 } catch (error) {
                     hideFogLoading();
+                    let derivedErrorMessage = null
+                    if (error.graphQLErrors) {
+                        derivedErrorMessage = error.graphQLErrors.map(({ message }) => message).join(', ');
+                    } else {
+                        derivedErrorMessage = error.message;
+                    }
+
+                    smoothScrollToView($('#root'))
+                    if(derivedErrorMessage) 
+                        toggleMessages([{ type: 'error', message: Identify.__(derivedErrorMessage), auto_dismiss: true }]);
+                    
                     if (process.env.NODE_ENV !== 'production') {
                         console.error(error);
                     }

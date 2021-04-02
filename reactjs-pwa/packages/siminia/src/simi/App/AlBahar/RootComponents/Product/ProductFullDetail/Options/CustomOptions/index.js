@@ -37,7 +37,7 @@ class CustomOptions extends OptionBase {
                 // } else {
                 //     priceLabel = <OptionLabel title={''} item={item.values[0]} />
                 // }
-
+                console.log(item)
                 if (item.hasOwnProperty('checkbox_value')) {
                     itemType = 'checkbox';
                 } else if (item.hasOwnProperty('dropdown_value')) {

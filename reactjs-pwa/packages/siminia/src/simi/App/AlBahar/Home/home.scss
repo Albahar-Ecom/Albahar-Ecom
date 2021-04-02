@@ -266,9 +266,11 @@
     
 
     @media (max-width: 1023px) {
+        .horizontal-flex {
+            justify-content: space-between;
+        }
         .product-horizotal .horizontal-item {
-            width: 100%;
-            padding: 0 40px;
+            width: 48%;
             max-width: unset;
         }
         

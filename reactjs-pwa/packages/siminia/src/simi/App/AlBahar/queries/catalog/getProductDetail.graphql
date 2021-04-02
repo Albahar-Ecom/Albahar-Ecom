@@ -66,17 +66,28 @@ query productDetail($urlKey: String, $onServer: Boolean!) {
             meta_description
             rating_summary
             review_count
-            # price_tiers {
-            #     quantity
-            #     final_price {
-            #         currency
-            #         value
-            #     }
-            #     discount {
-            #         amount_off
-            #         percent_off
-            #     }
-            # }
+            price_tiers {
+                 quantity
+                 final_price {
+                     currency
+                     value
+                 }
+                 discount {
+                     amount_off
+                     percent_off
+                 }
+             }
+            mpbrand {
+                ... on MageplazaBrands {
+                    brand_id
+                    value
+                    default_value
+                    url_key
+                    image
+                    short_description
+                    product_quantity
+                }
+            }
         }
     }
 }

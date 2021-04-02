@@ -40,9 +40,9 @@ const Trigger = props => {
         <div className={classes['item-icon']} style={{ display: 'flex', justifyContent: 'center' }}>
             <ShoppingCart style={{ width: 20, height: 30, display: 'block', margin: 0 }} />
         </div>
-        <div className={classes['item-text']}>
+        {!isPhone && <div className={classes['item-text']}>
             {Identify.__('Cart')}
-        </div>
+        </div>}
     </React.Fragment>
 
     return (

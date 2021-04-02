@@ -11,10 +11,16 @@
     width: unset;
 }
 .header-logo {
-    min-width: 254px;
     display: flex;
     justify-content: flex-start;
 }
+
+@media(min-width: 1024px) {
+    .header-logo {
+        min-width: 254px;
+    }
+}
+
 .header-logo .siminia-logo {
     cursor: pointer;
     display: flex;
@@ -414,7 +420,7 @@ body.fixed-scroll {
         margin: 0;
         max-width: unset;
         padding: 16px;
-        background: #333132;
+        background: #0082FF;
     }
     .header-search-form input {
         padding: 10px 16px;

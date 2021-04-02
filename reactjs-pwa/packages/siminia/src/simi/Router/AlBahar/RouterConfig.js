@@ -7,7 +7,7 @@ import Home from 'src/simi/App/AlBahar/RootComponents/CMS/Home'
 // }
 
 const Account = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "CAccount"*/'src/simi/App/core/Customer/Account')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "CAccount"*/'src/simi/App/AlBahar/Customer/Account')} {...props} />
 }
 
 const Checkout = (props) => {
@@ -35,7 +35,7 @@ const Product = (props) => {
 }
 
 const Search = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Search"*/'src/simi/App/core/RootComponents/Search')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "Search"*/'src/simi/App/AlBahar/RootComponents/Search')} {...props} />
 }
 
 const Logout = (props) => {

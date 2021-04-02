@@ -1,7 +1,7 @@
 import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
 import Loading from "src/simi/BaseComponents/Loading";
-import { GridItem } from 'src/simi/BaseComponents/GridItem';
+import { GridItem } from 'src/simi/App/AlBahar/BaseComponents/GridItem';
 import GET_PRODUCTS_BY_SKUS from 'src/simi/queries/catalog/getProductsBySkus.graphql';
 import { useLinkedProducts } from 'src/simi/talons/LinkedProducts/useLinkedProducts';
 

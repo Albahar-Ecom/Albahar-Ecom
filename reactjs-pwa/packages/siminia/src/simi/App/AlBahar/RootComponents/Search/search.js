@@ -6,7 +6,7 @@ import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import defaultClasses from './search.css';
 import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch';
-import Products from 'src/simi/BaseComponents/Products';
+import Products from 'src/simi/App/AlBahar/BaseComponents/Products';
 import { withRouter } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import NoProductsFound from '../Category/NoProductsFound/noProductsFound';
