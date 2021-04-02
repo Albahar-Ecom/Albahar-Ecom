@@ -33,10 +33,10 @@ const Quantity = props => {
     
     const sizeIcon = useMemo(() => {
         if(isPhone) {
-            return {width: 10, height: 17}
+            return {width: 16, height: 16}
         }
 
-        return { width: 13, height: 21 }
+        return { width: 20, height: 20 }
     })
 
     return (

@@ -19,9 +19,11 @@ body {
         width: 1430px;
     }
 }
+
+{/* fix container for correct design */}
 @media (min-width: 1200px) and (max-width: 1440px){
     .container {
-        width: 1190px;
+        width: 1210px;;
     }
 }
 .flex {
@@ -73,7 +75,7 @@ div#app-loading {
     color: #d7272e;
 }
 .breadcrumb-item:last-of-type {
-    color: #d7272e;
+    color: #0082FF;
     cursor: unset;
 }
 /**

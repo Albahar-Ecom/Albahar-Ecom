@@ -509,7 +509,7 @@ class ProductFullDetail extends Component {
 
                 return (
                     <Colorbtn
-                        style={{ backgroundColor: configColor.button_background, color: configColor.button_text_color }}
+                        style={{ backgroundColor: '#0082FF', color: "#fff", borderRadius: '4px', border: 'none' }}
                         className="add-to-cart-btn"
                         onClick={() => this.mutationAction(addProductCall, sku)}
                         text={Identify.__('Add to Cart')} />
@@ -567,10 +567,7 @@ class ProductFullDetail extends Component {
                             />
                         }
                         <div
-                            className="add-to-cart-ctn"
-                            style={{
-                                borderColor: configColor.button_background, borderWidth: '1px', borderStyle: 'solid'
-                            }}>
+                            className="add-to-cart-ctn">
                             {addCartButton}
                         </div>
                     </div>}

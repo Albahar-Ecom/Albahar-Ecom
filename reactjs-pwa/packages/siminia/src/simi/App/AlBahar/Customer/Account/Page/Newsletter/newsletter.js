@@ -55,7 +55,7 @@ const Newsletter = props => {
             <Form className='newsletter-form' onSubmit={handleSubmit} initialValues={initialValues}>
                 <Checkbox field="isSubscribed" label={Identify.__("General Subscription")} />
                 <div className={'buttonsContainer'}>
-                    <Button disabled={isDisabled} type="submit" priority="high">
+                    <Button disabled={isDisabled} type="submit" priority="high" style={{backgroundColor: '#0082FF', border: 'none'}}>
                         {isDisabled ? Identify.__('Saving') : Identify.__('Save Changes')}
                     </Button>
                 </div>

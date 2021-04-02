@@ -111,13 +111,18 @@ const Griditem = props => {
 
     return (
         <div className={`${itemClasses["product-item"]} ${itemClasses["siminia-product-grid-item"]} siminia-product-grid-item`}>
-            {lazyImage ? <LazyLoad placeholder={<img alt={name} src={logo_url} style={{ maxWidth: 60, maxHeight: 60 }} />}>{image}</LazyLoad> : image}
-            <div className={itemClasses["siminia-product-des"]}>
-                {review_count ? <div className={itemClasses["item-review-rate"]}>
-                    <StaticRate rate={rating_summary} classes={itemClasses} />
-                    <span className={itemClasses["item-review-count"]}>({review_count} {(review_count) ? Identify.__('Reviews') : Identify.__('Review')})</span>
-                </div> : ''}
-                <div role="presentation" className={`${itemClasses["product-name"]} ${itemClasses["small"]}`} onClick={() => props.handleLink(location)}>{ReactHTMLParse(name)}</div>
+            <div className={itemClasses['siminia-product-des-top']}>
+                {lazyImage ? <LazyLoad placeholder={<img alt={name} src={logo_url} style={{ maxWidth: 60, maxHeight: 60 }} />}>{image}</LazyLoad> : image}
+                <div className={itemClasses["siminia-product-des"]}>
+                    {review_count ? <div className={itemClasses["item-review-rate"]}>
+                        <StaticRate rate={rating_summary} classes={itemClasses} />
+                        <span className={itemClasses["item-review-count"]}>({review_count} {(review_count) ? Identify.__('Reviews') : Identify.__('Review')})</span>
+                    </div> : ''}
+                    <div role="presentation" className={`${itemClasses["product-name"]} ${itemClasses["small"]}`} onClick={() => props.handleLink(location)}>{ReactHTMLParse(name)}</div>
+                    
+                </div>
+            </div>
+            <div className={itemClasses['siminia-product-des-below']}>
                 <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} onClick={() => props.handleLink(location)}>
                     {priceLabel}
                 </div>
@@ -130,6 +135,8 @@ const Griditem = props => {
                     </div>
                 </div>
             </div>
+        
+
         </div>
     );
 }

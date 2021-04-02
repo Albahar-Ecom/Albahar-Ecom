@@ -67,7 +67,7 @@ const CustomerForm = props => {
         <div className={classes.formMessage}>
             <Message>
                 {
-                    Identify.__('The shipping address you enter will be saved to your address book and set as your default for future purchases.')
+                    Identify.__('The delivery address you enter will be saved to your address book and set as your default for future purchases.')
                 }
             </Message>
         </div>
@@ -160,7 +160,7 @@ const CustomerForm = props => {
                     </Field>
                 </div>
                 <div className={classes.country}>
-                    <Country validate={isRequired} />
+                    <Country validate={isRequired} initialValue={'Albania'}/>
                 </div>
                 {
                     (!simiCIMenabled || (simiCIMenabled && (getCIMConf('street') !== 3))) &&

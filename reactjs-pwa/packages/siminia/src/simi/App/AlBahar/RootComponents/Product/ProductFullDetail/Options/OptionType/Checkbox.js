@@ -44,8 +44,10 @@ class CheckboxField extends Abstract {
                         checked={this.state.checked}
                         onChange={() => this.updateCheck()}
                         style={{
-                            fontFamily : 'Montserrat, sans-serif'
+                            fontFamily : 'Montserrat, sans-serif',
+                            color: "#0082FF"
                         }}
+                        
                         // classes={{
                         //     root: classes.root,
                         //     checked: classes.checked,
