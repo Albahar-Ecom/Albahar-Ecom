@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { func, string, shape } from 'prop-types';
 import { Edit2 as EditIcon } from 'react-feather';
-import { useShippingInformation } from 'src/simi/talons/CheckoutPage/ShippingInformation/useShippingInformation';
+import { useShippingInformation } from '../../talons/CheckoutPage/ShippingInformation/useShippingInformation';
 
 import { mergeClasses } from 'src/classify';
 import Icon from '@magento/venia-ui/lib/components/Icon';

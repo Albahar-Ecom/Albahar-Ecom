@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Form, Text } from 'informed';
 import { arrayOf, bool, func, number, shape, string } from 'prop-types';
-import { useCustomerForm } from 'src/simi/talons/CheckoutPage/ShippingInformation/AddressForm/useCustomerForm';
+import { useCustomerForm } from '../../../talons/CheckoutPage/ShippingInformation/AddressForm/useCustomerForm';
 
 import { mergeClasses } from 'src/classify';
 import { isRequired as oriIsRequired } from '@magento/venia-ui/lib/util/formValidators';
@@ -136,8 +136,7 @@ const CustomerForm = props => {
                         console.warn(err)
                     }
                     handleSubmit(fullFillAddress(values), isRegionTextField)
-                }
-                }
+                }}
             >
                 {formMessageRow}
                 {emailRow}
