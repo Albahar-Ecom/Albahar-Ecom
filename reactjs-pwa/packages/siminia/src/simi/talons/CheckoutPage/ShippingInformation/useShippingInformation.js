@@ -1,10 +1,14 @@
 import { useCallback, useEffect, useMemo, useState, useRef } from 'react';
-import { simiUseMutation as useMutation, simiUseQuery as useQuery } from 'src/simi/Network/Query';
-
+import { 
+    simiUseMutation as useMutation, 
+    simiUseQuery as useQuery, 
+    simiUseLazyQuery as useLazyQuery
+} from 'src/simi/Network/Query';
 
 import { useAppContext } from '@magento/peregrine/lib/context/app';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
+import Identify from 'src/simi/Helper/Identify';
 
 import { MOCKED_ADDRESS } from 'src/simi/talons/CartPage/PriceAdjustments/ShippingMethods/useShippingForm';
 
@@ -33,10 +37,17 @@ export const useShippingInformation = props => {
         }
     });
 
-    const {
+    // const {
+    //     data: defaultShippingData,
+    //     loading: getDefaultShippingLoading
+    // } = useQuery(getDefaultShippingQuery, { skip: !isSignedIn });
+    const [loadGetDefaultShippingQuery, {
         data: defaultShippingData,
         loading: getDefaultShippingLoading
-    } = useQuery(getDefaultShippingQuery, { skip: !isSignedIn });
+    }] = useLazyQuery(getDefaultShippingQuery, {
+        fetchPolicy: 'cache-and-network',
+        nextFetchPolicy: 'cache-first',
+    });
 
     const [
         setDefaultAddressOnCart,
@@ -77,6 +88,30 @@ export const useShippingInformation = props => {
 
         return filteredData;
     }, [shippingInformationData]);
+
+    useEffect(() => {
+        if (!defaultShippingData && isSignedIn) {
+            loadGetDefaultShippingQuery()
+        }
+    }, []);
+
+    useEffect(() => {
+        if (defaultShippingData && isSignedIn && cartId) {
+            const { customer } = defaultShippingData;
+            const { default_shipping: defaultAddressId } = customer;
+            const lastDefaultShippingAddressId = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'simi_last_shipping_default_address_id');
+            if (lastDefaultShippingAddressId !== defaultAddressId) {
+                // reset the default shipping address selected, set to current cart address
+                setDefaultAddressOnCart({
+                    variables: {
+                        cartId,
+                        addressId: parseInt(defaultAddressId)
+                    }
+                });
+                Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'simi_last_shipping_default_address_id', defaultAddressId);
+            }
+        }
+    }, [defaultShippingData]);
 
     // Simple heuristic to check shipping data existed prior to this render.
     // On first submission, when we have data, we should tell the checkout page
