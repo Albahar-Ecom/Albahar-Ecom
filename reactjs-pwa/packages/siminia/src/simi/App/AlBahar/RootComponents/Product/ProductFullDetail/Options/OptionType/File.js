@@ -62,8 +62,10 @@ class File extends Abstract {
 
     uploadReturned = (result) => {
         hideFogLoading()
-        if (result && result.uploadfile) {
-            this.updateSelected(this.uploadingId, result.uploadfile)
+        if (result) {
+            const newResult = JSON.parse(result)
+            if(newResult.uploadfile)
+                this.updateSelected(this.uploadingId, newResult.uploadfile)
         } else {
             this.deleteSelected(this.uploadingId)
             showToastMessage(Identify.__('Request Failed'))

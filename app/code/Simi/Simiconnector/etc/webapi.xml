@@ -8,7 +8,7 @@
         </resources>
     </route>
     <route url="/V1/simiconnector/uploadfiles" method="POST">
-        <service class="Simi\Simiconnector\Api\UploadfilesInterface" method="upload"/>
+        <service class="Simi\Simiconnector\Api\UploadfilesInterface" method="store"/>
         <resources>
             <resource ref="anonymous"/>
         </resources>

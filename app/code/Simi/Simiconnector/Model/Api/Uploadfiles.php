@@ -2,11 +2,20 @@
 
 namespace Simi\Simiconnector\Model\Api;
 
-class Uploadfiles extends Apiabstract
+class Uploadfiles
 {
-    public function setBuilderQuery()
+
+    protected $simiObjectManager;
+
+    protected $request;
+
+    public function __construct(
+        \Magento\Framework\Webapi\Rest\Request $request,
+        \Magento\Framework\ObjectManagerInterface $simiObjectManager
+    )
     {
-        $data = $this->getData();
+        $this->request = $request;
+        $this->simiObjectManager = $simiObjectManager;
     }
 
     public function getReturnedData($file, $file_type, $media, $oriPath, $file_name, $encodeMethod) {
@@ -24,7 +33,7 @@ class Uploadfiles extends Apiabstract
 
     public function store()
     {
-        $data = $this->getData();
+        $post = $this->request->getBodyParams();
         $objectManager = $this->simiObjectManager;
         $fileSystem = $objectManager->create('\Magento\Framework\Filesystem');
         $mediaPath  =   $fileSystem
@@ -35,9 +44,9 @@ class Uploadfiles extends Apiabstract
         if (!file_exists($media)) {
             mkdir($media, 0775, true);
         }
-        if (isset($data['contents_array']['fileData'])) {
+        if (isset($post['fileData'])) {
             //get file from raw data
-            $file = $data['contents_array']['fileData'];
+            $file = $post['fileData'];
         } else {
             //get file from form data
             $uploader = $objectManager->create('Magento\MediaStorage\Model\File\Uploader',['fileId' => 'file']);
@@ -60,9 +69,9 @@ class Uploadfiles extends Apiabstract
             $saved_file = fopen($media.$file_name, "wb");
             fwrite($saved_file, $content);
             fclose($saved_file);
-            return $this->getReturnedData($file, $file_type, $media, $oriPath, $file_name, $encodeMethod);
+            return json_encode($this->getReturnedData($file, $file_type, $media, $oriPath, $file_name, $encodeMethod));
         } else if ($file_tmp && move_uploaded_file($file_tmp,$media.$file_name)) {
-            return $this->getReturnedData($file, $file_type, $media, $oriPath, $file_name, $encodeMethod);
+            return json_encode($this->getReturnedData($file, $file_type, $media, $oriPath, $file_name, $encodeMethod));
         } else {
             throw new \Simi\Simiconnector\Helper\SimiException(__('File was not uploaded'), 4);
         }
