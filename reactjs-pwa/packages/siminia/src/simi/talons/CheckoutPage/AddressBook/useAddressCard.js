@@ -37,7 +37,8 @@ export const useAddressCard = props => {
                 code: countryCode
             },
             region: {
-                id: regionId
+                id: regionId,
+                ... region
             }
         };
     }, [address]);
