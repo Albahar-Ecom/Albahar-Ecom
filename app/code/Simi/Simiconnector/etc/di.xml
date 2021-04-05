@@ -2,7 +2,7 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <preference for="Simi\Simiconnector\Api\Base64fileInterface" type="Simi\Simiconnector\Model\Api\Base64file" />
-
+    <preference for="Simi\Simiconnector\Api\UploadfilesInterface" type="Simi\Simiconnector\Model\Api\Uploadfiles" />
     <!--Grid collection-->
     <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
         <arguments>
