@@ -16,17 +16,12 @@ use Magento\Store\Model\StoreManagerInterface;
 /**
  * Custom Option Data provider
  */
-class PriceUnitLabel
+class PriceUnitLabel extends \Magento\QuoteGraphQl\Model\CartItem\DataProvider\CustomizableOptionValue\PriceUnitLabel
 {
     /**
      * @var StoreManagerInterface
      */
     private $storeManager;
-
-    /**
-     * @var CurrencyFactory
-     */
-    private $currencyFactory;
 
     /**
      * @param StoreManagerInterface $storeManager
