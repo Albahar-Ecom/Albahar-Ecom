@@ -130,10 +130,14 @@ $gray: #38404A;
             position: relative;
             .google-login {
                 &.fake {
+                    top: 55%;
                     z-index: 1!important;
                 }
                 position: absolute;
                 z-index: 2;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
             }
         }
 
