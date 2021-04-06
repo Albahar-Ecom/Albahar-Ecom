@@ -8,6 +8,7 @@ import { configColor } from 'src/simi/Config';
 import FacebookIcon from 'src/simi/App/AlBahar/BaseComponents/Icon/Facebook2';
 import GoogleIcon from 'src/simi/App/AlBahar/BaseComponents/Icon/Google';
 import SocialButton from '../SocialButton';
+import GoogleHoc from '../SocialButton/GoogleHoc';
 
 require('./signIn.scss');
 
@@ -66,13 +67,15 @@ const SignIn = props => {
                 <div className="socialTitle"><span>{Identify.__('Or Login With')}</span></div>
                 <ul className="socialList">
                     <li>
-                        <SocialButton
-                            provider='google'
-                            appId={googleClientId}
-                            onLoginSuccess={handleSocialLogin}
-                            onLoginFailure={handleSocialLoginFailure}>
-                            <GoogleIcon style={{ width: 20, height: 20 }} />
-                        </SocialButton>
+                        <GoogleHoc>
+                            <SocialButton
+                                provider='google'
+                                appId={googleClientId}
+                                onLoginSuccess={handleSocialLogin}
+                                onLoginFailure={handleSocialLoginFailure}>
+                                <GoogleIcon style={{ width: 20, height: 20 }} />
+                            </SocialButton>
+                        </GoogleHoc>
                     </li>
                     <li>
                         <SocialButton
