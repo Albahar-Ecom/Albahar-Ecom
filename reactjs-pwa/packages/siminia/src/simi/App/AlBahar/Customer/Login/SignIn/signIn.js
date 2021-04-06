@@ -67,13 +67,15 @@ const SignIn = props => {
                 <div className="socialTitle"><span>{Identify.__('Or Login With')}</span></div>
                 <ul className="socialList">
                     <li>
-                        <SocialButton
-                            provider='google'
-                            appId={googleClientId}
-                            onLoginSuccess={handleSocialLogin}
-                            onLoginFailure={handleSocialLoginFailure}>
-                            <GoogleIcon style={{ width: 20, height: 20 }} />
-                        </SocialButton>
+                        <div className="google-login">
+                            <SocialButton
+                                provider='google'
+                                appId={googleClientId}
+                                onLoginSuccess={handleSocialLogin}
+                                onLoginFailure={handleSocialLoginFailure}>
+                                <GoogleIcon style={{ width: 20, height: 20 }} />
+                            </SocialButton>
+                        </div>
                         <div className="google-login fake">
                             <GoogleIcon style={{ width: 20, height: 20 }} />
                         </div>
