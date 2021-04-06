@@ -117,7 +117,7 @@ const Filter = props => {
 
     const renderFilterItems = () => {
         rowFilterAttributes = [];
-        if (maxPrice && minPrice && minPrice < maxPrice && total_count > 0) {
+        if (maxPrice && minPrice !== undefined && minPrice < maxPrice && total_count > 0) {
             rowFilterAttributes.push(
                 <Dropdownplus
                     classes={dropDownPlusClasses}

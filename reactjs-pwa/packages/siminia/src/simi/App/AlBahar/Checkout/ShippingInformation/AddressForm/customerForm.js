@@ -159,7 +159,7 @@ const CustomerForm = props => {
                     </Field>
                 </div>
                 <div className={classes.country}>
-                    <Country validate={isRequired} initialValue={'Albania'}/>
+                    <Country validate={isRequired} />
                 </div>
                 {
                     (!simiCIMenabled || (simiCIMenabled && (getCIMConf('street') !== 3))) &&

@@ -2,7 +2,7 @@ import React, { Fragment, useEffect, useMemo } from 'react';
 import { shape, string, func } from 'prop-types';
 import { AlertCircle as AlertCircleIcon } from 'react-feather';
 import { useToasts } from '@magento/peregrine';
-import { useAddressBook } from 'src/simi/talons/CheckoutPage/AddressBook/useAddressBook';
+import { useAddressBook } from '../../talons/CheckoutPage/AddressBook/useAddressBook';
 
 import { mergeClasses } from 'src/classify';
 import Button from '@magento/venia-ui/lib/components/Button';

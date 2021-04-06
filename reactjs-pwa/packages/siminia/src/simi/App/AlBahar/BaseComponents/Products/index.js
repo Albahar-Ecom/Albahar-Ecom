@@ -36,7 +36,8 @@ const Products = props => {
 
         if (data && data.products && data.products.filters) {
             const maxPrice = data.products.maxPrice || null;
-            const minPrice = data.products.minPrice || null;
+            // const minPrice = data.products.minPrice || null;
+            const minPrice = 0; // default filter from zero
             return (
                 <div>
                     <Filter
