@@ -127,6 +127,14 @@ $gray: #38404A;
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            position: relative;
+            .google-login {
+                &.fake {
+                    z-index: 1!important;
+                }
+                position: absolute;
+                z-index: 2;
+            }
         }
 
         li:not(:first-child) {

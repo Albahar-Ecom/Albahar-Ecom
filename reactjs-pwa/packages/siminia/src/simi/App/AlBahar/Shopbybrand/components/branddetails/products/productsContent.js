@@ -64,7 +64,7 @@ const ProductsContent = props => {
     
     const content = totalPagesFromData ? (
         <Fragment>
-            <section className={classes.gallery}>
+            <section className={`container ${classes.gallery || ''}`}>
                 <Gallery items={items} />
             </section>
             <div className={classes.pagination}>

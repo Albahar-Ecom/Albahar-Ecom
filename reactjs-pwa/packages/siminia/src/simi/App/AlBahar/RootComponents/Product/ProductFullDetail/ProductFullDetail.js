@@ -525,7 +525,6 @@ class ProductFullDetail extends Component {
         }    
         const listLinkCrossSell = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'crosssell');
 
-        console.log(price_tiers)
         return (
             <div className="container product-detail-root">
                 {this.breadcrumb(product)}
@@ -554,6 +553,12 @@ class ProductFullDetail extends Component {
                     <div className="product-price">
                         <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections} />
                     </div>
+                    {
+                        sku &&
+                        <div className={`product-sku flex`} id="product-sku">
+                            <span className='sku-label'>{Identify.__('Sku') + ": "} {sku}</span>
+                        </div>
+                    }
                     {price_tiers && <TierPrices price_tiers={price_tiers} />}
                     <Pdetailsbrand product={product} />
                     {short_desc && <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>}

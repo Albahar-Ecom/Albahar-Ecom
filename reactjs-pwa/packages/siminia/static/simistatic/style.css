@@ -63,8 +63,8 @@ div#app-loading {
 .siminia-breadcrumb {
     padding: unset;
     color: #727272;
-    font-size: 12px;
-    line-height: 12px;
+    font-size: 13px;
+    line-height: 13px;
 }
 .breadcrumb-item {
     cursor: pointer;
@@ -73,7 +73,7 @@ div#app-loading {
     color: #727272;
 }
 .breadcrumb-item:hover {
-    color: #d7272e;
+    color: #0082FF;
 }
 .breadcrumb-item:last-of-type {
     color: #0082FF;
