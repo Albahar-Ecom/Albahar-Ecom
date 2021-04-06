@@ -83,6 +83,20 @@ export const useShippingInformation = props => {
                     email,
                     ...primaryAddress
                 };
+            } else { // default country by store config setting
+                const { simiStoreConfig } = Identify.getStoreConfig() || {}
+                const { config } = simiStoreConfig || {}
+                const { base } = config || {}
+                const { country_code } = base || {}
+                filteredData = {
+                    email,
+                    country: {
+                        code: country_code
+                    },
+                    region: {
+                        code: ''
+                    }
+                };
             }
         }
 
