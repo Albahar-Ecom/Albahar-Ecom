@@ -188,10 +188,12 @@
         .banner-action {
             margin-top: 13px;
             width: 100px;
-            background: #0b5b28;
+            background: #0082FF;
+            border-radius: 4px;
         }
         .banner-title .banner-action:hover {
-            background: #007e33;
+            background: #0082FF;
+            opacity: 0.6;
         }
     }
     .bannner-content {

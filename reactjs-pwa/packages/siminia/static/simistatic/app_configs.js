@@ -7,7 +7,7 @@ var DASHBOARD_CONFIG = {
             "theme": {
                 "key_color": "#ffffff",
                 "top_menu_icon_color": "#000000",
-                "button_background": "#000000",
+                "button_background": "#0082FF",
                 "button_text_color": "#ffffff",
                 "menu_background": "#1b1b1b",
                 "menu_text_color": "#727272",
