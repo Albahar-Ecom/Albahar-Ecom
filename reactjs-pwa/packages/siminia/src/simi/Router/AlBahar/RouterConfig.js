@@ -23,7 +23,7 @@ const Login = (props) => {
 }
 
 const Cart = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "Cart"*/'src/simi/App/core/Cart')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "Cart"*/'src/simi/App/AlBahar/Cart')} {...props} />
 }
 
 const Contact = (props) => {
