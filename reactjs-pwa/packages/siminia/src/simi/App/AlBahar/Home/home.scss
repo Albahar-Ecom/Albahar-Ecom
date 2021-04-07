@@ -383,6 +383,21 @@
             padding-bottom: 10px;
         }
     }
+
+    @media (max-width: 374px) {
+        .banner-title {
+            .title {
+                font-size: 12px;
+                line-height: 20px;
+                margin-bottom: 0;
+            }
+        }
+
+        .banner-action {
+            font-size: 12px;
+            height: 30px;
+        }
+    }
 }
 
 .rtl-root {
