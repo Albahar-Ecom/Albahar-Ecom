@@ -298,7 +298,7 @@
         }
         .banner-title {
             top: unset;
-            bottom: 16px;
+            bottom: 10px;
             left: 24px;
             max-width: 270px;
         }
@@ -312,8 +312,9 @@
             line-height: 24px;
         }
         .banner-title .banner-action {
-            margin-top: 16px;
-            width: 152px;
+            margin-top: 10px;
+            width: 100%;
+            padding: 10px;
         }
         .home-cate-item {
             max-width: unset;
@@ -373,6 +374,13 @@
             .default-productlist-item {
                 min-height: 1000px;
             }
+        }
+    }
+
+    @media (max-width: 767px) {
+        .bannner-content {
+            padding-top: 10px;
+            padding-bottom: 10px;
         }
     }
 }
