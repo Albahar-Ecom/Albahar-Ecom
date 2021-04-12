@@ -146,7 +146,7 @@ query storeConfigData($storeId: Int, $currency: String) {
             footer_config {
                 facebook_link
                 instagram_link
-                youtube_link
+                twitter_link
                 menu_title_1
                 menu_title_2
                 menus_1 {

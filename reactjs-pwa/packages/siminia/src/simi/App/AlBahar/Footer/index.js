@@ -11,40 +11,52 @@ import Instagram from 'src/simi/BaseComponents/Icon/Instagram'
 import Expansion from 'src/simi/App/AlBahar/BaseComponents/Expansion'
 import { useWindowSize } from '@magento/peregrine';
 import Newsletter from './Newsletter'
+import {getFooterConfig, getPwaContact} from '../Helper/Data'
 
 const Footer = props => {
     const { classes } = props;
     const windowSize = useWindowSize();
     const isPhone = windowSize.innerWidth < 1024;
     const [expanded, setExpanded] = useState(null);
-    const {simiStoreConfig} = Identify.getStoreConfig() || {}
-    let menus1 = null
+    const footerConfig = getFooterConfig()
+    const pwaContact = getPwaContact()
+    let menus1 = []
     let menuTitle1 = null
-    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.menu_title_1) {
-        menuTitle1 = simiStoreConfig.config.footer_config.menu_title_1
+    if(footerConfig && footerConfig.menu_title_1) {
+        menuTitle1 = footerConfig.menu_title_1
     }
-    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.menus_1) {
-        menus1 = simiStoreConfig.config.footer_config.menus_1
+    if(footerConfig &&  footerConfig.menus_1) {
+        menus1 = footerConfig.menus_1
     }
-    let menus2 = null
+    let menus2 = []
     let menuTitle2 = null
-    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.menu_title_2) {
-        menuTitle2 = simiStoreConfig.config.footer_config.menu_title_2
+    if(footerConfig && footerConfig.menu_title_2) {
+        menuTitle2 = footerConfig && footerConfig.menu_title_2
     }
-    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.menus_2) {
-        menus2 = simiStoreConfig.config.footer_config.menus_2
+    if(footerConfig && footerConfig.menus_2) {
+        menus2 = footerConfig.menus_2
     }
     let facebookLink = null;
-    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.facebook_link) {
-        facebookLink = simiStoreConfig.config.footer_config.facebook_link
+    if(footerConfig && footerConfig.facebook_link) {
+        facebookLink = footerConfig.facebook_link
     }
     let twitterLink = null;
-    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.twitter_link) {
-        twitterLink = simiStoreConfig.config.footer_config.twitter_link
+    if(footerConfig && footerConfig.twitter_link) {
+        twitterLink = footerConfig.twitter_link
     }
     let instagramLink = null;
-    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.instagram_link) {
-        instagramLink = simiStoreConfig.config.footer_config.instagram_link
+    if(footerConfig && footerConfig.instagram_link) {
+        instagramLink = footerConfig.instagram_link
+    }
+    let hostline = null;
+
+    if( pwaContact 
+        && pwaContact.listHotline 
+        && pwaContact.listHotline.length > 0
+        && pwaContact.listHotline.length > 0
+        && pwaContact.listHotline[0].contact_hotline
+    ) {
+        hostline = pwaContact.listHotline[0].contact_hotline
     }
     const pagec1 = 1;
     const pagep2 = 2;
@@ -107,11 +119,11 @@ const Footer = props => {
                             <span className={classes["footer--custom_title"]}>
                                 {Identify.__("Get in touch today on")}
                             </span>
-                            <ul className={classes["list-contact"]}>
+                            {hostline && <ul className={classes["list-contact"]}>
                                 <li>
-                                    <a href={`tel:1848848`}>1848848</a>
+                                    <a href={`tel:${hostline}`}>{hostline}</a>
                                 </li>
-                            </ul>
+                            </ul>}
                             <span
                                 className={classes["footer--custom_title"]}
                                 style={{
@@ -125,7 +137,7 @@ const Footer = props => {
                                 {facebookLink && <a href={facebookLink} target="__blank">
                                     <Facebook className={classes["facebook-icon"]} style={{ width: "50px", height: "50px" }} />
                                 </a>}
-                                {youtubeLink && <a href={youtubeLink} target="__blank">
+                                {twitterLink && <a href={twitterLink} target="__blank">
                                     <Twitter className={classes["twitter-icon"]} style={{ width: "50px", height: "50px" }} />
                                 </a>}
                                 {instagramLink && <a href={instagramLink} target="__blank">
