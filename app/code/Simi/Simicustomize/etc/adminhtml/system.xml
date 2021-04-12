@@ -36,18 +36,18 @@
                     <label>Youtube Link</label>
                 </field>
                 <field id="footer_1_title" translate="label comment" type="text" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Title</label>
+                    <label>Title 1</label>
                 </field>
                 <field id="footer_1_menu" translate="label comment" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Menus</label>
+                    <label>Menus 1</label>
                     <frontend_model>Simi\Simicustomize\Block\Adminhtml\System\Config\Form\Field\Listing</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>
                 <field id="footer_2_title" translate="label comment" type="text" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Title</label>
+                    <label>Title 2</label>
                 </field>
                 <field id="footer_2_menu" translate="label comment" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Menus</label>
+                    <label>Menus 2</label>
                     <frontend_model>Simi\Simicustomize\Block\Adminhtml\System\Config\Form\Field\Listing</frontend_model>
                     <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
                 </field>

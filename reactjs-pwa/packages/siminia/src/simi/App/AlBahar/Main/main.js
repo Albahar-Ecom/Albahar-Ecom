@@ -7,7 +7,7 @@ import {saveCategoriesToDict} from 'src/simi/Helper/Url'
 import Connection from 'src/simi/Network/SimiConnection'
 import LoadingComponent  from 'src/simi/BaseComponents/Loading'
 import * as Constants from 'src/simi/Config/Constants';
-import simiStoreConfigDataQuery from 'src/simi/queries/getStoreConfigData.graphql'
+import simiStoreConfigDataQuery from 'src/simi/App/AlBahar/queries/getStoreConfigData.graphql'
 import { Simiquery } from 'src/simi/Network/Query'
 import classes from './main.css';
 import ChevronCircleUp from 'src/simi/App/AlBahar/BaseComponents/Icon/ChevronCircleUp'

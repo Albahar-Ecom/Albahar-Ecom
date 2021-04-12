@@ -6,6 +6,7 @@ interface ProductInterface {
 type SimiStoreConfigDetails {
 	facebook_config: SimiFacebookConfig @doc(description: "Facebook Configuration")
 	google_config: SimiGoogleConfig @doc(description: "Google Configuration")
+	footer_config: SimiFooterConfig @doc(description: "Footer Configuration")
 }
 
 type Mutation {
@@ -28,5 +29,14 @@ type SimiGoogleConfig {
 	login_client_id: String
 }
 
+type SimiFooterConfig {
+	facebook_link: String
+	instagram_link: String
+	youtube_link: String
+	menu_title_1: String
+	menu_title_2: String
+	menus_1: String
+	menus_2: String
+}
 
 
