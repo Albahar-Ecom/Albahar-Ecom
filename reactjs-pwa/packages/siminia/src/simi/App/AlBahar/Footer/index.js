@@ -82,8 +82,7 @@ const Footer = props => {
     const handleExpand = (expanded) => {
         setExpanded(expanded);
     }
-
-    console.log(menus1)
+    
     return (
         <div className={classes['footer-app']}>
             {/* <Newsletter classes={classes}/> */}
