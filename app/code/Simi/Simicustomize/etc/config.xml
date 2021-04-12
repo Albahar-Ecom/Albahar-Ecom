@@ -8,6 +8,10 @@ xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
                 <backend_enable>1</backend_enable>
                 <limit>10</limit>
             </related_product>
+            <footer>
+                <footer_1_title>Customer Services</footer_1_title>
+                <footer_2_title>Our policies</footer_2_title>
+            </footer>
         </siminiaconfig>
     </default>
 </config>

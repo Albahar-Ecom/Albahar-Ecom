@@ -24,6 +24,34 @@
                     <label>Limit</label>
                 </field>
             </group>
+            <group id="footer" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Footer Configs</label>
+                <field id="facebook_link" translate="label" type="text" sortOrder="9" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Facebook Link</label>
+                </field>
+                <field id="instagram_link" translate="label" type="text" sortOrder="19" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Instagram Link</label>
+                </field>
+                <field id="youtube_link" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Youtube Link</label>
+                </field>
+                <field id="footer_1_title" translate="label comment" type="text" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="footer_1_menu" translate="label comment" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Menus</label>
+                    <frontend_model>Simi\Simicustomize\Block\Adminhtml\System\Config\Form\Field\Listing</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+                <field id="footer_2_title" translate="label comment" type="text" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Title</label>
+                </field>
+                <field id="footer_2_menu" translate="label comment" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Menus</label>
+                    <frontend_model>Simi\Simicustomize\Block\Adminhtml\System\Config\Form\Field\Listing</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+            </group>
             <group id="facebook" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Facebook Config</label>
                 <field id="app_id" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
