@@ -40,7 +40,7 @@ class GetStoreviewInfoAfter implements ObserverInterface
         );
 
         $confArray['footer_config'] = $this->getFooterConfig();
-        
+
         $obj->configArray = $confArray;
     }
 
@@ -50,6 +50,10 @@ class GetStoreviewInfoAfter implements ObserverInterface
         return $this->appScopeConfigInterface
             ->getValue($path, \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
                 $this->storeManager->getStore()->getCode());
+    }
+
+    private function isSerialized( $value ) {
+		return (boolean) preg_match( '/^((s|i|d|b|a|O|C):|N;)/', $value );
     }
 
     public function getSerializedConfigValue( $value ) {
