@@ -73,7 +73,7 @@ class GetStoreviewInfoAfter implements ObserverInterface
     public function getFooterConfig() {
 		$facebookLink  = $this->getStoreConfig( 'siminiaconfig/footer/facebook_link' );
 		$instagramLink = $this->getStoreConfig( 'siminiaconfig/footer/instagram_link' );
-		$youtubeLink   = $this->getStoreConfig( 'siminiaconfig/footer/youtube_link' );
+		$twitterLink   = $this->getStoreConfig( 'siminiaconfig/footer/twitter_link' );
         $menuTitle1    = $this->getStoreConfig( 'siminiaconfig/footer/footer_1_title' );
 		$menusListing1 = $this->getStoreConfig( 'siminiaconfig/footer/footer_1_menu' );
         $menuTitle2    = $this->getStoreConfig( 'siminiaconfig/footer/footer_2_title' );
@@ -98,7 +98,7 @@ class GetStoreviewInfoAfter implements ObserverInterface
 		return [
 			'facebook_link'  => $facebookLink,
 			'instagram_link' => $instagramLink,
-			'youtube_link'   => $youtubeLink,
+			'twitter_link'   => $twitterLink,
             'menu_title_1'   => $menuTitle1,
             'menu_title_2'   => $menuTitle2,
 			'menus_1'        => $menus1,

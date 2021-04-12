@@ -149,8 +149,14 @@ query storeConfigData($storeId: Int, $currency: String) {
                 youtube_link
                 menu_title_1
                 menu_title_2
-                menus_1
-                menus_2
+                menus_1 {
+                    text
+                    url
+                }
+                menus_2 {
+                    text
+                    url
+                }
             }
         }
     }

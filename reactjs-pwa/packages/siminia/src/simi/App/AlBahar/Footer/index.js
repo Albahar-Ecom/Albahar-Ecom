@@ -17,64 +17,50 @@ const Footer = props => {
     const windowSize = useWindowSize();
     const isPhone = windowSize.innerWidth < 1024;
     const [expanded, setExpanded] = useState(null);
+    const {simiStoreConfig} = Identify.getStoreConfig() || {}
+    let menus1 = null
+    let menuTitle1 = null
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.menu_title_1) {
+        menuTitle1 = simiStoreConfig.config.footer_config.menu_title_1
+    }
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.menus_1) {
+        menus1 = simiStoreConfig.config.footer_config.menus_1
+    }
+    let menus2 = null
+    let menuTitle2 = null
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.menu_title_2) {
+        menuTitle2 = simiStoreConfig.config.footer_config.menu_title_2
+    }
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.menus_2) {
+        menus2 = simiStoreConfig.config.footer_config.menus_2
+    }
+    let facebookLink = null;
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.facebook_link) {
+        facebookLink = simiStoreConfig.config.footer_config.facebook_link
+    }
+    let twitterLink = null;
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.twitter_link) {
+        twitterLink = simiStoreConfig.config.footer_config.twitter_link
+    }
+    let instagramLink = null;
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.footer_config && simiStoreConfig.config.footer_config.instagram_link) {
+        instagramLink = simiStoreConfig.config.footer_config.instagram_link
+    }
     const pagec1 = 1;
     const pagep2 = 2;
-    const pageCustomerServices = [
-        {
-            id: 1,
-            link: "#",
-            title: "About"
-        },
-        {
-            id: 2,
-            link: "#",
-            title: "Delivery & returns"
-        },
-        {
-            id: 3,
-            link: "#",
-            title: "Trade services"
-        },
-        {
-            id: 4,
-            link: "#",
-            title: "Branch Finder"
-        },
-        {
-            id: 5,
-            link: "/contact.html",
-            title: "Contact us"
-        }
-    ];
-
-    const pagePolicies = [
-        {
-            id: 1,
-            link: "#",
-            title: "Terms & Conditions of supply"
-        },
-        {
-            id: 2,
-            link: "#",
-            title: "Terms of use"
-        },
-        {
-            id: 3,
-            link: "#",
-            title: "Privacy & cookie policy"
-        }
-    ];
 
     const listPages = pages => {
 
         let result = null;
         if (pages.length > 0) {
             result = pages.map((page, index) => {
-                return (
-                    <li key={index}>
-                        <Link to={page.link}>{Identify.__(page.title)}</Link>
-                    </li>
-                );
+                if(page.url && page.text) {
+                    return (
+                        <li key={index}>
+                            <Link to={page.url}>{Identify.__(page.text)}</Link>
+                        </li>
+                    );
+                }
             })
         }
 
@@ -85,6 +71,7 @@ const Footer = props => {
         setExpanded(expanded);
     }
 
+    console.log(menus1)
     return (
         <div className={classes['footer-app']}>
             {/* <Newsletter classes={classes}/> */}
@@ -93,19 +80,19 @@ const Footer = props => {
                     <div className={`row ${classes['app--flex']}`}>
                         <div className={`${classes['col-custom-20pr']} ${classes['col-mobile-pd-0']}`}>
                             {!isPhone ? <React.Fragment>
-                                <span className={classes["footer--custom_title"]}>
-                                    {Identify.__("Customer Services")}
-                                </span>
-                                {listPages(pageCustomerServices)}
-                            </React.Fragment> : <Expansion id={pagec1} title={Identify.__("Customer Services")} content={listPages(pageCustomerServices)} icon_color="#333" handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} />}
+                                {menuTitle1 && <span className={classes["footer--custom_title"]}>
+                                    {Identify.__(menuTitle1)}
+                                </span>}
+                                {listPages(menus1)}
+                            </React.Fragment> : <Expansion id={pagec1} title={Identify.__(menuTitle1 || "")} content={listPages(menus1)} icon_color="#333" handleExpand={(pagec1) => handleExpand(pagec1)} expanded={expanded} />}
                         </div>
                         <div className={`${classes['col-custom-20pr']} ${classes['col-mobile-pd-0']}`}>
                             {!isPhone ? <React.Fragment>
-                                <span className={classes["footer--custom_title"]}>
-                                    {Identify.__("Our Policies")}
-                                </span>
-                                {listPages(pagePolicies)}
-                            </React.Fragment> : <Expansion id={pagep2} title={Identify.__("Our Policies")} content={listPages(pagePolicies)} icon_color="#333" handleExpand={(pagep2) => handleExpand(pagep2)} expanded={expanded} />}
+                                {menuTitle2 && <span className={classes["footer--custom_title"]}>
+                                    {Identify.__(menuTitle2)}
+                                </span>}
+                                {listPages(menus2)}
+                            </React.Fragment> : <Expansion id={pagep2} title={Identify.__(menuTitle2 || "")} content={listPages(menus2)} icon_color="#333" handleExpand={(pagep2) => handleExpand(pagep2)} expanded={expanded} />}
                         </div>
                          <div className={`${classes['col-custom-20pr']}`}>
                             <span className={classes["footer--custom_title"]}>
@@ -135,15 +122,15 @@ const Footer = props => {
                                 {Identify.__("Connect")}
                             </span>
                             <div className={classes["social__md-block"]}>
-                                <a href='https://www.facebook.com/simicart' target="__blank">
+                                {facebookLink && <a href={facebookLink} target="__blank">
                                     <Facebook className={classes["facebook-icon"]} style={{ width: "50px", height: "50px" }} />
-                                </a>
-                                <a href='https://twitter.com/SimiCart' target="__blank">
+                                </a>}
+                                {youtubeLink && <a href={youtubeLink} target="__blank">
                                     <Twitter className={classes["twitter-icon"]} style={{ width: "50px", height: "50px" }} />
-                                </a>
-                                <a href='https://www.instagram.com/simicart.official/' target="__blank">
+                                </a>}
+                                {instagramLink && <a href={instagramLink} target="__blank">
                                     <Instagram className={classes["instagram-icon"]} style={{ width: "50px", height: "50px" }} />
-                                </a>
+                                </a>}
                             </div>
                         </div>
                     </div>

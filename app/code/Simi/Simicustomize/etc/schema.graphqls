@@ -32,11 +32,16 @@ type SimiGoogleConfig {
 type SimiFooterConfig {
 	facebook_link: String
 	instagram_link: String
-	youtube_link: String
+	twitter_link: String
 	menu_title_1: String
 	menu_title_2: String
-	menus_1: String
-	menus_2: String
+	menus_1: [SimiFooterMenu]
+	menus_2: [SimiFooterMenu]
+}
+
+type SimiFooterMenu {
+	text: String
+	url: String
 }
 
 

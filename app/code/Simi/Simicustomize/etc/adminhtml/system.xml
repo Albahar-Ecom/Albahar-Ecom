@@ -32,8 +32,8 @@
                 <field id="instagram_link" translate="label" type="text" sortOrder="19" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Instagram Link</label>
                 </field>
-                <field id="youtube_link" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
-                    <label>Youtube Link</label>
+                <field id="twitter" translate="label" type="text" sortOrder="29" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Twitter Link</label>
                 </field>
                 <field id="footer_1_title" translate="label comment" type="text" sortOrder="49" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Title 1</label>
