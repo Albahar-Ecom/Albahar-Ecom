@@ -7,30 +7,31 @@
  * Time: 08:52
  */
 
-namespace Simi\Simicustompayment\Observer;
+namespace Simi\Simicustomize\Observer;
 
 use Magento\Framework\Event\ObserverInterface;
 
-class SimiconnectorAddPaymentMethod implements ObserverInterface {
+class SimiconnectorModelServerInitialize implements ObserverInterface {
 
     public $simiObjectManager;
 
     public function __construct(
         \Magento\Framework\ObjectManagerInterface $simiObjectManager
     ) {
-   
         $this->simiObjectManager = $simiObjectManager;
     }
-
     /**
      * @param \Magento\Framework\Event\Observer $observer
      * @return $this
      */
     public function execute(\Magento\Framework\Event\Observer $observer) {
-        $object = $observer->getObject();           
-        $object->addPaymentMethod('moneris', 1);
-        $object->addPaymentMethod('tap', 3);
-        return;
+        $object = $observer->getObject();
+        $data = $object->getData();
+        $className = 'Simi\Simicustomize\Model\Api\\' . ucfirst($data['resource']);
+        if (class_exists($className)) {
+            $data['module'] = "simicustomize";
+            $object->setData($data);
+        }
     }
 
 }

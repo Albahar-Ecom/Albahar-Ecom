@@ -27,7 +27,7 @@ class SimiconnectorAfterPlaceOrder implements ObserverInterface {
     public function execute(\Magento\Framework\Event\Observer $observer) {
         $orderObject = $observer->getObject();
         $data = $orderObject->order_placed_info;
-        if (isset($data['payment_method']) && $data['payment_method'] == "ipay88_2") {
+        if (isset($data['payment_method']) && $data['payment_method'] == "tap") {
             $orderObject = $observer->getObject();
             $data = $orderObject->order_placed_info;
             $data['url_action'] = $this->getOrderPlaceRedirectUrl($data['invoice_number']);
