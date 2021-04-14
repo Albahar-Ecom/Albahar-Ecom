@@ -1,5 +1,7 @@
 import React from 'react';
 import {configColor} from "src/simi/Config";
+import {validateEmpty} from 'src/simi/Helper/Validation'
+
 class Abstract extends React.Component {
     constructor(props) {
         super(props);

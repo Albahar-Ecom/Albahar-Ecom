@@ -8,6 +8,7 @@ import TextField from '../OptionType/Text';
 import FileSelect from '../OptionType/File';
 import { LazyComponent } from 'src/simi/BaseComponents/LazyComponent/'
 import OptionLabel from '../OptionLabel'
+import {validateEmpty} from 'src/simi/Helper/Validation'
 
 require('./customoptions.scss');
 
@@ -32,32 +33,40 @@ class CustomOptions extends OptionBase {
                 let priceLabel = "";
                 let itemType = '';
                 let prLabel = {};
+                let configField = {}
                 // if (item.type === 'drop_down' || item.type === 'checkbox'
                 //     || item.type === 'multiple' || item.type === 'radio') {
                 // } else {
                 //     priceLabel = <OptionLabel title={''} item={item.values[0]} />
                 // }
-                console.log(item)
                 if (item.hasOwnProperty('checkbox_value')) {
                     itemType = 'checkbox';
+                    configField = item.checkbox_value
                 } else if (item.hasOwnProperty('dropdown_value')) {
                     itemType = 'drop_down';
+                    configField = item.dropdown_value
                 } else if (item.hasOwnProperty('multiple_value')) {
                     itemType = 'multiple';
+                    configField = item.multiple_value
                 } else if (item.hasOwnProperty('radio_value')) {
                     itemType = 'radio';
+                    configField = item.radio_value
                 } else if (item.hasOwnProperty('date_value')) {
                     itemType = 'date_time';
                     prLabel = item.date_value;
+                    configField = item.date_value
                 } else if (item.hasOwnProperty('field_value')) {
                     itemType = 'field';
                     prLabel = item.field_value;
+                    configField = item.field_value
                 } else if (item.hasOwnProperty('area_value')) {
                     itemType = 'area';
                     prLabel = item.area_value;
+                    configField = item.area_value
                 } else if (item.hasOwnProperty('file_value')) {
                     itemType = 'file';
                     prLabel = item.file_value;
+                    configField = item.file_value
                 }
 
                 priceLabel = <OptionLabel title={''} item={prLabel} />
@@ -71,7 +80,8 @@ class CustomOptions extends OptionBase {
                         </div>
                         <div className="option-content">
                             <div className="option-list">
-                                {mainClass.renderContentOption(item, itemType)}
+                                {mainClass.renderContentOption(item, itemType, configField)}
+                                <p id={`error-option-${item.option_id}`} className="option-field-error"></p>
                             </div>
                         </div>
                     </div>
@@ -92,43 +102,43 @@ class CustomOptions extends OptionBase {
         }
     }
 
-    renderContentOption = (ObjOptions, type) => {
+    renderContentOption = (ObjOptions, type, configField) => {
         const id = ObjOptions.option_id;
-
+        console.log(this.selected)
         if (type === 'multiple' || type === 'checkbox') {
             return this.renderMutilCheckbox(ObjOptions, id)
         }
         if (type === 'radio') {
-            return <Radio data={ObjOptions} id={id} parent={this} />
+            return <Radio data={ObjOptions} id={id} parent={this} configField={configField} />
         }
         if (type === 'drop_down' || type === 'select') {
             return <div style={{ marginTop: -10 }}>
-                <Select data={ObjOptions} id={id} parent={this} />
+                <Select data={ObjOptions} id={id} parent={this} configField={configField} />
             </div>
         }
         if (type === 'date') {
             return <div style={{ marginTop: -10 }}>
-                <DatePicker id={id} parent={this} />
+                <DatePicker data={ObjOptions} id={id} parent={this} />
             </div>
         }
         if (type === 'time') {
             return <div style={{ marginTop: -10 }}>
-                <TimePicker id={id} parent={this} />
+                <TimePicker data={ObjOptions} id={id} parent={this} />
             </div>
         }
         if (type === 'date_time') {
             return (
                 <div style={{ marginTop: -10 }}>
-                    <DatePicker datetime={true} id={id} parent={this} />
-                    <TimePicker datetime={true} id={id} parent={this} />
+                    <DatePicker data={ObjOptions} datetime={true} id={id} parent={this} />
+                    <TimePicker data={ObjOptions} datetime={true} id={id} parent={this} />
                 </div>
             )
         }
         if (type === 'field') {
-            return <TextField id={id} parent={this} max_characters={ObjOptions.max_characters} />
+            return <TextField id={id} parent={this} type={type} data={ObjOptions} configField={configField}/>
         }
         if (type === 'area') {
-            return <TextField id={id} parent={this} type={type} />
+            return <TextField id={id} parent={this} type={type} data={ObjOptions} configField={configField}/>
         }
 
         if (type === 'file') {
@@ -252,9 +262,46 @@ class CustomOptions extends OptionBase {
         this.parentObj.Price.setCustomOptionPrice(exclT, inclT);
     }
 
+    validateCustomizeOption = () => {
+        const {app_options} = this.props
+        const errors = {}
+        if(app_options && app_options.custom_options) {
+            app_options.custom_options.forEach((option) => {
+                console.log(option)
+                const optionId = option.option_id
+                const configField = option.area_value || option.field_value || {}
+                let error = ''
+                if(option.required && (!this.selected[optionId] || !validateEmpty(this.selected[optionId]))) {
+                    error = Identify.__("This is a required field.")
+                } else if (configField.max_characters && Number(configField.max_characters) > 0 && this.selected[optionId].length > Number(configField.max_characters)) {
+                    error = Identify.__(`Please enter no more than %s characters.`).replace('%s', Number(configField.max_characters))
+                } else if (option.hasOwnProperty('date_value')) {
+                    const selected = this.selected[optionId]
+                    if(!selected.hasOwnProperty('date') && !selected.hasOwnProperty('time')) {
+                        error = Identify.__('This is a required field.')
+                    } else if (!selected.hasOwnProperty('date')) {
+                        error = Identify.__('Missing date value.')
+                    } else if (!selected.hasOwnProperty('time')) {
+                        error = Identify.__('Missing time value.')
+                    }
+                }
+
+                $(`#error-option-${optionId}`).text(error)
+                if(error && error.trim() !== '') {
+                    errors[optionId] = error;
+                }
+              
+            })
+        }
+
+        return errors;
+    }
+
     getParams = () => {
-        if (!this.checkOptionRequired()) {
-            return false;
+        const errors = this.validateCustomizeOption()
+        if(Object.keys(errors).length > 0) {
+            // this.setState({errors})
+            return false
         }
         this.setParamOption('options');
         return this.params;

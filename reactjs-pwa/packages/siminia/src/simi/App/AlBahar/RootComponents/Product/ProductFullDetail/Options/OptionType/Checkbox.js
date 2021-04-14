@@ -13,6 +13,16 @@ class CheckboxField extends Abstract {
         }
     }
 
+    validateField = (value) => {
+        const {item, id} = this.props
+        let error = ''
+        if(item.required && (value.length && value.length === 0)) {
+            error = Identify.__('This is a required field.')
+        }
+
+        $(`#error-option-${id}`).text(error)
+    }   
+
     updateCheck = () => {
         this.setState((oldState) => {
             const checked = !oldState.checked;
@@ -26,6 +36,7 @@ class CheckboxField extends Abstract {
                 const index = multiChecked.indexOf(this.props.value);
                 multiChecked.splice(index,1);
             }
+            this.validateField(multiChecked);
             this.updateSelected(key,multiChecked);
             return {checked };
         });
@@ -55,7 +66,6 @@ class CheckboxField extends Abstract {
                     />}
                     label={<OptionLabel title={title} item={item} type_id={this.type_id}/>}
                 />
-
             </div>
         );
     }

@@ -156,6 +156,14 @@
 
     .options {
         padding: 0 1.5rem;
+        .option-field-error {
+            color: #e02b27;
+        }
+        .options-error-form {
+            textarea {
+                border: 1px solid #e02b27;
+            } 
+        }
         .option-item-type {
             &.option-item-type-size {
                 button {

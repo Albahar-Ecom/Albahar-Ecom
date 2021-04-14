@@ -2,6 +2,7 @@ import React from 'react';
 import Abstract from "./Abstract";
 import OptionLabel from '../OptionLabel'
 import Identify from 'src/simi/Helper/Identify'
+import {validateEmpty} from 'src/simi/Helper/Validation'
 
 class RadioField extends Abstract {
     constructor(props) {
@@ -12,7 +13,19 @@ class RadioField extends Abstract {
         };
     }
 
+    validateField = (value) => {
+        const {data, id} = this.props
+        let error = ''
+        
+        if(data.required && !validateEmpty(value)) {
+            error = Identify.__('This is a required field.')
+        }
+
+        $(`#error-option-${id}`).text(error)
+    }   
+
     updateCheck = (e, val) => {
+        this.validateField(val)
         this.setState({ value: val });
         this.updateSelected(this.key, val);
         this.updateForBundle(val, 'radio');
@@ -94,6 +107,7 @@ class RadioField extends Abstract {
 
     render = () => {
         const { data } = this.props;
+        const {error} = this.state; 
         let items = null;
         if (this.type_id === 'bundle') {
             items = this.renderWithBundle(data);

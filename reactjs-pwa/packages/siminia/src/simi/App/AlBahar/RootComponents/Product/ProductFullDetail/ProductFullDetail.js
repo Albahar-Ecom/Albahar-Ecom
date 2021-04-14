@@ -80,8 +80,10 @@ class ProductFullDetail extends Component {
             const customOptParams = this.customOption.getParams()
             if (customOptParams && customOptParams.options) {
                 params['options'] = customOptParams.options
-            } else
+            } else {
+                this.missingCustomOption = true
                 this.missingOption = true
+            }
         }
         if (this.bundleOption) {
             const bundleOptParams = this.bundleOption.getParams()
@@ -211,6 +213,9 @@ class ProductFullDetail extends Component {
             this.missingOption = false
             const params = this.prepareParams();
             if (this.missingOption) {
+                if(this.missingCustomOption) {
+                    return;
+                }
                 showToastMessage(Identify.__('Please select the options required (*)'));
                 return;
             }
@@ -388,11 +393,14 @@ class ProductFullDetail extends Component {
                     case 'simple':
                     case 'virtual':
                         if (options) {
+
                             if (!params.hasOwnProperty('options')) {
-                                showToastMessage(Identify.__('Please select the options required (*)'));
+                                // showToastMessage(Identify.__('Please select the options required (*)'));
                                 return;
                             }
-                            const paramOptions = params.options;
+
+                            const paramOptions = params.options || {};
+
                             let customizedOptions = [];
                             for (const opt in paramOptions) {
                                 if (!paramOptions[opt] || (paramOptions[opt] instanceof Array && paramOptions[opt].length < 1)

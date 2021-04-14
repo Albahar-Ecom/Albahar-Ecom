@@ -5,7 +5,9 @@ import Identify from "src/simi/Helper/Identify";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
+import {validateEmpty} from 'src/simi/Helper/Validation'
 const muiTheme = getMuiTheme({});
+
 class DateField extends Abstract {
 
     constructor(props){
@@ -14,6 +16,30 @@ class DateField extends Abstract {
             date : null
         }
     }
+
+    validateField = (value) => {
+        const {data, id, datetime, parent} = this.props
+        let error = ''
+        
+        if(data.required) {
+            if(datetime) {
+                const selected = parent.selected[id];
+                if(selected) {
+                    console.log(selected)
+                    if (!selected.hasOwnProperty('date')) {
+                        error = Identify.__('Missing date value')
+                    } else if (!selected.hasOwnProperty('time')) {
+                        error = Identify.__('Missing time value')
+                    } else if (!selected.hasOwnProperty('date') && !selected.hasOwnProperty('time')) {
+                        error = Identify.__('This is a required field.')
+                    }
+                }
+            } else if (!validateEmpty(value)) {
+                error = Identify.__('This is a required field.')
+            }   
+        }
+        $(`#error-option-${id}`).text(error)
+    }     
 
     handleChange = (event, date) => {
         this.setState({
@@ -32,6 +58,7 @@ class DateField extends Abstract {
         }else{
             this.deleteSelected(key)
         }
+        this.validateField(date)
     };
 
     convertDate = (date) => {

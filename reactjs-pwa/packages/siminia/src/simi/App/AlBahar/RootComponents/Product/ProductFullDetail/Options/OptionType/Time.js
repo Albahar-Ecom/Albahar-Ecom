@@ -5,11 +5,37 @@ import Identify from "src/simi/Helper/Identify";
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
 import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import CloseIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/Close';
+import {validateEmpty} from 'src/simi/Helper/Validation'
+
 const muiTheme = getMuiTheme({});
 class Time extends Abstract {
     state = {
         time : null,
     };
+
+    validateField = (value) => {
+        const {data, id, datetime, parent} = this.props
+        let error = ''
+        
+        if(data.required) {
+            if(datetime) {
+                const selected = parent.selected[id];
+                if(selected) {
+                    console.log(selected)
+                    if (!selected.hasOwnProperty('date')) {
+                        error = Identify.__('Missing date value')
+                    } else if (!selected.hasOwnProperty('time')) {
+                        error = Identify.__('Missing time value')
+                    } else if (!selected.hasOwnProperty('date') && !selected.hasOwnProperty('time')) {
+                        error = Identify.__('This is a required field.')
+                    }
+                }
+            } else if (!validateEmpty(value)) {
+                error = Identify.__('This is a required field.')
+            }   
+        }
+        $(`#error-option-${id}`).text(error)
+    }   
 
     handleChangeTimePicker = (event, time) => {
         this.setState({time});
@@ -26,6 +52,7 @@ class Time extends Abstract {
         }else{
             this.deleteSelected()
         }
+        this.validateField(time)
     };
 
     convertTime = (time) => {

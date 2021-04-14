@@ -5,6 +5,7 @@ import SelectField from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import OptionLabel from '../OptionLabel'
+import {validateEmpty} from 'src/simi/Helper/Validation'
 
 class Select extends Abstract {
     constructor(props){
@@ -21,9 +22,21 @@ class Select extends Abstract {
         }
     }
 
+    validateField = (value) => {
+        const {data, id} = this.props
+        let error = ''
+        
+        if(data.required && !validateEmpty(value)) {
+            error = Identify.__('This is a required field.')
+        }
+
+        $(`#error-option-${id}`).text(error)
+    }   
+
     handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
         const value = event.target.value.toString();
+        this.validateField(value)
+        this.setState({ [event.target.name]: event.target.value });
         const key = this.key;
         if(value !== 0){
             this.updateSelected(key,value);
@@ -73,6 +86,7 @@ class Select extends Abstract {
 
     render = () => {
         const {data} = this.props;
+        const {error} = this.state;
         const type_id = this.props.parent.getProductType();
         let items = null;
         if(type_id === 'bundle'){
@@ -99,7 +113,6 @@ class Select extends Abstract {
                         {items}
                     </SelectField>
                 </FormControl>
-
             </div>
 
         );
