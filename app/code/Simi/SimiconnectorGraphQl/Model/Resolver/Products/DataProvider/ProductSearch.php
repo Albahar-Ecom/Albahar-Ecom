@@ -148,9 +148,8 @@ class ProductSearch
             $collection->setVisibility(array('in' => array(Visibility::VISIBILITY_IN_CATALOG, Visibility::VISIBILITY_BOTH)));
             $helper->category = $category;
         } else if (!$is_search || !$collection) {
-            $category = $this->categoryFactory->create()
-                ->load($this->storeManager->getStore()->getRootCategoryId());
-            $collection = $category->getProductCollection();
+            $product = $this->productFactory->create();
+            $collection = $product->getCollection();
             $collection->setVisibility(array('in' => array(Visibility::VISIBILITY_IN_CATALOG, Visibility::VISIBILITY_BOTH)));
         }
         $helper->builderQuery = $collection;
