@@ -28,4 +28,24 @@ class Sitemap extends \Magento\Sitemap\Model\Sitemap
 
         return $this->_getStoreBaseUrl($type) . ltrim($url, '/');
     }
+
+    public function generateXml()
+    {
+        $parent = parent::generateXml();
+
+        $absolutePath = $this->_getBaseDir();
+
+        $pwaRootPath = $absolutePath . 'reactjs-pwa/packages/siminia/static/';
+
+        $siteMapFileName = $this->getSitemapFilename();
+        $siteMapPath = $this->_getBaseDir() . $siteMapFileName;
+             
+        $pwaPath = $pwaRootPath . $siteMapFileName;
+
+        if(is_file($pwaRootPath) || is_dir($pwaRootPath)) {
+            copy($siteMapPath, $pwaPath);
+        }
+
+        return $parent;
+    }
 }
