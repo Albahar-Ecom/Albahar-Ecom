@@ -131,6 +131,7 @@ class Storeviews extends Apiabstract
                 'title_prefix' => $this->getStoreConfig('design/head/title_prefix'),
                 'title_suffix' => $this->getStoreConfig('design/head/title_suffix'),
                 'default_keywords' => $this->getStoreConfig('design/head/default_keywords'),
+                'add_store_currency_id' => '1',
             ],
             'manufacturer' => [
                 'brand_view' => '0',
