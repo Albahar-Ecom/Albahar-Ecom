@@ -78,6 +78,7 @@ class GetStoreviewInfoAfter implements ObserverInterface
 		$menusListing1 = $this->getStoreConfig( 'siminiaconfig/footer/footer_1_menu' );
         $menuTitle2    = $this->getStoreConfig( 'siminiaconfig/footer/footer_2_title' );
 		$menusListing2 = $this->getStoreConfig( 'siminiaconfig/footer/footer_2_menu' );
+        $hotline       = $this->getStoreConfig('siminiaconfig/footer/hotline');
 		
         $menus1        = [];
 		$list         = $this->getSerializedConfigValue( $menusListing1 );
@@ -95,6 +96,14 @@ class GetStoreviewInfoAfter implements ObserverInterface
 			}
 		}
 
+        $hotlines       = [];
+        $list         = $this->getSerializedConfigValue( $hotline );
+		if ( $list && count( $list ) > 0 ) {
+			foreach ( $list as $key => $item ) {
+				$menus2[] = $item;
+			}
+		}
+
 		return [
 			'facebook_link'  => $facebookLink,
 			'instagram_link' => $instagramLink,
@@ -103,6 +112,7 @@ class GetStoreviewInfoAfter implements ObserverInterface
             'menu_title_2'   => $menuTitle2,
 			'menus_1'        => $menus1,
             'menus_2'        => $menus2,
+            'hotlines'       => $hotlines
 		];
 	}
 }

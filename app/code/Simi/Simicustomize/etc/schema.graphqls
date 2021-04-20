@@ -37,6 +37,7 @@ type SimiFooterConfig {
 	menu_title_2: String
 	menus_1: [SimiFooterMenu]
 	menus_2: [SimiFooterMenu]
+	listHotline : [SimiContactHotLine]
 }
 
 type SimiFooterMenu {
