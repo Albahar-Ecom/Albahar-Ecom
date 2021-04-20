@@ -273,6 +273,15 @@ class Quoteitems extends Apiabstract
             } else {
                 $quoteitem['product']['is_salable'] = 1;
             }
+            if ($quoteitem['product_type'] === 'configurable' && $quoteitem['qty_options']) {
+                foreach ($quoteitem['qty_options'] as $key => $value) {
+                     $productChildModel    = $this->simiObjectManager->create('Magento\Catalog\Model\Product')->load($key);
+                     if (!$productChildModel->isSalable()) {
+                         $is_can_checkout = '0';
+                         $quoteitem['product']['is_salable'] = 0;
+                     }
+                }
+            }
             
             $info[]              = $quoteitem;
             $all_ids[]           = $entity->getId();
