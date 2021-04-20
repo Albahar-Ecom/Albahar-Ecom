@@ -324,7 +324,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         if ($arrayIDs && count($arrayIDs)) {
             $childProducts = $this->productCollectionFactory->create()
                 ->addAttributeToSelect('*')
-                ->addAttributeToFilter('type_id', 'simple');
+                ->addAttributeToFilter('type_id', ['simple', 'virtual']);
             $select = $childProducts->getSelect();
             $select->joinLeft(
                 array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
@@ -333,9 +333,22 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             );
             $select = $childProducts->getSelect();
             $select->where("link_table.parent_id IN (" . implode(',', array_keys($arrayIDs)) . ")");
-            foreach ($childProducts->getAllIds() as $allProductId) {
-                $childProductsIds[$allProductId] = '1';
-            }
+
+            $arrChilds = [];
+	        foreach ($arrayIDs as $product_id => $product_value){
+		        /* @var \Magento\Catalog\Model\Product $product */
+		        $product = $this->productRepository->getById($product_id);
+		        $typeInstance = $product->getTypeInstance();
+		        if ( $product->getTypeId() === \Magento\Bundle\Model\Product\Type::TYPE_CODE || $product->getTypeId() === \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE  ) {
+			        $requiredChildrenIds = $typeInstance->getChildrenIds($product_id, true);
+			        $arrChilds[] = array_reduce($requiredChildrenIds, 'array_merge', array());
+		        }
+	        }
+	        $reduceArrChilds = array_reduce($arrChilds, 'array_merge', array());
+	        $childMerged = array_unique (array_merge ($childProducts->getAllIds(), $reduceArrChilds));
+	        foreach ($childMerged as $allProductId) {
+		        $childProductsIds[$allProductId] = '1';
+	        }
         }
 
         foreach ($attributeCollection as $attribute) {
