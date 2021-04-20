@@ -1,0 +1,38 @@
+fragment GroupOptions on GroupedProduct {
+    items {
+        qty
+        position
+        product {
+            id
+            sku
+            name
+            type_id
+            url_key
+            price_range {
+                maximum_price {
+                    final_price {
+                        value
+                        currency
+                    }
+                }
+                minimum_price {
+                    final_price {
+                        value
+                        currency
+                    }
+                }
+            }
+            price_tiers {
+                quantity
+                final_price {
+                    currency
+                    value
+                }
+                discount {
+                    amount_off
+                    percent_off
+                }
+            }
+        }
+    }
+}

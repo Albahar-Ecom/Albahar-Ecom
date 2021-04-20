@@ -78,7 +78,7 @@ class GetStoreviewInfoAfter implements ObserverInterface
 		$menusListing1 = $this->getStoreConfig( 'siminiaconfig/footer/footer_1_menu' );
         $menuTitle2    = $this->getStoreConfig( 'siminiaconfig/footer/footer_2_title' );
 		$menusListing2 = $this->getStoreConfig( 'siminiaconfig/footer/footer_2_menu' );
-        $hotline       = $this->getStoreConfig('siminiaconfig/footer/hotline');
+        $hotline       = $this->getStoreConfig( 'siminiaconfig/footer/hotline' );
 		
         $menus1        = [];
 		$list         = $this->getSerializedConfigValue( $menusListing1 );
@@ -100,7 +100,7 @@ class GetStoreviewInfoAfter implements ObserverInterface
         $list         = $this->getSerializedConfigValue( $hotline );
 		if ( $list && count( $list ) > 0 ) {
 			foreach ( $list as $key => $item ) {
-				$menus2[] = $item;
+				$hotlines[] = $item;
 			}
 		}
 

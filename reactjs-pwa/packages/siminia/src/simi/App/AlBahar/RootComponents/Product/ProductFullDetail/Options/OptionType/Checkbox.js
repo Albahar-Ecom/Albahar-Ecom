@@ -3,6 +3,7 @@ import Abstract from "./Abstract";
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import OptionLabel from '../OptionLabel'
+import TierPrices from '../../TierPrices'
 
 class CheckboxField extends Abstract {
     constructor(props) {
@@ -45,29 +46,43 @@ class CheckboxField extends Abstract {
     render = () => {
         this.className += ' checkbox-option';
         const { item, title } = this.props;
-        return (
-            <div className="option-value-item-checkbox" id={`check-box-option-${this.props.value}`} style={{width : '100%'}}>
-                <FormControlLabel
-                    style={{
-                        color:'#333'
-                    }}
-                    control={<Checkbox
-                        checked={this.state.checked}
-                        onChange={() => this.updateCheck()}
-                        style={{
-                            fontFamily : 'Montserrat, sans-serif',
-                            color: "#0082FF"
-                        }}
-                        
-                        // classes={{
-                        //     root: classes.root,
-                        //     checked: classes.checked,
-                        // }}
-                    />}
-                    label={<OptionLabel title={title} item={item} type_id={this.type_id}/>}
-                />
-            </div>
-        );
+
+        const {product} = item || {}
+
+        const {stock_status, price_tiers, price_range, type_id} = product
+
+        const isOutOfStock = stock_status && stock_status === "OUT_OF_STOCK"
+
+        if(!isOutOfStock && (type_id === 'simple' || type_id === 'virtual')) {
+            return (
+                <div className="option-value-item-checkbox-wrapper">
+                    <div className="option-value-item-checkbox" id={`check-box-option-${this.props.value}`} style={{width : '100%'}}>
+                        <FormControlLabel
+                            style={{
+                                color:'#333'
+                            }}
+                            control={<Checkbox
+                                checked={this.state.checked}
+                                onChange={() => this.updateCheck()}
+                                style={{
+                                    fontFamily : 'Montserrat, sans-serif',
+                                    color: "#0082FF"
+                                }}
+                                
+                                // classes={{
+                                //     root: classes.root,
+                                //     checked: classes.checked,
+                                // }}
+                            />}
+                            label={<OptionLabel title={title} item={item} type_id={this.type_id}/>}
+                        />
+                    </div>
+                    {price_tiers && <TierPrices price_tiers={price_tiers} priceObj={price_range} />}
+                </div>  
+            );
+        }
+        
+        return null;
     }
 }
 export default CheckboxField;

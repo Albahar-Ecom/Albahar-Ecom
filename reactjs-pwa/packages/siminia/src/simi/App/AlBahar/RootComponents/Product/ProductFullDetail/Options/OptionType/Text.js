@@ -87,6 +87,7 @@ class Text extends Abstract {
     }
 
     render(){
+        console.log(this.props)
         const {configField, type} = this.props
         let content = this.renderTextField()
         if(type === 'area') {

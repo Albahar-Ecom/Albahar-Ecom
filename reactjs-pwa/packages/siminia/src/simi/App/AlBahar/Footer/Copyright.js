@@ -5,29 +5,31 @@ import MasterCardImage from '../Image/visa_master.png'
 
 const Copyright = props => {
     const { classes } = props;
-    const copyright = `${new Date().getFullYear()} ${Identify.__('Simicart')}`;
+    // const copyright = `${new Date().getFullYear()} ${Identify.__('Simicart')}`;
     const storeConfig = Identify.getStoreConfig();
-    let footer_link = null;
+    // let footer_link = null;
     let footer_title1 = null;
-    let footer_title2 = null;
+    // let footer_title2 = null;
+    // if (storeConfig && storeConfig.simiStoreConfig &&
+    //     storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.catalog &&
+    //     storeConfig.simiStoreConfig.config.catalog.frontend &&
+    //     storeConfig.simiStoreConfig.config.catalog.frontend.footer_link) {
+    //     footer_link = storeConfig.simiStoreConfig.config.catalog.frontend.footer_link
+    // }
     if (storeConfig && storeConfig.simiStoreConfig &&
         storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.catalog &&
         storeConfig.simiStoreConfig.config.catalog.frontend &&
-        storeConfig.simiStoreConfig.config.catalog.frontend.footer_link) {
-        footer_link = storeConfig.simiStoreConfig.config.catalog.frontend.footer_link
+        storeConfig.simiStoreConfig.config.catalog.frontend.footer_title2) {
+        footer_title1 = storeConfig.simiStoreConfig.config.catalog.frontend.footer_title2
     }
-    if (storeConfig && storeConfig.simiStoreConfig &&
-        storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.catalog &&
-        storeConfig.simiStoreConfig.config.catalog.frontend &&
-        storeConfig.simiStoreConfig.config.catalog.frontend.footer_link) {
-        footer_title1 = storeConfig.simiStoreConfig.config.catalog.frontend.footer_title1
-    }
-    if (storeConfig && storeConfig.simiStoreConfig &&
-        storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.catalog &&
-        storeConfig.simiStoreConfig.config.catalog.frontend &&
-        storeConfig.simiStoreConfig.config.catalog.frontend.footer_link) {
-        footer_title2 = storeConfig.simiStoreConfig.config.catalog.frontend.footer_title2
-    }
+
+    console.log(footer_title1)
+    // if (storeConfig && storeConfig.simiStoreConfig &&
+    //     storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.catalog &&
+    //     storeConfig.simiStoreConfig.config.catalog.frontend &&
+    //     storeConfig.simiStoreConfig.config.catalog.frontend.footer_link) {
+    //     footer_title2 = storeConfig.simiStoreConfig.config.catalog.frontend.footer_title2
+    // }
 
     return (
         <div className={classes["app-copyright"]}>
@@ -41,7 +43,7 @@ const Copyright = props => {
                     </div>
                     <div className="col-xs-12">
                         <div className={classes["copy-right"]}> 
-                            &copy; {copyright}
+                            {footer_title1}
                         </div>
                     </div>
                 </div>

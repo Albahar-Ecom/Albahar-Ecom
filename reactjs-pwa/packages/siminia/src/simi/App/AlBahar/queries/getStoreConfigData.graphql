@@ -157,6 +157,9 @@ query storeConfigData($storeId: Int, $currency: String) {
                     text
                     url
                 }
+                hotlines {
+                    contact_hotline
+                }
             }
         }
     }

@@ -19,7 +19,6 @@ const Footer = props => {
     const isPhone = windowSize.innerWidth < 1024;
     const [expanded, setExpanded] = useState(null);
     const footerConfig = getFooterConfig()
-    const pwaContact = getPwaContact()
     let menus1 = []
     let menuTitle1 = null
     if(footerConfig && footerConfig.menu_title_1) {
@@ -48,21 +47,18 @@ const Footer = props => {
     if(footerConfig && footerConfig.instagram_link) {
         instagramLink = footerConfig.instagram_link
     }
-    let hostline = null;
+    let hostlines = null;
 
-    if( pwaContact 
-        && pwaContact.listHotline 
-        && pwaContact.listHotline.length > 0
-        && pwaContact.listHotline.length > 0
-        && pwaContact.listHotline[0].contact_hotline
+    if( footerConfig 
+        && footerConfig.hotlines 
+        && footerConfig.hotlines.length > 0
     ) {
-        hostline = pwaContact.listHotline[0].contact_hotline
+        hostlines = footerConfig.hotlines
     }
     const pagec1 = 1;
     const pagep2 = 2;
 
     const listPages = pages => {
-
         let result = null;
         if (pages.length > 0) {
             result = pages.map((page, index) => {
@@ -77,6 +73,15 @@ const Footer = props => {
         }
 
         return <ul>{result}</ul>;
+    }
+
+    let hostlinesHTML = null
+    if(hostlines) {
+        hostlinesHTML =  hostlines.map((hostline, index) => (
+            <li key={index}> 
+                <a href={`tel:${hostline.contact_hotline}`}>{hostline.contact_hotline}</a>
+            </li>
+        ))
     }
 
     const handleExpand = (expanded) => {
@@ -118,10 +123,8 @@ const Footer = props => {
                             <span className={classes["footer--custom_title"]}>
                                 {Identify.__("Get in touch today on")}
                             </span>
-                            {hostline && <ul className={classes["list-contact"]}>
-                                <li>
-                                    <a href={`tel:${hostline}`}>{hostline}</a>
-                                </li>
+                            {hostlinesHTML && <ul className={classes["list-contact"]}>
+                                {hostlinesHTML}
                             </ul>}
                             <span
                                 className={classes["footer--custom_title"]}
@@ -146,7 +149,6 @@ const Footer = props => {
                         </div>
                     </div>
                 </div>
-
             </div>
             <Copyright isPhone={isPhone} classes={classes} />
         </div>

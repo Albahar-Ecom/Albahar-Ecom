@@ -3,6 +3,7 @@ import Identify from 'src/simi/Helper/Identify';
 import { formatPrice as helperFormatPrice } from 'src/simi/Helper/Pricing';
 import OptionBase from '../OptionBase'
 import {Qty} from 'src/simi/BaseComponents/Input'
+import TierPrices from '../../TierPrices'
 
 require('./groupedoptions.scss')
 
@@ -39,7 +40,9 @@ class GroupOptions extends OptionBase {
         const { product } = attribute;
         const id = product.id
         const qty = attribute.qty;
-        const { price_range } = product;
+        const { price_range, price_tiers } = product;
+
+        console.log(price_tiers)
 
         return (
             <div id={`attribute-${id}`} key={Identify.randomString(5)} className={`row product-options-group-item`}>
@@ -58,6 +61,9 @@ class GroupOptions extends OptionBase {
                             onChange={() => this.updatePrices()}
                         />
                     }
+                </div>
+                <div className="col-sm-12">
+                    {price_tiers && <TierPrices price_tiers={price_tiers} priceObj={price_range}/> }
                 </div>
             </div>);
     }

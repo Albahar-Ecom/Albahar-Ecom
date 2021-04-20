@@ -27,6 +27,7 @@ import AddToWishlist from './AddToWishlist';
 import * as Constants from 'src/simi/Config/Constants';
 import TierPrices from './TierPrices';
 import Pdetailsbrand from '../../../Shopbybrand/components/pdetailsbrand/index';
+import {getChildProductSelected} from '../../../Helper'
 
 import {
     ADD_CONFIGURABLE_MUTATION,
@@ -455,9 +456,25 @@ class ProductFullDetail extends Component {
         const { optionCodes, optionSelections } = state;
         const { history, toggleMessages } = props;
         const product = prepareProduct(props.product);
-        const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, price_tiers } = product;
+        const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, variants } = product;
         const short_desc = (product.short_description && product.short_description.html) ? product.short_description.html : '';
-        const hasStock = stock_status && stock_status === 'OUT_OF_STOCK' ? false : true;
+
+        const childProduct = getChildProductSelected(variants, optionSelections)
+
+        let priceTiers = product.price_tiers
+        if (childProduct && childProduct.product && childProduct.product.price_tiers) {
+            priceTiers = childProduct.product.price_tiers
+        }
+
+        let hasStock = stock_status && stock_status === 'OUT_OF_STOCK' ? false : true;
+        if(childProduct && childProduct.product && childProduct.product.stock_status) {
+            hasStock = childProduct.product.stock_status === 'OUT_OF_STOCK' ? false : true;
+        }
+
+        let priceObj = product.price
+        if (childProduct && childProduct.product.price) {
+            priceObj = childProduct.product.price
+        }
 
         let mutationType = ADD_SIMPLE_MUTATION;
         switch (type_id) {
@@ -559,7 +576,7 @@ class ProductFullDetail extends Component {
                         {review_count ? Identify.__('Submit Review') : Identify.__('Be the first to review this product')}
                     </div> */}
                     <div className="product-price">
-                        <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections} />
+                        <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections} stockStatus={hasStock}/>
                     </div>
                     {
                         sku &&
@@ -567,7 +584,7 @@ class ProductFullDetail extends Component {
                             <span className='sku-label'>{Identify.__('Sku') + ": "} {sku}</span>
                         </div>
                     }
-                    {price_tiers && <TierPrices price_tiers={price_tiers} />}
+                    {priceTiers && <TierPrices price_tiers={priceTiers} priceObj={priceObj}/>}
                     <Pdetailsbrand product={product} />
                     {short_desc && <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>}
                     <div className="options">{productOptions}</div>

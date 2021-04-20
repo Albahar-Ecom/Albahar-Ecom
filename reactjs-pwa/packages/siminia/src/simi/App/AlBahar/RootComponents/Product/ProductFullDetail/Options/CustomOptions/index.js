@@ -267,7 +267,6 @@ class CustomOptions extends OptionBase {
         const errors = {}
         if(app_options && app_options.custom_options) {
             app_options.custom_options.forEach((option) => {
-                console.log(option)
                 const optionId = option.option_id
                 const configField = option.area_value || option.field_value || {}
                 let error = ''

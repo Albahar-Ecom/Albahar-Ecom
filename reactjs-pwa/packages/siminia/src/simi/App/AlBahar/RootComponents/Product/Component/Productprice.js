@@ -3,6 +3,7 @@ import Identify from 'src/simi/Helper/Identify';
 import Price from 'src/simi/BaseComponents/Price';
 import ObjectHelper from 'src/simi/Helper/ObjectHelper';
 import PropTypes from 'prop-types';
+import {getChildProductSelected} from '../../../Helper'
 
 require('./productprice.scss');
 
@@ -46,9 +47,17 @@ class ProductPrice extends React.Component {
 
         if (configurableOptionSelection && configurable_options && configurable_options.length && variants && variants.length && Object.values(sltdConfigOption).every(k => k !== 'undefined')) {
             const { variants } = data;
-            const findVariant = variants.find(({ attributes }) => attributes.find(({ value_index }) => Object.values(sltdConfigOption).includes(String(value_index))));
+            const findVariant = getChildProductSelected(variants, configurableOptionSelection)
+            // const findVariant = variants.find(({ attributes }) => attributes.find(({ value_index }) => Object.values(sltdConfigOption).includes(String(value_index))));
             if (findVariant){
                 price.regularPrice.amount.value = findVariant.product.price.regularPrice.amount.value;
+                price.minimalPrice.amount.value = findVariant.product.price.minimalPrice.amount.value;
+                price.maximalPrice.amount.value = findVariant.product.price.maximalPrice.amount.value;
+                price.has_special_price = (price.regularPrice.amount.value > price.minimalPrice.amount.value) ? true : false
+                if (price.has_special_price) {
+                    const sale_off = 100 - (price.minimalPrice.amount.value / price.regularPrice.amount.value) * 100;
+                    price.discount_percent = sale_off.toFixed(0);
+                }
             }
         }
     }
@@ -80,17 +89,16 @@ class ProductPrice extends React.Component {
     }
 
     render() {
-        const { data } = this.props;
-        const { stock_status } = data;
+        const { data, stockStatus } = this.props;
         const prices = this.calcPrices(data.price)
 
-        const stockLabel = stock_status === "IN_STOCK" ? Identify.__('In stock') : Identify.__('Out of stock');
+        const stockLabel = stockStatus ? Identify.__('In stock') : Identify.__('Out of stock');
 
         const priceLabel = (
             <div className='prices-layout'>
                 {
                     (data.type_id !== "grouped") &&
-                    <Price config={1} key={Identify.randomString(5)} prices={prices} type={data.type_id} />
+                    <Price config={1} key={Identify.randomString(5)} prices={prices} type={data.type_id} styleSpecialPrice={{colors: '#6d9eeb'}}/>
                 }
             </div>
         );
