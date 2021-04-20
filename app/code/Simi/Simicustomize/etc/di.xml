@@ -13,4 +13,5 @@
             <argument name="queryComplexity" xsi:type="number">500</argument>
         </arguments>
     </type>
+    <preference for="Magento\Sitemap\Model\Sitemap" type="Simi\Simicustomize\Model\Sitemap" />
 </config>

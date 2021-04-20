@@ -28,6 +28,7 @@ import * as Constants from 'src/simi/Config/Constants';
 import TierPrices from './TierPrices';
 import Pdetailsbrand from '../../../Shopbybrand/components/pdetailsbrand/index';
 import {getChildProductSelected} from '../../../Helper'
+import { Helmet } from "react-helmet";
 
 import {
     ADD_CONFIGURABLE_MUTATION,
@@ -450,6 +451,43 @@ class ProductFullDetail extends Component {
         }
     }
 
+    returnStructuredJSON = (prod, hasStock, app_reviews) => {
+        console.log(prod)
+        const simiStoreConfig = Identify.getStoreConfig();
+        const base_media_url = simiStoreConfig && simiStoreConfig.storeConfig.base_media_url || '';
+
+        const data = {
+            "@context": "http://schema.org/",
+            "@type": "Product",
+            "name": `${prod.name}`,
+            "sku": `${prod.sku}`,
+            "image": prod.media_gallery_entries && prod.media_gallery_entries.map((item) => base_media_url + 'catalog/product' + item.file),
+            "description": (prod.short_description && prod.short_description.html) ? prod.short_description.html : '',
+            "url": location.href,
+            "offers": {
+                "@type": "Offer",
+                "priceCurrency": `${prod.price.regularPrice.amount.currency || "NOK"}`,
+                "price": prod.price.regularPrice.amount.value ? `${parseFloat(prod.price.regularPrice.amount.value)}` : 0,
+                "seller": {
+                    "@type": "Kniveksperten",
+                    "name": "Kniveksperten"
+                },
+                "url": location.href,
+                "availability": !hasStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock"
+            }
+        };
+
+        if(prod.rating_summary > 0 && prod.review_count > 0) {
+            data.aggregateRating = {
+                "@type": "AggregateRating",
+                "ratingValue": `${prod.rating_summary}`,
+                "reviewCount": `${prod.rating_summary}`
+            }
+        }
+
+        return JSON.stringify(data);
+    }
+
     render() {
         hideFogLoading()
         const { productOptions, props, state } = this;
@@ -547,16 +585,18 @@ class ProductFullDetail extends Component {
         if(simiRelatedProduct && simiRelatedProduct.length && simiRelatedProduct.length > 0) {
             listLinkRelated = simiRelatedProduct
             relatedMaxProduct = simiRelatedProduct.length
-        }    
+        }
         const listLinkCrossSell = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'crosssell');
-
         return (
             <div className="container product-detail-root">
                 {this.breadcrumb(product)}
                 {TitleHelper.renderMetaHeader({
                     title: product.meta_title ? product.meta_title : product.name ? product.name : '',
-                    desc: product.meta_description ? product.meta_description : product.description ? product.description : ''
+                    desc: product.meta_description ? product.meta_description : product.description ? product.description.html : ''
                 })}
+                <Helmet encodeSpecialCharacters={false}>
+                    <script type="application/ld+json">{this.returnStructuredJSON(product, hasStock)}</script>
+                </Helmet>
                 <div className="title">
                     <h1 className="product-name">
                         <span>{ReactHTMLParse(name)}</span>

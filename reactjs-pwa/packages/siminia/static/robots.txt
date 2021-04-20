@@ -1,2 +1,70 @@
+# Crawlers Setup
 User-agent: *
-Allow: /
+Crawl-delay: 5
+
+# Allowable Index
+Allow: /*?p=
+Allow: /media/
+
+# Directories
+Disallow: /404/
+Disallow: /app/
+Disallow: /cgi-bin/
+Disallow: /downloader/
+Disallow: /includes/
+Disallow: /js/
+Disallow: /lib/
+Disallow: /magento/
+
+# Disallow:
+Disallow: /pkginfo/
+Disallow: /report/
+Disallow: /stats/
+Disallow: /var/
+
+# Paths (clean URLs)
+Disallow: /index.php/
+Disallow: /catalog/product_compare/
+Disallow: /catalog/category/view/
+Disallow: /catalog/product/view/
+Disallow: /catalogsearch/
+Disallow: /checkout/
+Disallow: /control/
+Disallow: /contacts/
+Disallow: /customer/
+Disallow: /customize/
+Disallow: /newsletter/
+Disallow: /poll/
+Disallow: /review/
+Disallow: /sendfriend/
+Disallow: /tag/
+Disallow: /wishlist/
+
+# Files
+Disallow: /cron.php
+Disallow: /cron.sh
+Disallow: /error_log
+Disallow: /install.php
+Disallow: /LICENSE.html
+Disallow: /LICENSE.txt
+Disallow: /LICENSE_AFL.txt
+Disallow: /STATUS.txt
+
+# Filters
+Disallow: /*?__store=
+Disallow: /*?id=
+Disallow: /*?dir=
+Disallow: /*?order=
+Disallow: /*?type=
+Disallow: /*?lasemekanisme=
+Disallow: /*?knivstal=
+Disallow: /*?designer=
+Disallow: /*?pris=
+
+# Paths (no clean URLs)
+Disallow: /*.php$
+Disallow: /*?p=*&
+Disallow: /*?SID=
+Disallow: /*?ajax=*&
+
+Sitemap: https://albahar.pwa-commerce.com/sitemap.xml
