@@ -8,6 +8,7 @@ fragment GroupOptions on GroupedProduct {
             name
             type_id
             url_key
+            stock_status
             price_range {
                 maximum_price {
                     final_price {

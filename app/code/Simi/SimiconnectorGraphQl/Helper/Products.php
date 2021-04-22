@@ -41,6 +41,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfigInterface,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory $attributeCollectionFactory,
+        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Search\Model\SearchCollectionInterface $searchCollection,
         \Magento\Framework\Pricing\Helper\Data $priceHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
@@ -65,6 +66,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         $this->categoryModelFactory = $categoryModelFactory;
         $this->productModelFactory = $productModelFactory;
         $this->currencyFactory = $currencyFactory;
+        $this->productRepository = $productRepository;
         parent::__construct($context);
     }
 

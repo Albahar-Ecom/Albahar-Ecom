@@ -40,9 +40,9 @@ class GroupOptions extends OptionBase {
         const { product } = attribute;
         const id = product.id
         const qty = attribute.qty;
-        const { price_range, price_tiers } = product;
+        const { price_range, price_tiers, stock_status } = product;
 
-        console.log(price_tiers)
+        if(stock_status === "OUT_OF_STOCK") return null
 
         return (
             <div id={`attribute-${id}`} key={Identify.randomString(5)} className={`row product-options-group-item`}>
