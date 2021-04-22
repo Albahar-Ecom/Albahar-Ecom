@@ -29,7 +29,7 @@ export const mapAddressData = rawAddressData => {
             street1: street[0],
             street2: street[1],
             country: country.code,
-            state: region.code ? region.code : region.label,
+            region: region.code ? region.code : region.label,
             company
         };
     } else {
