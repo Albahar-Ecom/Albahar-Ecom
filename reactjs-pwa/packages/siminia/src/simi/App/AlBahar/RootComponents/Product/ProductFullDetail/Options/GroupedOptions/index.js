@@ -2,7 +2,7 @@ import React from 'react';
 import Identify from 'src/simi/Helper/Identify';
 import { formatPrice as helperFormatPrice } from 'src/simi/Helper/Pricing';
 import OptionBase from '../OptionBase'
-import {Qty} from 'src/simi/BaseComponents/Input'
+import {Qty} from 'src/simi/App/AlBahar/BaseComponents/Input'
 import TierPrices from '../../TierPrices'
 
 require('./groupedoptions.scss')
@@ -41,7 +41,7 @@ class GroupOptions extends OptionBase {
         const id = product.id
         const qty = attribute.qty;
         const { price_range, price_tiers, stock_status } = product;
-
+        console.log('run')
         if(stock_status === "OUT_OF_STOCK") return null
 
         return (
