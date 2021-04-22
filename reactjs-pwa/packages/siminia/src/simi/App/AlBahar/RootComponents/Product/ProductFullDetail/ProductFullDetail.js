@@ -29,6 +29,7 @@ import TierPrices from './TierPrices';
 import Pdetailsbrand from '../../../Shopbybrand/components/pdetailsbrand/index';
 import {getChildProductSelected} from '../../../Helper'
 import { Helmet } from "react-helmet";
+import { stripHtml } from "../../../Helper"
 
 import {
     ADD_CONFIGURABLE_MUTATION,
@@ -587,12 +588,14 @@ class ProductFullDetail extends Component {
             relatedMaxProduct = simiRelatedProduct.length
         }
         const listLinkCrossSell = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'crosssell');
+        console.log(product.meta_description)
+        console.log(product.description.html)
         return (
             <div className="container product-detail-root">
                 {this.breadcrumb(product)}
                 {TitleHelper.renderMetaHeader({
                     title: product.meta_title ? product.meta_title : product.name ? product.name : '',
-                    desc: product.meta_description ? product.meta_description : product.description ? product.description.html : ''
+                    desc: product.meta_description ? product.meta_description : product.description ? stripHtml(product.description.html).trim() : ''
                 })}
                 <Helmet encodeSpecialCharacters={false}>
                     <script type="application/ld+json">{this.returnStructuredJSON(product, hasStock)}</script>
