@@ -5,6 +5,8 @@ import SelectField from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import OptionLabel from '../OptionLabel'
+import {validateEmpty} from 'src/simi/Helper/Validation'
+import TierPrices from '../../TierPrices'
 
 class Select extends Abstract {
     constructor(props){
@@ -21,9 +23,21 @@ class Select extends Abstract {
         }
     }
 
+    validateField = (value) => {
+        const {data, id} = this.props
+        let error = ''
+        
+        if(data.required && !validateEmpty(value)) {
+            error = Identify.__('This is a required field.')
+        }
+
+        $(`#error-option-${id}`).text(error)
+    }   
+
     handleChange = (event) => {
-        this.setState({ [event.target.name]: event.target.value });
         const value = event.target.value.toString();
+        this.validateField(value)
+        this.setState({ [event.target.name]: event.target.value });
         const key = this.key;
         if(value !== 0){
             this.updateSelected(key,value);
@@ -38,14 +52,17 @@ class Select extends Abstract {
         const items = [];
         for (const i in options) {
             const item = options[i];
-            const element = (
-                <MenuItem key={Identify.randomString(5)} name={this.props.key_field} value={Number(item.id)}>
-                    <div className="option-row" style={{alignItems : 'center',fontFamily: 'Montserrat , sans-serif'}}>
-                        {<OptionLabel title={item.product.name} type_id='bundle' item={item} style={{alignItems : 'center'}}/>}
-                    </div>
-                </MenuItem>
-            );
-            items.push(element);
+            const {product} = item || {}
+            if(product.stock_status === 'IN_STOCK' && (product.type_id === 'simple' || product.type_id === 'virtual')) {
+                const element = (
+                    <MenuItem key={Identify.randomString(5)} name={this.props.key_field} value={Number(item.id)}>
+                        <div className="option-row" style={{alignItems : 'center',fontFamily: 'Montserrat , sans-serif'}}>
+                            {<OptionLabel title={item.product.name} type_id='bundle' item={item} style={{alignItems : 'center'}}/>}
+                        </div>
+                    </MenuItem>
+                );
+                items.push(element);
+            }
         }
         return items;
     };
@@ -71,8 +88,30 @@ class Select extends Abstract {
         return <div></div>
     };
 
+    renderTierPrices(data) {
+        const {parent, id} = this.props
+        const {options} = data
+        const selected = parent.selected;
+        if(options && selected && selected[id]) {
+            const currentOption = options.find(option => option.id === Number(selected[id]))
+            if (
+                currentOption 
+                && currentOption.product 
+                && currentOption.product.price_tiers
+                && currentOption.product.price_range 
+            ) {
+                return <TierPrices price_tiers={currentOption.product.price_tiers} priceObj={currentOption.product.price_range}/>
+            }
+
+            return null
+        }
+
+        return null
+    }
+
     render = () => {
         const {data} = this.props;
+        const {error} = this.state;
         const type_id = this.props.parent.getProductType();
         let items = null;
         if(type_id === 'bundle'){
@@ -99,7 +138,7 @@ class Select extends Abstract {
                         {items}
                     </SelectField>
                 </FormControl>
-
+                {type_id === 'bundle' && this.renderTierPrices(data)}
             </div>
 
         );

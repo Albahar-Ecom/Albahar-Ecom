@@ -1,0 +1,269 @@
+query storeConfigData($storeId: Int, $currency: String) {
+    simiStoreConfig(storeId: $storeId, currency: $currency) {
+        store_id
+        currency
+        pwa_studio_client_ver_number
+        root_category_id
+        config {
+            base {
+                country_code
+                country_name
+                magento_version
+                locale_identifier
+                store_id
+                store_name
+                store_code
+                group_id
+                base_url
+                use_store
+                is_rtl
+                is_show_sample_data
+                currency_symbol
+                currency_code
+                currency_position
+                thousand_separator
+                decimal_separator
+                min_number_of_decimals
+                max_number_of_decimals
+                currencies {
+                    value
+                    title
+                    symbol
+                }
+                is_show_home_title
+                is_show_in_row_price
+                is_show_price_for_guest
+                open_url_in_app
+                connector_version
+                is_support_put
+                is_support_delete
+                default_title
+                default_description
+                title_prefix
+                title_suffix
+                default_keywords
+            }
+            checkout {
+                enable_guest_checkout
+                enable_agreements
+            }
+            tax {
+                tax_display_type
+                tax_display_shipping
+                tax_cart_display_price
+                tax_cart_display_subtotal
+            }
+            customer {
+                address_option {
+                    street_lines
+                    prefix_show
+                    middlename_show
+                    suffix_show
+                    dob_show
+                    taxvat_show
+                    gender_show
+                    gender_value {
+                        label
+                        value
+                    }
+                }
+                account_option {
+                    taxvat_show
+                }
+                password_validation {
+                    minimum_password_length
+                    required_character_classes_number
+                }
+                address_fields_config {
+                    enable
+                    company_show
+                    street_show
+                    country_id_show
+                    region_id_show
+                    city_show
+                    zipcode_show
+                    telephone_show
+                    fax_show
+                    prefix_show
+                    suffix_show
+                    dob_show
+                    gender_show
+                    taxvat_show
+                    street_default
+                    country_id_default
+                    region_id_default
+                    city_default
+                    zipcode_default
+                    telephone_default
+                }
+            }
+            catalog {
+                seo {
+                    product_url_suffix
+                    category_url_suffix
+                }
+                frontend {
+                    show_size_in_compare
+                    footer_title1
+                    footer_title2
+                    footer_link
+                }
+                review {
+                    catalog_review_allow_guest
+                }
+            }
+            pwacontactus {
+                listEmail {
+                    contact_email
+                }
+                listHotline {
+                    contact_hotline
+                }
+                listSms {
+                    contact_sms
+                }
+                listWebsite {
+                    contact_website
+                }
+                listOther {
+                    label
+                    value
+                }
+            }
+            rating_form {
+                rate_code
+                rate_options{
+                    key
+                    value
+                }
+            }
+            facebook_config {
+                app_id
+            }
+            google_config {
+                login_client_id
+            }
+            footer_config {
+                facebook_link
+                instagram_link
+                twitter_link
+                menu_title_1
+                menu_title_2
+                menus_1 {
+                    text
+                    url
+                }
+                menus_2 {
+                    text
+                    url
+                }
+                hotlines {
+                    contact_hotline
+                }
+            }
+        }
+    }
+    availableStores {
+        code
+        default_display_currency_code
+        id
+        locale
+        store_name
+    }
+    storeConfig {
+        id
+        copyright
+        code
+        website_id
+        locale
+        base_currency_code
+        default_display_currency_code
+        timezone
+        weight_unit
+        base_url
+        base_link_url
+        base_static_url
+        base_media_url
+        secure_base_url
+        secure_base_link_url
+        secure_base_static_url
+        secure_base_media_url
+    }
+    simiRootCate {
+        id
+        name
+        product_count
+        path
+      	position
+        children {
+            id
+            name
+            level
+            url_key
+            url_path
+            path
+            include_in_menu
+      	    position
+            image
+            children {
+                id
+                name
+                level
+                url_key
+                url_path
+                path
+                include_in_menu
+      			position
+                image
+                children {
+                    id
+                    name
+                    level
+                    url_key
+                    url_path
+                    path
+                    include_in_menu
+      				position
+                    image
+                    children {
+                        id
+                        name
+                        level
+                        url_key
+                        url_path
+                        path
+                        include_in_menu
+      					position
+                        image
+                    }
+                }
+            }
+        }
+    }
+    brandConfig {
+    	brand_list_name
+    	brandlist_style
+    	display_option
+    	brand_list_logo_width
+    	brand_list_logo_height
+    	color
+    	show_description
+	    show_product_qty
+	    custom_css
+	    show_brand_info
+	    logo_width_on_product_page
+	    logo_height_on_product_page
+    }
+    countries {
+        id
+        full_name_english
+        full_name_locale
+        two_letter_abbreviation
+        three_letter_abbreviation
+        available_regions {
+            id
+            code
+            name
+        }
+    }
+}

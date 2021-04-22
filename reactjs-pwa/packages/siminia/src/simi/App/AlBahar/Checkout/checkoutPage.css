@@ -141,6 +141,7 @@
     font-weight: 500;
     display: block;
     position: relative;
+    border-radius: 4px;
 }
 
 .review_order_button:hover {

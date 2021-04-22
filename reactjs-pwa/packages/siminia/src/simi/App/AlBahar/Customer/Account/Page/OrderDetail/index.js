@@ -252,7 +252,7 @@ const Detail = (props) => {
             <Whitebtn
                 className="back-all-orders"
                 text={Identify.__('Re-order')}
-                style={{ width: "20%", marginBottom: "10px" }}
+                style={{ width: "20%", marginBottom: "10px", borderRadius: "4px" }}
                 onClick={() => reorder(data.order_number)}
             />
             {renderTableItems()}

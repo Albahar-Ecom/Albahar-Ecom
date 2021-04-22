@@ -29,6 +29,7 @@ class SimiconnectorAddPaymentMethod implements ObserverInterface {
     public function execute(\Magento\Framework\Event\Observer $observer) {
         $object = $observer->getObject();           
         $object->addPaymentMethod('moneris', 1);
+        $object->addPaymentMethod('tap', 3);
         return;
     }
 

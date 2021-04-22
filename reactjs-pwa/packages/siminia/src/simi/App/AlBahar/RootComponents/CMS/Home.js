@@ -7,10 +7,24 @@ import DefaultHome from 'src/simi/App/AlBahar/Home'
 const Home = props => {
     const jsonSimiCart = Identify.getAppDashboardConfigs();
     const storeConfig = Identify.getStoreConfig();
-    let pb_page = null
+    let pb_page = null;
+    let home_title = Identify.__('Home Page');
+    let home_desc = '';
+    let home_keywords = '';
     if (jsonSimiCart !== null && storeConfig && storeConfig.storeConfig && storeConfig.storeConfig.id) {
         const config = jsonSimiCart['app-configs'][0];
         const storeId = storeConfig.storeConfig.id
+        if (storeConfig.hasOwnProperty('simiStoreConfig') && storeConfig.simiStoreConfig) {
+            if (storeConfig.simiStoreConfig.config.base.default_title) {
+                home_title = storeConfig.simiStoreConfig.config.base.default_title;
+            }
+            if (storeConfig.simiStoreConfig.config.base.default_description) {
+                home_desc = storeConfig.simiStoreConfig.config.base.default_description;
+            }
+            if (storeConfig.simiStoreConfig.config.base.default_keywords) {
+                home_keywords = <meta name="keywords" content={`${storeConfig.simiStoreConfig.config.base.default_keywords}`} />
+            }
+        }
         if (
             config.api_version &&
             parseInt(config.api_version) &&
@@ -36,6 +50,7 @@ const Home = props => {
             }
         }
     }
+
     // if (pb_page && pb_page.entity_id)
     if(false)
         return (
@@ -49,7 +64,9 @@ const Home = props => {
     else return (
         <React.Fragment>
             {TitleHelper.renderMetaHeader({
-                title:Identify.__('Home Page')
+                title: home_title,
+                desc: home_desc,
+                meta_other: home_keywords
             })}
             <DefaultHome {...props}/>
         </React.Fragment>

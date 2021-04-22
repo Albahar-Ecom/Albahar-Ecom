@@ -42,7 +42,9 @@ const BrandDetails = () => {
                 <span className={classes.breadCrumbSeparator}>{`/`}</span>
                 <span className={classes.breadCrumbText}>{`Brands`}</span>
             </div>
-            <h1>{brandInformation.page_title}</h1>
+            <div className="container">
+                <h1>{brandInformation.page_title}</h1>
+            </div>
             <Categories classes={classes} />
             <Products option_id={brandInformation.option_id} classes={classes} />
         </div>

@@ -30,14 +30,14 @@ class Customizepayments extends \Simi\Simiconnector\Model\Api\Apiabstract
     public function getPaymentList() {
         return array(
             array(
-                'paymentmethod' => 'ipay88_2',
+                'paymentmethod' => 'tap',
                 'title_url_action' => 'url_action',
                 'url_redirect' => $this->simiObjectManager->get('Magento\Framework\UrlInterface')
                     ->getUrl(''),
                 'url_success' => 'checkout/onepage/success',
                 'url_fail' => 'checkout/onepage/failure',
                 'url_cancel' => 'checkout/onepage/cancel',
-                'url_error' => 'checkout/onepage/failure ',
+                'url_error' => 'checkout/onepage/failure',
                 'message_success' => 'Thank you for purchasing',
                 'message_fail' => 'Sorry, payment failed',
                 'message_cancel' => 'Your order has been canceled',

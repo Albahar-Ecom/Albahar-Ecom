@@ -27,6 +27,8 @@ import AddToWishlist from './AddToWishlist';
 import * as Constants from 'src/simi/Config/Constants';
 import TierPrices from './TierPrices';
 import Pdetailsbrand from '../../../Shopbybrand/components/pdetailsbrand/index';
+import {getChildProductSelected} from '../../../Helper'
+import { Helmet } from "react-helmet";
 
 import {
     ADD_CONFIGURABLE_MUTATION,
@@ -80,8 +82,10 @@ class ProductFullDetail extends Component {
             const customOptParams = this.customOption.getParams()
             if (customOptParams && customOptParams.options) {
                 params['options'] = customOptParams.options
-            } else
+            } else {
+                this.missingCustomOption = true
                 this.missingOption = true
+            }
         }
         if (this.bundleOption) {
             const bundleOptParams = this.bundleOption.getParams()
@@ -211,6 +215,9 @@ class ProductFullDetail extends Component {
             this.missingOption = false
             const params = this.prepareParams();
             if (this.missingOption) {
+                if(this.missingCustomOption) {
+                    return;
+                }
                 showToastMessage(Identify.__('Please select the options required (*)'));
                 return;
             }
@@ -388,11 +395,14 @@ class ProductFullDetail extends Component {
                     case 'simple':
                     case 'virtual':
                         if (options) {
+
                             if (!params.hasOwnProperty('options')) {
-                                showToastMessage(Identify.__('Please select the options required (*)'));
+                                // showToastMessage(Identify.__('Please select the options required (*)'));
                                 return;
                             }
-                            const paramOptions = params.options;
+
+                            const paramOptions = params.options || {};
+
                             let customizedOptions = [];
                             for (const opt in paramOptions) {
                                 if (!paramOptions[opt] || (paramOptions[opt] instanceof Array && paramOptions[opt].length < 1)
@@ -441,15 +451,68 @@ class ProductFullDetail extends Component {
         }
     }
 
+    returnStructuredJSON = (prod, hasStock, app_reviews) => {
+        console.log(prod)
+        const simiStoreConfig = Identify.getStoreConfig();
+        const base_media_url = simiStoreConfig && simiStoreConfig.storeConfig.base_media_url || '';
+
+        const data = {
+            "@context": "http://schema.org/",
+            "@type": "Product",
+            "name": `${prod.name}`,
+            "sku": `${prod.sku}`,
+            "image": prod.media_gallery_entries && prod.media_gallery_entries.map((item) => base_media_url + 'catalog/product' + item.file),
+            "description": (prod.short_description && prod.short_description.html) ? prod.short_description.html : '',
+            "url": location.href,
+            "offers": {
+                "@type": "Offer",
+                "priceCurrency": `${prod.price.regularPrice.amount.currency || "NOK"}`,
+                "price": prod.price.regularPrice.amount.value ? `${parseFloat(prod.price.regularPrice.amount.value)}` : 0,
+                "seller": {
+                    "@type": "Kniveksperten",
+                    "name": "Kniveksperten"
+                },
+                "url": location.href,
+                "availability": !hasStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock"
+            }
+        };
+
+        if(prod.rating_summary > 0 && prod.review_count > 0) {
+            data.aggregateRating = {
+                "@type": "AggregateRating",
+                "ratingValue": `${prod.rating_summary}`,
+                "reviewCount": `${prod.rating_summary}`
+            }
+        }
+
+        return JSON.stringify(data);
+    }
+
     render() {
         hideFogLoading()
         const { productOptions, props, state } = this;
         const { optionCodes, optionSelections } = state;
         const { history, toggleMessages } = props;
         const product = prepareProduct(props.product);
-        const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, price_tiers } = product;
+        const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, variants } = product;
         const short_desc = (product.short_description && product.short_description.html) ? product.short_description.html : '';
-        const hasStock = stock_status && stock_status === 'OUT_OF_STOCK' ? false : true;
+
+        const childProduct = getChildProductSelected(variants, optionSelections)
+
+        let priceTiers = product.price_tiers
+        if (childProduct && childProduct.product && childProduct.product.price_tiers) {
+            priceTiers = childProduct.product.price_tiers
+        }
+
+        let hasStock = stock_status && stock_status === 'OUT_OF_STOCK' ? false : true;
+        if(childProduct && childProduct.product && childProduct.product.stock_status) {
+            hasStock = childProduct.product.stock_status === 'OUT_OF_STOCK' ? false : true;
+        }
+
+        let priceObj = product.price
+        if (childProduct && childProduct.product.price) {
+            priceObj = childProduct.product.price
+        }
 
         let mutationType = ADD_SIMPLE_MUTATION;
         switch (type_id) {
@@ -522,17 +585,18 @@ class ProductFullDetail extends Component {
         if(simiRelatedProduct && simiRelatedProduct.length && simiRelatedProduct.length > 0) {
             listLinkRelated = simiRelatedProduct
             relatedMaxProduct = simiRelatedProduct.length
-        }    
+        }
         const listLinkCrossSell = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'crosssell');
-
-        console.log(price_tiers)
         return (
             <div className="container product-detail-root">
                 {this.breadcrumb(product)}
                 {TitleHelper.renderMetaHeader({
                     title: product.meta_title ? product.meta_title : product.name ? product.name : '',
-                    desc: product.meta_description ? product.meta_description : product.description ? product.description : ''
+                    desc: product.meta_description ? product.meta_description : product.description ? product.description.html : ''
                 })}
+                <Helmet encodeSpecialCharacters={false}>
+                    <script type="application/ld+json">{this.returnStructuredJSON(product, hasStock)}</script>
+                </Helmet>
                 <div className="title">
                     <h1 className="product-name">
                         <span>{ReactHTMLParse(name)}</span>
@@ -552,9 +616,15 @@ class ProductFullDetail extends Component {
                         {review_count ? Identify.__('Submit Review') : Identify.__('Be the first to review this product')}
                     </div> */}
                     <div className="product-price">
-                        <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections} />
+                        <ProductPrice ref={(price) => this.Price = price} data={product} configurableOptionSelection={optionSelections} stockStatus={hasStock}/>
                     </div>
-                    {price_tiers && <TierPrices price_tiers={price_tiers} />}
+                    {
+                        sku &&
+                        <div className={`product-sku flex`} id="product-sku">
+                            <span className='sku-label'>{Identify.__('Sku') + ": "} {sku}</span>
+                        </div>
+                    }
+                    {priceTiers && <TierPrices price_tiers={priceTiers} priceObj={priceObj}/>}
                     <Pdetailsbrand product={product} />
                     {short_desc && <div className="product-short-desc">{ReactHTMLParse(short_desc)}</div>}
                     <div className="options">{productOptions}</div>

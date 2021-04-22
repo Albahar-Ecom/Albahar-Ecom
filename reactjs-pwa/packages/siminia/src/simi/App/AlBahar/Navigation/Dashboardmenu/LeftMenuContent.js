@@ -49,7 +49,7 @@ class LeftMenuContent extends React.Component{
                     icon={<UserIcon style={styles.iconMenu}/>}
                     titleStyle={styles.menu}
                     title={Identify.__('My Account')}
-                    onClick={()=>this.handleLink('/account.html')}
+                    onClick={()=>this.handleLink(this.props.isSignedIn ? '/account.html' : '/login.html')}
                 />
                 <CateTree
                     classes={classes}

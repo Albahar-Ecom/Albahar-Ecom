@@ -4,4 +4,12 @@
         <observer name="Simi_Simicustomize_simiconnectorgrapqhl_get_storeview_info_after"
                   instance="Simi\Simicustomize\Observer\GetStoreviewInfoAfter" />
     </event>
+    <event name="simi_simiconnector_model_server_initialize">
+        <observer name="Simi_Simicustomize_Simiconnector_Model_Server_Initialize" 
+                  instance="Simi\Simicustomize\Observer\SimiconnectorModelServerInitialize" />
+    </event>
+    <event name="simiconnector_system_rest_modify">
+        <observer name="Simi_Simicustomize_simiconnector_system_rest_modify"
+                  instance="Simi\Simicustomize\Observer\SimiSystemRestModify" />
+    </event>
 </config>

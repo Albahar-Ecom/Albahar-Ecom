@@ -6,7 +6,7 @@ class SocialButton extends React.Component {
         const { triggerLogin } = this.props;
         return (
             <span style={{ display: 'flex', alignItems: 'center', width: '100%', height: '100%', justifyContent: 'center' }} onClick={triggerLogin} {...this.props}>
-                { this.props.children}
+                { this.props.children }
             </span>
         );
     }

@@ -30,7 +30,6 @@ const Brands = props => {
     if (derivedErrorMessage)
         return <div className={classes.brandError}>{derivedErrorMessage}</div>;
 
-    console.log(brandSearchResult)
     let displayOption = 1; // 1 -logo and label, 0 - logo only, 2 - label only
     let brand_list_logo_height = 150;
     let brand_list_logo_width = 150;

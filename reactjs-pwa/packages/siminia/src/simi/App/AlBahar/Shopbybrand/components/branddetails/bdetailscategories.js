@@ -12,7 +12,7 @@ const BdetailsCategories = props => {
         return ''
     const { mpbrandCategories } = categoryData
     return (
-        <div className={classes.brandCategories}>
+        <div className={`container ${classes.brandCategories || ''}`}>
             <div className={classes.brandCategoriesTitle}>
                 <FormattedMessage
                     id={'brand.brandCategoryTitle'}

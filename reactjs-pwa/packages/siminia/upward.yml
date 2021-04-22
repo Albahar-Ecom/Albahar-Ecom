@@ -37,12 +37,15 @@ siminiaResponse:
         - matches: request.url.pathname
           pattern: '^/(robots\.txt|favicon\.ico|manifest\.json)'
           use: staticFromRoot
+        - matches: request.url.pathname
+          pattern: '^/(sitemap\.xml)'
+          use: staticFromRootForSiteMap
         #url resize added back
         - matches: request.url.pathname
           pattern: '^/img/resize/(\d+)'
           use: imageOpt
         - matches: fileExtension
-          pattern: '(js|json|png|svg|ico|css|txt|ttf|woff2|otf|gif)'
+          pattern: '(js|json|png|svg|ico|css|txt|ttf|woff2|otf|gif|xml|jpg)'
           use: siminiaStatic
         #param contain simiforceproxy would use proxy directly to magento site
         - matches: request.url.search
@@ -63,6 +66,28 @@ staticFromRoot:
             resolver: inline
             inline:
                 content-type: contentTypeFromExtension
+        body:
+            resolver: file
+            parse:
+              inline: text
+            file:
+                resolver: template
+                engine: mustache
+                provide:
+                    filename: request.url.pathname
+                template:
+                    resolver: inline
+                    inline: './static/{{ filename }}'
+
+staticFromRootForSiteMap:
+    inline:
+        status: 200
+        headers:
+            resolver: inline
+            inline:
+                content-type:
+                  resolver: inline
+                  inline: 'application/xml'
         body:
             resolver: file
             parse:
@@ -173,7 +198,7 @@ siminiaStaticIncludes:
         resolver: inline
         inline: './static'
 
-# The imageOpt object returns an HTTP redirect response (301) to Fastly, an 
+# The imageOpt object returns an HTTP redirect response (301) to Fastly, an
 # image optimization service.
 #
 # This is mainly used in production mode when the PWA does NOT have a

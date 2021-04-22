@@ -1,8 +1,8 @@
 #import "src/simi/queries/Fragments/SimiPrice"
-#import "src/simi/queries/Fragments/ConfigurableOptions"
-#import "src/simi/queries/Fragments/GroupOptions"
+#import "../Fragments/ConfigurableOptions"
+#import "../Fragments/GroupOptions"
 #import "src/simi/queries/Fragments/DownloadableProduct"
-#import "src/simi/queries/Fragments/BundleProduct"
+#import "../Fragments/BundleProduct"
 #import "src/simi/queries/Fragments/CustomizableProductInterface"
 query productDetail($urlKey: String, $onServer: Boolean!) {
     productDetail: simiproducts(filter: { url_key: { eq: $urlKey } }) {

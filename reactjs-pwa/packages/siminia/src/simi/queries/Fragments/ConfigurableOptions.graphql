@@ -42,6 +42,17 @@ fragment ConfigurableOptions on ConfigurableProduct {
                     }
                 }
             }
+            price_tiers {
+                quantity
+                final_price {
+                    currency
+                    value
+                }
+                discount {
+                    amount_off
+                    percent_off
+                }
+            }
         }
     }
 }

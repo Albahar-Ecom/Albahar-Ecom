@@ -2,6 +2,8 @@ import React from 'react';
 import Abstract from "./Abstract";
 import OptionLabel from '../OptionLabel'
 import Identify from 'src/simi/Helper/Identify'
+import {validateEmpty} from 'src/simi/Helper/Validation'
+import TierPrices from '../../TierPrices'
 
 class RadioField extends Abstract {
     constructor(props) {
@@ -12,7 +14,19 @@ class RadioField extends Abstract {
         };
     }
 
+    validateField = (value) => {
+        const {data, id} = this.props
+        let error = ''
+        
+        if(data.required && !validateEmpty(value)) {
+            error = Identify.__('This is a required field.')
+        }
+
+        $(`#error-option-${id}`).text(error)
+    }   
+
     updateCheck = (e, val) => {
+        this.validateField(val)
         this.setState({ value: val });
         this.updateSelected(this.key, val);
         this.updateForBundle(val, 'radio');
@@ -34,26 +48,33 @@ class RadioField extends Abstract {
         for (const i in options) {
             const item = options[i];
             if (!item || !item.product) continue;
-            const label = <OptionLabel title={item.product.name} item={item} type_id={this.type_id} />
-            const element = (
-                <div
-                    role="presentation"
-                    className={`radio-option radio-option-${this.key} radio-option-${item.id}`}
-                    key={i} onClick={(e) => this.updateCheck(e, item.id)} >
-                    <div className={`radio-option-input `}>
-                        <input
-                            type="radio"
-                            name={`radio-${item.product.name}`}
-                            value={item.option_type_id}
-                            checked={Number(value) === Number(item.id)}
-                            onChange={(e) => this.updateCheck(e, item.id)}
-                        />
-                    </div>
-                    {label}
-                </div>
 
-            );
-            items.push(element);
+            const isOutOfStock = item.product.stock_status && item.product.stock_status === "OUT_OF_STOCK"
+            const itemTypeId = item.product.type_id
+            if(!isOutOfStock && (itemTypeId === 'simple' || itemTypeId === 'virtual')) {
+                const label = <OptionLabel title={item.product.name} item={item} type_id={this.type_id} />
+                const element = (
+                    <div className="radio-option-wrapper">
+                        <div
+                            role="presentation"
+                            className={`radio-option radio-option-${this.key} radio-option-${item.id}`}
+                            key={i} onClick={(e) => this.updateCheck(e, item.id)} >
+                            <div className={`radio-option-input `}>
+                                <input
+                                    type="radio"
+                                    name={`radio-${item.product.name}`}
+                                    value={item.option_type_id}
+                                    checked={Number(value) === Number(item.id)}
+                                    onChange={(e) => this.updateCheck(e, item.id)}
+                                />
+                            </div>
+                            {label}
+                        </div>
+                        {item.product.price_tiers && <TierPrices price_tiers={item.product.price_tiers} priceObj={item.product.price_range} />}
+                    </div>
+                );
+                items.push(element);
+            }
         }
         return items;
     };
@@ -94,6 +115,7 @@ class RadioField extends Abstract {
 
     render = () => {
         const { data } = this.props;
+        const {error} = this.state; 
         let items = null;
         if (this.type_id === 'bundle') {
             items = this.renderWithBundle(data);

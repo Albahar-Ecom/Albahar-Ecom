@@ -52,7 +52,7 @@ class File extends Abstract {
                         parent={this} 
                         type="file"
                         onChange={() => this.selectedFile(this.props.id)}
-                        accept={`.${extensionsAllow}`}
+                        accept={`${extensionsAllow}`}
                         style={{marginBottom: 10}}
                         />
                 {notes}
@@ -61,11 +61,18 @@ class File extends Abstract {
     }
 
     uploadReturned = (result) => {
+        const {data, id} = this.props 
         hideFogLoading()
+        console.log('run')
         if (result) {
             const newResult = JSON.parse(result)
-            if(newResult.uploadfile)
+            if(newResult.uploadfile) {
+                if(data.required) {
+                    $(`#error-option-${id}`).text('')
+                }
                 this.updateSelected(this.uploadingId, newResult.uploadfile)
+            }
+                
         } else {
             this.deleteSelected(this.uploadingId)
             showToastMessage(Identify.__('Request Failed'))

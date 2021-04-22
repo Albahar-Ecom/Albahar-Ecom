@@ -122,8 +122,16 @@ class Customermap extends AbstractModel
             ->addFieldToFilter('social_user_id', array('eq' => $uid))
             ->getFirstItem();
 
+        $email = isset($params['email']) ? $params['email'] : $params['uid'] . $params['providerId'] . '@simisocial.com';
+        $existedCustomer = $this->simiObjectManager->create('Magento\Customer\Model\Customer')->getCollection()
+            ->addFieldToFilter('email', $email)
+            ->getFirstItem();
+
         if ($customerMap->getId()) {
             return $this->simiObjectManager->create('Magento\Customer\Model\Customer')->load($customerMap->getCustomerId());
+        } else if ($existedCustomer->getId()){
+            $this->simiObjectManager->create('Simi\Simiconnector\Helper\Customer')->loginByCustomer($existedCustomer);
+            return $existedCustomer;
         } else {
             return $this->createCustomer($params);
         }
