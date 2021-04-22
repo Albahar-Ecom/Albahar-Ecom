@@ -21,6 +21,17 @@ const isRequired = value => {
     return Identify.__(oriIsRequired(value));
 }
 
+// Validate only input text for region, cause magento bug int to region_id
+const isValidRegion = value => {
+    const result = Identify.__(oriIsRequired(value));
+    if (result === undefined) {
+        if (!isNaN(value)) {
+            return Identify.__('State can not a number value.');
+        }
+    }
+    return result;
+}
+
 const GuestForm = props => {
     const { afterSubmit, classes: propClasses, onCancel, shippingData } = props;
 
@@ -129,7 +140,7 @@ const GuestForm = props => {
                     </div>
                 }
                 <div className={classes.region}>
-                    <Region validate={isRequired} />
+                    <Region validate={isValidRegion} />
                 </div>
                 {
                     (!simiCIMenabled || (simiCIMenabled && (getCIMConf('zipcode') !== 3))) &&
