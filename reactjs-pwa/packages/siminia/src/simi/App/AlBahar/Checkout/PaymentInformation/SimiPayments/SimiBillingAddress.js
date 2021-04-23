@@ -38,19 +38,23 @@ const SimiBillingAddress = props => {
         customerAddresses,
         isLoading,
         handleSelectAddress,
-        selectedAddress,
+        selectedAddress: currentSelectedAddressId,
         isSignedIn,
         handleSetGuestEmailOnCart,
         cartEmail
     } = talonProps
 
-    const savedAddressOptions = [{ label: 'New Address', value: -1 }]
+    let selectedAddress = currentSelectedAddressId;
 
+    const savedAddressOptions = [{ label: 'New Address', value: -1 }]
+    let selectedAddrItem = {}
     if (customerAddresses && customerAddresses.length) {
         customerAddresses.map(customerAddressItem => {
-            const { id, firstname, lastname, street, postcode, city, country_code } = customerAddressItem
+            const { id, firstname, lastname, street, postcode, city, country_code, default_billing } = customerAddressItem
             const addressLabel = `${firstname} ${lastname}, ${street[0]}, ${postcode}, ${city}, ${country_code}`
             savedAddressOptions.push({ label: addressLabel, value: id })
+            if ((!selectedAddress || parseInt(currentSelectedAddressId) === -1) && default_billing) selectedAddress = id;
+            if (id === parseInt(selectedAddress)) selectedAddrItem = customerAddressItem;
         })
     }
     const simiCIMenabled = isSimiCIMEnabled()
@@ -65,6 +69,22 @@ const SimiBillingAddress = props => {
     }
 
     const classes = fieldClasses
+
+    let selectedAddrInfo = '';
+    if (selectedAddress && selectedAddrItem && selectedAddrItem.id) {
+        const { firstname, lastname, street, postcode, city, region, country_code, company, telephone } = selectedAddrItem;
+        selectedAddrInfo = firstname;
+        lastname && (selectedAddrInfo += ' '+lastname);
+        street && street[0] && (selectedAddrInfo += ', '+street[0]);
+        street && street[1] && (selectedAddrInfo += ', '+street[1]);
+        postcode && (selectedAddrInfo += ', '+postcode);
+        city && (selectedAddrInfo += ', '+city);
+        company && (selectedAddrInfo += ', '+company);
+        region && region.region && (selectedAddrInfo += ', '+region.region);
+        country_code && (selectedAddrInfo += ', '+country_code);
+        telephone && (selectedAddrInfo += ', '+telephone);
+        cartEmail && (selectedAddrInfo += ', '+cartEmail);
+    }
 
     return (
         <div className={billingAddressFieldsClassName}>
@@ -212,6 +232,11 @@ const SimiBillingAddress = props => {
                             </div>
                         }
                     </Fragment> : ''
+            }
+            {isSignedIn && selectedAddrInfo &&
+                <div style={{padding: '0 10px', gridColumnEnd: 'span 2'}}>
+                    {selectedAddrInfo}
+                </div>
             }
         </div>
     )

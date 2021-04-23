@@ -96,6 +96,9 @@
     background-color: #F0F0F0;
     border-radius: 0;
 }
+.billing_address_fields_root > div > span > span select {
+    padding-right: 30px;
+}
 
 .billing_address_fields_root input:focus, .billing_address_fields_root select:focus {
     box-shadow: 0px 0px 1px 0px #000;
