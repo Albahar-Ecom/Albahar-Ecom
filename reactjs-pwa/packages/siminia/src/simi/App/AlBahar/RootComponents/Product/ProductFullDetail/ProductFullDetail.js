@@ -588,8 +588,6 @@ class ProductFullDetail extends Component {
             relatedMaxProduct = simiRelatedProduct.length
         }
         const listLinkCrossSell = product_links && product_links.length && product_links.filter(({ link_type }) => link_type === 'crosssell');
-        console.log(product.meta_description)
-        console.log(product.description.html)
         return (
             <div className="container product-detail-root">
                 {this.breadcrumb(product)}
