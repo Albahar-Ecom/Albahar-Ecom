@@ -26,8 +26,25 @@ const ShippingInformation = props => {
         hasUpdate,
         isSignedIn,
         isLoading,
-        shippingData
+        shippingData: shippingDataTalon
     } = talonProps;
+
+    // Fix bug
+    // Add default country code by store config setting
+    const { simiStoreConfig } = Identify.getStoreConfig() || {}
+    const { config } = simiStoreConfig || {}
+    const { base } = config || {}
+    const { country_code } = base || {}
+    // Add to default country_code value if empty
+    let _shippingData = {...shippingDataTalon}
+    if (!_shippingData.country || !_shippingData.country.code) {
+        _shippingData = {..._shippingData, 
+            country: {
+                code: country_code || 'US'
+            }
+        }
+    }
+    const shippingData = {..._shippingData};
 
     const classes = mergeClasses(defaultClasses, propClasses);
 
