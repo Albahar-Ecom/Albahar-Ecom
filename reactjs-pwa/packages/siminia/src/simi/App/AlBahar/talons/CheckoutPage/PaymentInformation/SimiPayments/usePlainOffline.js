@@ -2,7 +2,8 @@ import { useCallback, useEffect, useState, useMemo } from 'react';
 import { useFormState, useFormApi } from 'informed';
 import { useApolloClient } from '@apollo/client';
 import { simiUseMutation as useMutation, simiUseQuery as useQuery } from 'src/simi/Network/Query';
-import { fullFillAddress } from 'src/simi/Helper/CIM'
+import { fullFillAddress } from 'src/simi/Helper/CIM';
+import Identify from 'src/simi/Helper/Identify';
 
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
@@ -29,7 +30,7 @@ export const mapAddressData = rawAddressData => {
             street1: street[0],
             street2: street[1],
             country: country.code,
-            region: region.code ? region.code : region.label,
+            state: region.code ? region.code : region.label,
             company
         };
     } else {
@@ -37,7 +38,7 @@ export const mapAddressData = rawAddressData => {
     }
 };
 
-export const usePayOnline = props => {
+export const usePlainOffline = props => {
     const {
         onSuccess,
         queries,
@@ -123,7 +124,20 @@ export const usePayOnline = props => {
     try {
         shippingAddressCountry = shippingAddressData.cart.shippingAddresses[0].country.code
     } catch (err) {
-        shippingAddressCountry = 'US'
+        // get default from config
+        const { simiStoreConfig, countries } = Identify.getStoreConfig() || {}
+        const { config } = simiStoreConfig || {}
+        const { base } = config || {}
+        const { country_code } = base || {}
+        // check if country_code available in countries (fix for case 1 country in the available country list)
+        const available = countries && countries.find((c)=>c.id === country_code);
+        if (available) {
+            shippingAddressCountry = country_code
+        } else if(countries && countries.length) {
+            shippingAddressCountry = countries[0].id || ''
+        } else {
+            shippingAddressCountry = ''
+        }
     }
     const isBillingAddressSame = formState.values.isBillingAddressSame;
 

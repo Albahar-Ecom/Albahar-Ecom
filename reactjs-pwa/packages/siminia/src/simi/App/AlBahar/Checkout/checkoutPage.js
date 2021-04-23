@@ -195,7 +195,7 @@ const CheckoutPage = props => {
                     onClick={handleReviewOrder}
                     priority="high"
                     className={`${classes.review_order_button} ${(isLoading || placeOrderLoading || orderDetailsLoading || !shippingMethodSelected) ? classes.review_order_button_loading : ''}`}
-                    disabled={reviewOrderButtonClicked || isUpdating || !shippingMethodSelected}
+                    disabled={reviewOrderButtonClicked || isUpdating || (!shippingMethodSelected && !isVirtual)}
                 >
                     {
                         (placeOrderLoading || orderDetailsLoading || reviewOrderButtonClicked) ?

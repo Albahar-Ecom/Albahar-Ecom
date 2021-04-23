@@ -1,5 +1,5 @@
 import React, { useMemo, useCallback } from 'react';
-import { usePayOnline } from 'src/simi/App/AlBahar/talons/CheckoutPage/PaymentInformation/usePayOnline';
+import { usePayOnline } from 'src/simi/App/AlBahar/talons/CheckoutPage/PaymentInformation/SimiPayments/usePayOnline';
 import { mergeClasses } from 'src/classify';
 import defaultClasses from '../simiPayment.css';
 import creditCardPaymentOperations from '../payOnline.gql';
