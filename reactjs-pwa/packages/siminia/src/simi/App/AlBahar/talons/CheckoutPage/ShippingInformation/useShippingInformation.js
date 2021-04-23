@@ -84,19 +84,31 @@ export const useShippingInformation = props => {
                     ...primaryAddress
                 };
             } else { // default country by store config setting
-                const { simiStoreConfig } = Identify.getStoreConfig() || {}
-                const { config } = simiStoreConfig || {}
-                const { base } = config || {}
-                const { country_code } = base || {}
                 filteredData = {
                     email,
-                    country: {
-                        code: country_code
-                    },
                     region: {
                         code: ''
                     }
                 };
+                const { simiStoreConfig, countries } = Identify.getStoreConfig() || {}
+                const { config } = simiStoreConfig || {}
+                const { base } = config || {}
+                const { country_code } = base || {}
+                // check if country_code available in countries (fix for case 1 country in the available country list)
+                const available = countries && countries.find((c)=>c.id === country_code);
+                if (available) {
+                    filteredData.country = {
+                        code: country_code
+                    };
+                } else if(countries && countries.length) {
+                    filteredData.country = {
+                        code: countries[0].id || ''
+                    };
+                } else {
+                    filteredData.country = {
+                        code: ''
+                    };
+                }
             }
         }
 
