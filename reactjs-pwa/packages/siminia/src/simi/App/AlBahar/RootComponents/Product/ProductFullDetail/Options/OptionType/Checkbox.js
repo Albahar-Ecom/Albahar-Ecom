@@ -49,7 +49,7 @@ class CheckboxField extends Abstract {
 
         const {product} = item || {}
 
-        const {stock_status, price_tiers, price_range, type_id} = product
+        const {stock_status, price_tiers, price_range, type_id} = product || {}
 
         const isOutOfStock = stock_status && stock_status === "OUT_OF_STOCK"
 
