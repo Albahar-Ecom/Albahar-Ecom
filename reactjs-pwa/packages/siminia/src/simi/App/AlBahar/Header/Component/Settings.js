@@ -6,6 +6,7 @@ import Popper from '@material-ui/core/Popper';
 import Storeview from "src/simi/BaseComponents/Settings/Storeview/index";
 import Currency from "src/simi/BaseComponents/Settings/Currency/index";
 import CountryFlag from 'src/simi/BaseComponents/CountryFlag'
+import {translateWithLocale} from '../../Helper/Data'
 
 class Settings extends React.Component {
     state = {
@@ -120,12 +121,22 @@ class Settings extends React.Component {
             if (storeConfig && storeConfig.availableStores && (storeConfig.availableStores.length > 1)) {
                 storeViewOptions = this.renderStoreviewOptions()
             }
-
+    
             const { locale_identifier } = storeConfig.simiStoreConfig.config.base
-            const countryCode = locale_identifier.split('_')
+            let storeReservation = null
+            if(storeConfig && storeConfig.availableStores && (storeConfig.availableStores.length > 1)) {
+                storeReservation = storeConfig.availableStores.filter((store) => store.locale !== locale_identifier)
+            }
+            let countryCode = locale_identifier
+            if(storeReservation && storeReservation.length && storeReservation.length === 1) {
+                countryCode = storeReservation[0].locale 
+            }
+
+            const normalizeCountryCode = countryCode ? countryCode.split('_') : locale_identifier.split('_')
+
             const storeIcon = (
                 <div className={classes["storeview_ic"]}>
-                    <CountryFlag alpha2={countryCode[1]} />
+                    <CountryFlag alpha2={normalizeCountryCode[1]} />
                 </div>
             )
 
@@ -143,7 +154,7 @@ class Settings extends React.Component {
                                         {storeIcon}
                                     </div>
                                     <div className={classes["item-text"]} style={{ whiteSpace: 'nowrap' }}>
-                                        {Identify.__('Language')}
+                                        {translateWithLocale('Language', countryCode)}
                                     </div>
                                 </div>
                                 {storeViewOptions}

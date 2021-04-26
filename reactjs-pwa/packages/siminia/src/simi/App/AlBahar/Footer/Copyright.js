@@ -23,7 +23,6 @@ const Copyright = props => {
         footer_title1 = storeConfig.simiStoreConfig.config.catalog.frontend.footer_title2
     }
 
-    console.log(footer_title1)
     // if (storeConfig && storeConfig.simiStoreConfig &&
     //     storeConfig.simiStoreConfig.config && storeConfig.simiStoreConfig.config.catalog &&
     //     storeConfig.simiStoreConfig.config.catalog.frontend &&
