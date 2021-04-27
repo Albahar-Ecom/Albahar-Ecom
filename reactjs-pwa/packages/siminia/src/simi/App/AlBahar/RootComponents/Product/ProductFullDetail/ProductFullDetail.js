@@ -18,7 +18,7 @@ import ReactHTMLParse from 'react-html-parser';
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb";
 // import { TopReview, ReviewList } from './Review/index';
 import { SimiMutation } from 'src/simi/Network/Query';
-import SocialShare from 'src/simi/BaseComponents/SocialShare';
+import SocialShare from 'src/simi/App/AlBahar/BaseComponents/SocialShare';
 import Description from './Description';
 import Techspec from './Techspec';
 import LinkedProduct from './LinkedProduct';

@@ -20,6 +20,16 @@ export const getPwaContact = () => {
     return null
 }
 
+export const getSalesConfig = () => {
+    const {simiStoreConfig} = Identify.getStoreConfig() || {}
+
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.sales) {
+        return simiStoreConfig.config.sales
+    } 
+
+    return null
+}
+
 export const translateWithLocale = (text, locale = null) => {
     const appConfig = Identify.getAppDashboardConfigs();
     let config = null;

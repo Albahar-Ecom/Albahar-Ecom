@@ -58,7 +58,7 @@ class ProductImage extends React.Component {
         const width = $('.left-layout.product-media').width();
         return this.images.map(function (item) {
             const src = item.file
-                ? resourceUrl(item.file, { type: 'image-product', width: 640 })
+                ? resourceUrl(item.file, { type: 'image-product', width: 365 })
                 : transparentPlaceholder
             return (
                 <div key={Identify.randomString(5)} style={{ cursor: 'pointer', backgroundColor: '#ffffff' }} className="carousel-image-container">
