@@ -43,7 +43,8 @@
     "react-loading-skeleton": "~2.0.1",
     "react-responsive-modal": "~4.0.1",
     "rendertron-middleware": "~0.1.5",
-    "universal-cookie": "^4.0.3"
+    "universal-cookie": "^4.0.3",
+    "@tanem/react-nprogress": "~3.0.52"
   },
   "devDependencies": {
     "@adobe/apollo-link-mutation-queue": "~1.0.2",

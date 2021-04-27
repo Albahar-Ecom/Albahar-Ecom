@@ -1,7 +1,7 @@
 import React from 'react';
 import { number } from 'prop-types';
 import Identify from 'src/simi/Helper/Identify';
-import { withRouter } from 'src/drivers';
+import { withRouter, connect } from 'src/drivers';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import BreadCrumb from 'src/simi/BaseComponents/BreadCrumb';
 import Products from 'src/simi/App/AlBahar/BaseComponents/Products';
@@ -13,9 +13,10 @@ import {
 } from 'src/simi/talons/Category/useCategoryContent';
 import CategoryHeader from './categoryHeader';
 import NoProductsFound from './NoProductsFound';
+import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 
 const Category = props => {
-    const { id, history } = props;
+    const { id, history, setSimiNProgressLoading } = props;
 
     const loadStyle = 2; // 1: button load-more (useCategoryContent), 2: pagination (useCategoryContentSimiPagination)
 
@@ -159,6 +160,8 @@ const Category = props => {
     }
     const isApplyingFilter = window.location.search ? true : false;
 
+    setSimiNProgressLoading(false);
+
     return (
         <div className="container">
             <BreadCrumb breadcrumb={breadcrumb} history={history} />
@@ -205,4 +208,8 @@ Category.defaultProps = {
     pageSize: 12
 };
 
-export default withRouter(Category);
+const mapDispatchToProps = {
+    setSimiNProgressLoading
+};
+
+export default connect(null, mapDispatchToProps)(withRouter(Category));

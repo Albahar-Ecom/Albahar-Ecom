@@ -7,6 +7,7 @@ import PropTypes from 'prop-types'
 import CateTree from './CateTree'
 import Setting from './Setting'
 import { connect } from 'src/drivers';
+import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 
 const styles = {
     iconMenu : {
@@ -38,6 +39,11 @@ class LeftMenuContent extends React.Component{
         } else if (item && item.pathname) {
             this.handleLink(item)
         }
+        this.props.setSimiNProgressLoading(true);
+    }
+
+    componentDidMount(){
+        this.props.setSimiNProgressLoading(false);
     }
 
     renderSections() {
@@ -75,6 +81,10 @@ LeftMenuContent.contextTypes = {
     classes: PropTypes.object
 };
 
+const mapDispatchToProps = {
+    setSimiNProgressLoading
+};
+
 const mapStateToProps = ({ user }) => { 
     const { isSignedIn } = user;
     return {
@@ -83,5 +93,5 @@ const mapStateToProps = ({ user }) => {
 };
 
 export default connect(
-    mapStateToProps
+    mapStateToProps, mapDispatchToProps
 )(LeftMenuContent);

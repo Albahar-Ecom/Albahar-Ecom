@@ -64,3 +64,7 @@ export const toggleMessages = value => async dispatch => {
 export const saveCustomerDetail = value => async dispatch => {
     dispatch(userActions.getDetails.receive(value));
 }
+
+export const setSimiNProgressLoading = value => async dispatch => {
+    dispatch(actions.setSimiNProgressLoading(value));
+}

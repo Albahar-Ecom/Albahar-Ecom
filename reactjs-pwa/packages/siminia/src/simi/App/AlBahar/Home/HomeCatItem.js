@@ -1,13 +1,17 @@
 import React from 'react'
 import ArrowRight from 'src/simi/BaseComponents/Icon/TapitaIcons/ArrowLeft';
 import {cateUrlSuffix} from 'src/simi/Helper/Url';
+import { connect } from 'src/drivers';
+import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 
 const HomeCatItem = props => {
-    const {item, history, isPhone} = props;
+    const {item, history, isPhone, setSimiNProgressLoading} = props;
 
     const action = () => {
-        if (item.url_path)
+        if (item.url_path) {
+            setSimiNProgressLoading(true);
             history.push(item.url_path + cateUrlSuffix());
+        }
     }
 
     if(!item.simicategory_filename && !item.simicategory_filename_tablet) {
@@ -48,4 +52,8 @@ const HomeCatItem = props => {
     )
 }
 
-export default HomeCatItem
+const mapDispatchToProps = {
+    setSimiNProgressLoading
+};
+
+export default connect(null, mapDispatchToProps)(HomeCatItem);

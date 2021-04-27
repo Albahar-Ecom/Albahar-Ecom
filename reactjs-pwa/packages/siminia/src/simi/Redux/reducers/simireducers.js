@@ -7,6 +7,7 @@ const initialState = {
     simiValue: 'cody_initialize_value',
     storeConfig: null,
     simiMessages: [],// [{type: 'success', message: 'sample', auto_dismiss: true}]
+    simiNProgressLoading: false
 };
 
 const reducerMap = {
@@ -26,6 +27,12 @@ const reducerMap = {
         return {
             ...state,
             simiMessages: payload
+        };
+    },
+    [simiActions.setSimiNProgressLoading]: (state, { payload }) => {
+        return {
+            ...state,
+            simiNProgressLoading: payload
         };
     }
 };

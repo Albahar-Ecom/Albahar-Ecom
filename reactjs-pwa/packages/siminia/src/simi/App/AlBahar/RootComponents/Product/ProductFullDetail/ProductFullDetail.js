@@ -71,6 +71,10 @@ class ProductFullDetail extends Component {
         return { optionCodes };
     }
 
+    componentDidMount(){
+        this.props.setSimiNProgressLoading(false);
+    }
+
     setQuantity = quantity => this.quantity = quantity;
 
     prepareParams = () => {
