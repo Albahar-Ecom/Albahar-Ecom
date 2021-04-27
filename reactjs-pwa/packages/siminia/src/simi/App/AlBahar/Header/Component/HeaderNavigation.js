@@ -5,6 +5,8 @@ import { Link } from 'src/drivers';
 import NavTrigger from './navTrigger';
 import MenuIcon from 'src/simi/BaseComponents/Icon/Menu';
 import { cateUrlSuffix } from 'src/simi/Helper/Url';
+import { connect } from 'src/drivers';
+import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 
 class Navigation extends React.Component {
     toggleMegaItemContainer() {
@@ -12,6 +14,10 @@ class Navigation extends React.Component {
         $(`.${classes['main-nav']}`).find(`.${classes['nav-item-container']}`).each(function () {
             $(this).removeClass(classes['active'])
         });
+    }
+
+    componentDidMount(){
+        this.props.setSimiNProgressLoading(false);
     }
 
     render() {
@@ -56,7 +62,11 @@ class Navigation extends React.Component {
                             onMouseOut={() => {
                                 $(`#${navItemContainerId}`).removeClass(classes['active'])
                             }}>
-                            {title}
+                            <div onClick={()=>{
+                                this.props.setSimiNProgressLoading(true)
+                            }}>
+                                {title}
+                            </div>
                             <HeaderNavMegaitem
                                 classes={classes}
                                 data={item}
@@ -78,14 +88,18 @@ class Navigation extends React.Component {
                             </a>
                         )
                     return (
-                        <Link
-                            className={`${classes["nav-item"]} nav-item nav-item-container`}
-                            key={index}
-                            to={item.link ? `${item.link}` : '/'}
-                            style={{ color: 'white', textDecoration: 'none' }}
-                        >
-                            {Identify.__(item.name)}
-                        </Link>
+                        <div onClick={()=>{
+                            this.props.setSimiNProgressLoading(true)
+                        }}>
+                            <Link
+                                className={`${classes["nav-item"]} nav-item nav-item-container`}
+                                key={index}
+                                to={item.link ? `${item.link}` : '/'}
+                                style={{ color: 'white', textDecoration: 'none' }}
+                            >
+                                {Identify.__(item.name)}
+                            </Link>
+                        </div>
                     )
                 }
             })
@@ -103,12 +117,16 @@ class Navigation extends React.Component {
                             state: {}
                         }
                         const title = (
-                            <Link
-                                className={`${classes["nav-item"]} nav-item nav-item-container`}
-                                to={location}
-                            >
-                                {Identify.__(item.name)}
-                            </Link>
+                            <div onClick={()=>{
+                                this.props.setSimiNProgressLoading(true)
+                            }}>
+                                <Link
+                                    className={`${classes["nav-item"]} nav-item nav-item-container`}
+                                    to={location}
+                                >
+                                    {Identify.__(item.name)}
+                                </Link>
+                            </div>
                         )
 
                         const navItemContainerId = `nav-item-container-${item.id}`
@@ -140,11 +158,15 @@ class Navigation extends React.Component {
                         )
                     } else {
                         return (
-                            <Link className={`${classes["nav-item"]} nav-item nav-item-container`}
-                                key={index} to={'/' + item.url_path + cateUrlSuffix()}
-                                style={{ color: 'white', textDecoration: 'none' }}>
-                                {Identify.__(item.name)}
-                            </Link>
+                            <div onClick={()=>{
+                                this.props.setSimiNProgressLoading(true)
+                            }}>
+                                <Link className={`${classes["nav-item"]} nav-item nav-item-container`}
+                                    key={index} to={'/' + item.url_path + cateUrlSuffix()}
+                                    style={{ color: 'white', textDecoration: 'none' }}>
+                                    {Identify.__(item.name)}
+                                </Link>
+                            </div>
                         )
                     }
                 })
@@ -174,4 +196,11 @@ class Navigation extends React.Component {
         );
     }
 }
-export default Navigation
+
+const mapDispatchToProps = {
+    setSimiNProgressLoading
+};
+
+export default connect(
+    null, mapDispatchToProps
+)(Navigation);

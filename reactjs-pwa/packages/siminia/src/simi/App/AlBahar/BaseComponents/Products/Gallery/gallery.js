@@ -1,6 +1,8 @@
 import React, { useMemo, useCallback } from 'react';
 import { string, shape, array } from 'prop-types';
+import { connect } from 'src/drivers';
 import { GridItem } from 'src/simi/App/AlBahar/BaseComponents/GridItem';
+import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 
 require('./gallery.scss');
 
@@ -15,9 +17,10 @@ const mapGalleryItem = item => {
 };
 
 const Gallery = props => {
-    const { items, history } = props;
+    const { items, history, setSimiNProgressLoading } = props;
 
     const handleLink = useCallback((link) => {
+        setSimiNProgressLoading(true);
         history.push(link);
     }, []);
 
@@ -48,4 +51,8 @@ Gallery.propTypes = {
     items: array.isRequired
 };
 
-export default Gallery;
+const mapDispatchToProps = {
+    setSimiNProgressLoading
+};
+
+export default connect(null, mapDispatchToProps)(Gallery);

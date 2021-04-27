@@ -1,7 +1,7 @@
 import React from 'react'
 import Identify from "src/simi/Helper/Identify";
 import { simiUseQuery } from 'src/simi/Network/Query'
-import getCategory from 'src/simi/queries/catalog/getCategory.graphql'
+import getCategory from 'src/simi/queries/catalog/getHomeProductList.graphql'
 import Loading from "src/simi/BaseComponents/Loading";
 import { GridItem } from "src/simi/App/AlBahar/BaseComponents/GridItem";
 import { applySimiProductListItemExtraField } from 'src/simi/Helper/Product'
@@ -15,7 +15,7 @@ const ProductItem = props => {
             currentPage: Number(1),
             stringId: String(dataProduct.category_id)
         },
-        fetchPolicy: "no-cache"
+        fetchPolicy: "cache-and-network"
     });
 
     const handleAction = (location) => {

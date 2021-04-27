@@ -1,20 +1,32 @@
-import React from 'react'
-import {Colorbtn} from 'src/simi/BaseComponents/Button'
+import React, {useEffect} from 'react'
+// import {Colorbtn} from 'src/simi/BaseComponents/Button'
 import {productUrlSuffix, cateUrlSuffix} from 'src/simi/Helper/Url';
+import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
+import { connect } from 'src/drivers';
 
 const BannerItem = props => {
-    const { history, item, isPhone } = props;
+    const { history, item, isPhone, setSimiNProgressLoading } = props;
+
+    useEffect(()=>{
+        setSimiNProgressLoading(false);
+    });
 
     let action = () => {}
     if (parseInt(item.type, 10) === 1) {
         //product detail
         if (item.url_key) {
-            action = () => history.push(item.url_key + productUrlSuffix());
+            action = () => {
+                setSimiNProgressLoading(true);
+                history.push(item.url_key + productUrlSuffix());
+            };
         }
     } else if(parseInt(item.type, 10) === 2){
         //category
         if (item.url_path) {
-            action = () => history.push(item.url_path + cateUrlSuffix());
+            action = () => {
+                setSimiNProgressLoading(true);
+                history.push(item.url_path + cateUrlSuffix());
+            };
         }
     } else {
         action = (e) => {
@@ -44,4 +56,7 @@ const BannerItem = props => {
     )
 }
 
-export default BannerItem;
+const mapDispatchToProps = {
+    setSimiNProgressLoading
+};
+export default connect(null, mapDispatchToProps)(BannerItem);

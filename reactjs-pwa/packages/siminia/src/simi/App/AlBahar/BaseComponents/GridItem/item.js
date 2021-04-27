@@ -24,11 +24,12 @@ import {
 
 import { connect } from 'src/drivers';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
+import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 
 require('./item.scss')
 
 const Griditem = props => {
-    const { lazyImage, toggleMessages } = props;
+    const { lazyImage, toggleMessages, setSimiNProgressLoading } = props;
     const history = useHistory();
     const [{ cartId }] = useCartContext();
     let quantity = 1;
@@ -74,7 +75,9 @@ const Griditem = props => {
             borderColor: configColor.image_border_color,
             backgroundColor: 'white'
         }} >
-            <div style={{ position: 'absolute', top: 0, bottom: 0, width: '100%', padding: 1 }}>
+            <div style={{ position: 'absolute', top: 0, bottom: 0, width: '100%', padding: 1 }}
+                onClick={()=>{setSimiNProgressLoading(true)}}
+            >
                 <Link to={location}>
                     <Image src={small_image} alt={name} />
                 </Link>
@@ -150,7 +153,8 @@ Griditem.contextTypes = {
 
 
 const mapDispatchToProps = {
-    toggleMessages
+    toggleMessages,
+    setSimiNProgressLoading
 };
 
 export default connect(

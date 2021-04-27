@@ -14,6 +14,7 @@ import {
     Wifi as WifiIcon
 } from 'react-feather';
 import Identify from './Helper/Identify';
+import HOProgress from './ProgressBar/HOProgress';
 
 const OnlineIcon = <Icon src={WifiIcon} attrs={{ width: 18 }} />;
 const OfflineIcon = <Icon src={CloudOffIcon} attrs={{ width: 18 }} />;
@@ -82,6 +83,7 @@ const App = props => {
 
     return (
         <Fragment>
+            <HOProgress />
             {useMemo(() =>
                 <Main>
                     <AppRouter />
