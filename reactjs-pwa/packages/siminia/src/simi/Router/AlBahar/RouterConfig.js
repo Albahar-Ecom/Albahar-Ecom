@@ -43,7 +43,7 @@ const Logout = (props) => {
 }
 
 const ResetPassword = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "ResetPassword"*/'src/simi/App/FashionTheme/Customer/ResetPassword')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "ResetPassword"*/'src/simi/App/AlBahar/Customer/ResetPassword')} {...props} />
 }
 
 const PaypalExpress = (props) => {
