@@ -97,6 +97,8 @@ const CheckoutPage = props => {
         }
     }, [addToast, error, hasError]);
 
+    console.log(props);
+
     useEffect(() => {
         if (
             (checkoutStep === CHECKOUT_STEP.REVIEW) && !isUpdating &&

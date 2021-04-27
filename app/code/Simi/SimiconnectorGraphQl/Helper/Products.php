@@ -48,7 +48,11 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Catalog\Model\Category $categoryModelFactory,
         \Magento\Catalog\Model\Product $productModelFactory,
-        \Magento\Directory\Model\CurrencyFactory $currencyFactory
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
+        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
+        \Magento\GroupedProduct\Model\Product\Type\Grouped $groupType,
+        \Magento\Bundle\Model\Product\Type $bundleType
+
     )
     {
 
@@ -67,6 +71,9 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         $this->productModelFactory = $productModelFactory;
         $this->currencyFactory = $currencyFactory;
         $this->productRepository = $productRepository;
+        $this->configurableType = $configurableType;
+        $this->groupType = $groupType;
+        $this->bundleType = $bundleType;
         parent::__construct($context);
     }
 
@@ -138,7 +145,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                     }
                     $this->filteredAttributes[$key] = $value;
                     $collection->addCategoriesFilter(['in' => $value]);
-                } elseif (strpos($key, 'size') >= 0 || $key == 'color') {
+                } elseif ($key == 'size' || $key == 'color') {
                     $this->filteredAttributes[$key] = $value;
                     # code...
                     $productIds = [];
@@ -156,6 +163,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                         $collectionChid->addAttributeToFilter($key, $insetArray);
                     } else
                         $collectionChid->addAttributeToFilter($key, ['finset' => $value]);
+
                     $collectionChid->getSelect()
                         ->joinLeft(
                             array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
@@ -166,25 +174,136 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                     $collectionChid->getSelect()->group('link_table.parent_id');
 
                     foreach ($collectionChid as $product) {
-                        $productIds[] = $product->getParentId();
+                        if($product->getParentId()) {
+                             $productIds[] = $product->getParentId();
+                        }
                     }
 
                     $collection->addAttributeToFilter('entity_id', array('in' => $productIds));
                 } else {
                     $this->filteredAttributes[$key] = $value;
+
+                    $productIds = [];
+
+                    $collectionChid = $this->productCollectionFactory->create();
+
+                    $collectionChid->addAttributeToSelect('*')
+                        ->addStoreFilter()
+                        ->addAttributeToFilter('status', 1)
+                        ->addFinalPrice();
+
                     if (is_array($value)) {
                         $insetArray = array();
                         foreach ($value as $child_value) {
                             $insetArray[] = array('finset' => array($child_value));
                         }
-                        $collection->addAttributeToFilter($key, $insetArray);
+                        $collectionChid->addAttributeToFilter($key, $insetArray);
                     } else
-                        $collection->addAttributeToFilter($key, ['finset' => $value]);
+                        $collectionChid->addAttributeToFilter($key, ['finset' => $value]);
+
+                    foreach ($collectionChid as $childValue) {
+                        $productId = $childValue->getEntityId();
+
+                        $configurableParentIds = $this->configurableType->getParentIdsByChild($productId);
+
+                        if(is_array($configurableParentIds) && count($configurableParentIds)) {
+                            $productIds = array_merge($configurableParentIds, $productIds);
+                        } else {
+                            $productIds[] = $productId;
+                        }
+
+                        $groupedParentIds = $this->groupType->getParentIdsByChild($productId);
+
+                        if(is_array($groupedParentIds) && count($groupedParentIds)) {
+                            $productIds = array_merge($groupedParentIds, $productIds);
+                        }
+
+                        $bundleParentIds = $this->bundleType->getParentIdsByChild($productId);
+
+                        if(is_array($bundleParentIds) && count($bundleParentIds)) {
+                            $productIds = array_merge($bundleParentIds, $productIds);
+                        }
+
+                        // $bundleCollection = $this->bundleSelectionCollectionFactory->create();
+
+                        // $bundleItem = $bundleCollection->addAttributeToFilter('product_id', $productId);
+
+                        // if($bundleItem) {
+                        //     $productIds[] = $bundleItem->getParentProductId();
+                        // }
+
+                        // if($parentIds) {
+                        //     $productIds[] = 
+                        // }
+                    }
+
+                    // load bundle product
+                
+
+                    // var_dump($productId); die;
+                    // $filter = [];
+                    // if (is_array($value)) {
+                    //     $insetArray = array();
+                    //     foreach ($value as $child_value) {
+                    //         $insetArray[] = array('finset' => array($child_value));
+                    //     }
+                    //     $filter[] = ['attribute' => $key, 'finset' => array($child_value)];
+                    //     // $collection->addAttributeToFilter($key, $insetArray);
+                    // } else
+                    //     $filter[] = ['attribute' => $key, 'finset' => $value];
+                    //     // $collection->addAttributeToFilter($key, ['finset' => $value]);
+
+                    // $productIds = [];
+                    // $collectionChid = $this->productCollectionFactory->create();
+
+                    // $collectionChid->addAttributeToSelect('*')
+                    //     ->addStoreFilter()
+                    //     ->addAttributeToFilter('status', 1)
+                    //     ->addFinalPrice();
+                    // if (is_array($value)) {
+                    //     $insetArray = array();
+                    //     foreach ($value as $child_value) {
+                    //         $insetArray[] = array('finset' => array($child_value));
+                    //     }
+                    //     $collectionChid->addAttributeToFilter($key, $insetArray);
+                    // } else
+                    //     $collectionChid->addAttributeToFilter($key, ['finset' => $value]);
+
+                    // $collectionChid->getSelect()
+                    //     ->joinLeft(
+                    //         array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
+                    //         'link_table.product_id = e.entity_id',
+                    //         array('product_id', 'parent_id')
+                    //     );
+
+                    // $collectionChid->getSelect()->group('link_table.parent_id');
+
+                    // foreach ($collectionChid as $product) {
+                    //     if($product->getParentId()) {
+                    //          $productIds[] = $product->getParentId();
+                    //     }
+                    // }
+
+                    // $filter[] = ['attribute' => 'entity_id', 'in' => $productIds];
+
+                    // $collection->addAttributeToFilter($filter);
+
+                    $collection->addAttributeToFilter('entity_id', array('in' => $productIds));
+
+                    // var_dump($productIds); die;
+                    // $collection->getSelect()
+                    //     ->joinLeft(
+                    //         array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
+                    //         'link_table.product_id = e.entity_id',
+                    //         array('product_id', 'parent_id')
+                    //     );
+
+                    // $collection->getSelect()->group('link_table.parent_id');
                 }
             }
         }
     }
-
+ 
     public function getSearchProducts(&$collection, $params)
     {
         $searchCollection = $this->searchCollection;
