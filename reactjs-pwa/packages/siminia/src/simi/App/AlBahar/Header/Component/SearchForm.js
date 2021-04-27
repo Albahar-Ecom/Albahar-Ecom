@@ -20,7 +20,7 @@ const SearchForm = props => {
         if (searchField.value) {
             setShowAC(true)
             if (searchField.value !== searchVal)
-                setSearchVal(searchField.value)
+                setSearchVal(searchField.value.trim())
         } else {
             setShowAC(false)
         }
