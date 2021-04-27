@@ -9,8 +9,6 @@ const HOProgress = props => {
 }
 
 const mapStateToProps = ({ simireducers }) => {
-    console.log({simireducers})
-    
     const { simiNProgressLoading } = simireducers
     return {
         simiNProgressLoading
