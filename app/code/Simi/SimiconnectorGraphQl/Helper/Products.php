@@ -138,7 +138,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                     }
                     $this->filteredAttributes[$key] = $value;
                     $collection->addCategoriesFilter(['in' => $value]);
-                } elseif (strpos($key, 'size') == 0 || $key == 'color') {
+                } elseif (strpos($key, 'size') >= 0 || $key == 'color') {
                     $this->filteredAttributes[$key] = $value;
                     # code...
                     $productIds = [];
