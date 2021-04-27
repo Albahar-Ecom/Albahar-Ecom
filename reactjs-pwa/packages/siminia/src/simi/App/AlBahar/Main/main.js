@@ -73,6 +73,11 @@ class Main extends Component {
         )
     }
     render() {
+        if (window.DASHBOARD_CONFIG && window.DASHBOARD_CONFIG['app-configs'] 
+            && window.DASHBOARD_CONFIG['app-configs'][0] 
+            && !window.DASHBOARD_CONFIG['app-configs'][0]['is_active']) {
+            return null;
+        }
         return (
             <main className={classes.root}>
                 <div className="app-loading" style={{display:'none'}} id="app-loading">
