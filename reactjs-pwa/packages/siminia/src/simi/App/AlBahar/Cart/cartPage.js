@@ -65,7 +65,7 @@ const CartPage = props => {
             if(parseFloat(salesConfig.sales_minimum_order_amount) > parseFloat(cart.prices.grand_total.value)) {
                 disableButtonCheckout = true;
                 const message = (
-                    <div>{Identify.__("Minimum order amount is")} {formatPrice(cart.prices.grand_total.value)}</div>
+                    <div>{Identify.__("Minimum order amount is")} {formatPrice(parseFloat(salesConfig.sales_minimum_order_amount))}</div>
                 )
                 toggleMessages([{ type: 'error', message: message, auto_dismiss: false }])
             }
@@ -170,7 +170,6 @@ const CartPage = props => {
                                 <Colorbtn
                                     id="go-checkout"
                                     className={`go-checkout ${disableButtonCheckout ? 'disable' : ''}`}
-                                    disable={disableButtonCheckout}
                                     onClick={() => handleGoCheckout()}
                                     text={Identify.__('Proceed to checkout')}
                                 />
