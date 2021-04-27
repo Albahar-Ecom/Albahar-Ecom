@@ -19,3 +19,42 @@ export const getPwaContact = () => {
 
     return null
 }
+
+export const getSalesConfig = () => {
+    const {simiStoreConfig} = Identify.getStoreConfig() || {}
+
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.sales) {
+        return simiStoreConfig.config.sales
+    } 
+
+    return null
+}
+
+export const translateWithLocale = (text, locale = null) => {
+    const appConfig = Identify.getAppDashboardConfigs();
+    let config = null;
+    if (appConfig !== null) {
+        config = appConfig['app-configs'][0] || null;
+    }
+
+    const storeConfig = Identify.getStoreConfig();
+    try {
+        let languageCode = storeConfig.storeConfig.locale;
+        if(locale) {
+            languageCode = locale
+        }
+        if (config.language.hasOwnProperty(languageCode)) {
+            const { language } = config;
+            const languageWithCode = language[languageCode];
+            if (languageWithCode.hasOwnProperty(text)) {
+                return languageWithCode[text];
+            } else if (languageWithCode.hasOwnProperty(text.toLowerCase())) {
+                return languageWithCode[text.toLowerCase()];
+            }
+        }
+    } catch (err) {
+
+    }
+
+    return text
+}

@@ -41,6 +41,11 @@ class GetStoreviewInfoAfter implements ObserverInterface
 
         $confArray['footer_config'] = $this->getFooterConfig();
 
+        $confArray['sales'] = [
+            'sales_minimum_order_active' => $this->getStoreConfig('sales/minimum_order/active'),
+            'sales_minimum_order_amount' => $this->getStoreConfig('sales/minimum_order/amount')
+        ];
+
         $obj->configArray = $confArray;
     }
 

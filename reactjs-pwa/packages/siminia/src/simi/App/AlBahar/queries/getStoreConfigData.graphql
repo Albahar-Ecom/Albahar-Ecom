@@ -140,6 +140,10 @@ query storeConfigData($storeId: Int, $currency: String) {
             facebook_config {
                 app_id
             }
+            sales {
+                sales_minimum_order_active
+                sales_minimum_order_amount
+            }
             google_config {
                 login_client_id
             }

@@ -41,14 +41,15 @@
         text-transform: uppercase;
         .continue-shopping,
         .right-buttons > div {
-            background-color: white;
-            border: solid 1px #828282;
+            background-color: #0082ff;
+            border: solid 1px #0082ff;
             padding: 8px 27px;
             font-size: 12px;
             line-height: 12px;
             font-weight: 600;
             height: 30px;
             border-radius: 4px;
+            color: #fff;
         }
         .right-buttons {
             > div {
@@ -164,6 +165,9 @@
                     font-size: 14px;
                     font-weight: 600;
                     border-radius: 4px;
+                    &.disable {
+                        opacity: 0.4;
+                    }
                 }
             }
         }

@@ -3,7 +3,7 @@ import Gallery from './Gallery';
 import Identify from 'src/simi/Helper/Identify';
 import Sortby from './Sortby';
 import Filter from './Filter';
-import SimiPagination from 'src/simi/BaseComponents/SimiPagination';
+import SimiPagination from 'src/simi/App/AlBahar/BaseComponents/SimiPagination';
 // import SimiPagination from '@magento/venia-ui/lib/components/Pagination';
 import Loading from 'src/simi/BaseComponents/Loading';
 import LoadMore from './loadMore';
