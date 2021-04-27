@@ -10,8 +10,8 @@ type SimiStoreConfigDetails {
 }
 
 type SimiStoreConfigDetailsSales {
-	sales_minimum_order_active
-	sales_minimum_order_amount
+	sales_minimum_order_active: String
+	sales_minimum_order_amount: String
 }
 
 type Mutation {
