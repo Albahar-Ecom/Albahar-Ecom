@@ -41,18 +41,13 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfigInterface,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\ResourceModel\Product\Attribute\CollectionFactory $attributeCollectionFactory,
-        \Magento\Catalog\Api\ProductRepositoryInterface $productRepository,
         \Magento\Search\Model\SearchCollectionInterface $searchCollection,
         \Magento\Framework\Pricing\Helper\Data $priceHelper,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\CatalogInventory\Helper\Stock $stockHelper,
         \Magento\Catalog\Model\Category $categoryModelFactory,
         \Magento\Catalog\Model\Product $productModelFactory,
-        \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\ConfigurableProduct\Model\Product\Type\Configurable $configurableType,
-        \Magento\GroupedProduct\Model\Product\Type\Grouped $groupType,
-        \Magento\Bundle\Model\Product\Type $bundleType
-
+        \Magento\Directory\Model\CurrencyFactory $currencyFactory
     )
     {
 
@@ -70,10 +65,6 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         $this->categoryModelFactory = $categoryModelFactory;
         $this->productModelFactory = $productModelFactory;
         $this->currencyFactory = $currencyFactory;
-        $this->productRepository = $productRepository;
-        $this->configurableType = $configurableType;
-        $this->groupType = $groupType;
-        $this->bundleType = $bundleType;
         parent::__construct($context);
     }
 
@@ -163,7 +154,6 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                         $collectionChid->addAttributeToFilter($key, $insetArray);
                     } else
                         $collectionChid->addAttributeToFilter($key, ['finset' => $value]);
-
                     $collectionChid->getSelect()
                         ->joinLeft(
                             array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
@@ -174,136 +164,25 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                     $collectionChid->getSelect()->group('link_table.parent_id');
 
                     foreach ($collectionChid as $product) {
-                        if($product->getParentId()) {
-                             $productIds[] = $product->getParentId();
-                        }
+                        $productIds[] = $product->getParentId();
                     }
 
                     $collection->addAttributeToFilter('entity_id', array('in' => $productIds));
                 } else {
                     $this->filteredAttributes[$key] = $value;
-
-                    $productIds = [];
-
-                    $collectionChid = $this->productCollectionFactory->create();
-
-                    $collectionChid->addAttributeToSelect('*')
-                        ->addStoreFilter()
-                        ->addAttributeToFilter('status', 1)
-                        ->addFinalPrice();
-
                     if (is_array($value)) {
                         $insetArray = array();
                         foreach ($value as $child_value) {
                             $insetArray[] = array('finset' => array($child_value));
                         }
-                        $collectionChid->addAttributeToFilter($key, $insetArray);
+                        $collection->addAttributeToFilter($key, $insetArray);
                     } else
-                        $collectionChid->addAttributeToFilter($key, ['finset' => $value]);
-
-                    foreach ($collectionChid as $childValue) {
-                        $productId = $childValue->getEntityId();
-
-                        $configurableParentIds = $this->configurableType->getParentIdsByChild($productId);
-
-                        if(is_array($configurableParentIds) && count($configurableParentIds)) {
-                            $productIds = array_merge($configurableParentIds, $productIds);
-                        } else {
-                            $productIds[] = $productId;
-                        }
-
-                        $groupedParentIds = $this->groupType->getParentIdsByChild($productId);
-
-                        if(is_array($groupedParentIds) && count($groupedParentIds)) {
-                            $productIds = array_merge($groupedParentIds, $productIds);
-                        }
-
-                        $bundleParentIds = $this->bundleType->getParentIdsByChild($productId);
-
-                        if(is_array($bundleParentIds) && count($bundleParentIds)) {
-                            $productIds = array_merge($bundleParentIds, $productIds);
-                        }
-
-                        // $bundleCollection = $this->bundleSelectionCollectionFactory->create();
-
-                        // $bundleItem = $bundleCollection->addAttributeToFilter('product_id', $productId);
-
-                        // if($bundleItem) {
-                        //     $productIds[] = $bundleItem->getParentProductId();
-                        // }
-
-                        // if($parentIds) {
-                        //     $productIds[] = 
-                        // }
-                    }
-
-                    // load bundle product
-                
-
-                    // var_dump($productId); die;
-                    // $filter = [];
-                    // if (is_array($value)) {
-                    //     $insetArray = array();
-                    //     foreach ($value as $child_value) {
-                    //         $insetArray[] = array('finset' => array($child_value));
-                    //     }
-                    //     $filter[] = ['attribute' => $key, 'finset' => array($child_value)];
-                    //     // $collection->addAttributeToFilter($key, $insetArray);
-                    // } else
-                    //     $filter[] = ['attribute' => $key, 'finset' => $value];
-                    //     // $collection->addAttributeToFilter($key, ['finset' => $value]);
-
-                    // $productIds = [];
-                    // $collectionChid = $this->productCollectionFactory->create();
-
-                    // $collectionChid->addAttributeToSelect('*')
-                    //     ->addStoreFilter()
-                    //     ->addAttributeToFilter('status', 1)
-                    //     ->addFinalPrice();
-                    // if (is_array($value)) {
-                    //     $insetArray = array();
-                    //     foreach ($value as $child_value) {
-                    //         $insetArray[] = array('finset' => array($child_value));
-                    //     }
-                    //     $collectionChid->addAttributeToFilter($key, $insetArray);
-                    // } else
-                    //     $collectionChid->addAttributeToFilter($key, ['finset' => $value]);
-
-                    // $collectionChid->getSelect()
-                    //     ->joinLeft(
-                    //         array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
-                    //         'link_table.product_id = e.entity_id',
-                    //         array('product_id', 'parent_id')
-                    //     );
-
-                    // $collectionChid->getSelect()->group('link_table.parent_id');
-
-                    // foreach ($collectionChid as $product) {
-                    //     if($product->getParentId()) {
-                    //          $productIds[] = $product->getParentId();
-                    //     }
-                    // }
-
-                    // $filter[] = ['attribute' => 'entity_id', 'in' => $productIds];
-
-                    // $collection->addAttributeToFilter($filter);
-
-                    $collection->addAttributeToFilter('entity_id', array('in' => $productIds));
-
-                    // var_dump($productIds); die;
-                    // $collection->getSelect()
-                    //     ->joinLeft(
-                    //         array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
-                    //         'link_table.product_id = e.entity_id',
-                    //         array('product_id', 'parent_id')
-                    //     );
-
-                    // $collection->getSelect()->group('link_table.parent_id');
+                        $collection->addAttributeToFilter($key, ['finset' => $value]);
                 }
             }
         }
     }
- 
+
     public function getSearchProducts(&$collection, $params)
     {
         $searchCollection = $this->searchCollection;
@@ -445,7 +324,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         if ($arrayIDs && count($arrayIDs)) {
             $childProducts = $this->productCollectionFactory->create()
                 ->addAttributeToSelect('*')
-                ->addAttributeToFilter('type_id', ['simple', 'virtual']);
+                ->addAttributeToFilter('type_id', 'simple');
             $select = $childProducts->getSelect();
             $select->joinLeft(
                 array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
@@ -454,22 +333,9 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             );
             $select = $childProducts->getSelect();
             $select->where("link_table.parent_id IN (" . implode(',', array_keys($arrayIDs)) . ")");
-
-            $arrChilds = [];
-	        foreach ($arrayIDs as $product_id => $product_value){
-		        /* @var \Magento\Catalog\Model\Product $product */
-		        $product = $this->productRepository->getById($product_id);
-		        $typeInstance = $product->getTypeInstance();
-		        if ( $product->getTypeId() === \Magento\Bundle\Model\Product\Type::TYPE_CODE || $product->getTypeId() === \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE  ) {
-			        $requiredChildrenIds = $typeInstance->getChildrenIds($product_id, true);
-			        $arrChilds[] = array_reduce($requiredChildrenIds, 'array_merge', array());
-		        }
-	        }
-	        $reduceArrChilds = array_reduce($arrChilds, 'array_merge', array());
-	        $childMerged = array_unique (array_merge ($childProducts->getAllIds(), $reduceArrChilds));
-	        foreach ($childMerged as $allProductId) {
-		        $childProductsIds[$allProductId] = '1';
-	        }
+            foreach ($childProducts->getAllIds() as $allProductId) {
+                $childProductsIds[$allProductId] = '1';
+            }
         }
 
         foreach ($attributeCollection as $attribute) {
