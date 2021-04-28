@@ -15,11 +15,11 @@
     justify-content: flex-start;
 }
 
-@media(min-width: 1024px) {
+/* @media(min-width: 1024px) {
     .header-logo {
         min-width: 254px;
     }
-}
+} */
 
 .header-logo .siminia-logo {
     cursor: pointer;
