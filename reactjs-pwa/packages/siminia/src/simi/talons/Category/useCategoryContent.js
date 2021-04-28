@@ -4,6 +4,9 @@ import Identify from 'src/simi/Helper/Identify';
 import { applySimiProductListItemExtraField } from 'src/simi/Helper/Product';
 import { usePagination } from '@magento/peregrine';
 import { useSimiPagination } from 'src/simi/talons/Pagination/useSimiPagination';
+import { useHistory } from 'react-router-dom';
+import { getDataFromUrl } from 'src/simi/Helper/Url';
+
 let sortByData = null;
 let filterData = null;
 let loadedData = null;
@@ -327,6 +330,13 @@ export const useCategoryContentSimiPagination = props => {
         defaultInitialPage
     } = props;
 
+    const history = useHistory();
+    const pathname = history.location.search ? history.location.search : history.location.pathname;
+
+    const dataFromDict = useMemo(() => {
+        return getDataFromUrl(pathname);
+    }, [history, pathname]);
+
     const [paginationValues, paginationApi] = useSimiPagination({
         parameter1: parameter1,
         parameter2: parameter2,
@@ -387,8 +397,13 @@ export const useCategoryContentSimiPagination = props => {
     if (sortByData) variables.sort = sortByData;
 
     useEffect(() => {
-        if (categoryId) {
-            getProductsByCategory({ variables });
+        if (categoryId && (!dataFromDict || !dataFromDict.simiproducts)) {
+            window.scrollTo({
+                left: 0,
+                top: 0,
+                behavior: 'smooth'
+            });
+            getProductsByCategory({ variables, skip: dataFromDict && dataFromDict.simiproducts });
         }
     }, [
         categoryId,
@@ -397,7 +412,8 @@ export const useCategoryContentSimiPagination = props => {
         pageSize,
         filterData,
         productListOrder,
-        productListDir
+        productListDir,
+        dataFromDict
     ]);
 
     const setPageTo = useCallback(
@@ -411,9 +427,12 @@ export const useCategoryContentSimiPagination = props => {
     );
 
     const products = useMemo(() => {
-        let productsData
-        if (oriProductsData)
+        let productsData = null;
+        if (dataFromDict && dataFromDict.simiproducts) {
+            productsData = dataFromDict;
+        } else if (oriProductsData)
             productsData = JSON.parse(JSON.stringify(oriProductsData))
+
         if (productsData && productsData.simiproducts) {
             productsData.products = applySimiProductListItemExtraField(
                 productsData.simiproducts
@@ -425,7 +444,7 @@ export const useCategoryContentSimiPagination = props => {
 
         // The product isn't in the cache and we don't have a response from GraphQL yet.
         return productsData;
-    }, [oriProductsData]);
+    }, [oriProductsData, dataFromDict]);
 
     const pageControl = {
         startPage,

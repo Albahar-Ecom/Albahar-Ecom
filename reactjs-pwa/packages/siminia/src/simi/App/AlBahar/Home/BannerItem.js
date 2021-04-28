@@ -1,15 +1,51 @@
-import React, {useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 // import {Colorbtn} from 'src/simi/BaseComponents/Button'
-import {productUrlSuffix, cateUrlSuffix} from 'src/simi/Helper/Url';
+import {productUrlSuffix, cateUrlSuffix, saveDataToUrl} from 'src/simi/Helper/Url';
 import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 import { connect } from 'src/drivers';
+// import { useHistory } from '@magento/venia-drivers';
+// import connectorGetProductDetailBySku from 'src/simi/App/AlBahar/queries/catalog/getProductDetailBySku.graphql';
+import GET_CATEGORY from 'src/simi/queries/catalog/getCategory';
+import { simiUseQuery as useQuery } from 'src/simi/Network/Query';
 
 const BannerItem = props => {
     const { history, item, isPhone, setSimiNProgressLoading } = props;
 
-    useEffect(()=>{
-        setSimiNProgressLoading(false);
+    const [clickedLocation, setClickedLocation] = useState(null);
+    // const history = useHistory();
+
+    const handleLink = (location) => {
+        history.push(location)
+    }
+
+    const clickedCateId = (clickedLocation) ? clickedLocation.cateId : null;
+    const {
+        data: preFetchResult, 
+        error: preFetchError 
+    } = useQuery(GET_CATEGORY, {
+        variables: {
+            id: Number(clickedCateId),
+            pageSize: 12,
+            currentPage: 1,
+            stringId: String(clickedCateId)
+        },
+        skip: !clickedCateId
     });
+
+    useEffect(() => {
+        if (preFetchResult && clickedLocation) {
+            if (preFetchResult) {
+                saveDataToUrl(clickedLocation.pathname, Object.assign({}, preFetchResult, { id: clickedCateId }), false);
+            }
+            setSimiNProgressLoading(false);
+            setClickedLocation(false);
+            handleLink(clickedLocation);
+        } else if (preFetchResult || preFetchError) {
+            setSimiNProgressLoading(false)
+            if (clickedLocation)
+                handleLink(clickedLocation)
+        }
+    }, [setSimiNProgressLoading, preFetchResult, preFetchError, clickedLocation]);
 
     let action = () => {}
     if (parseInt(item.type, 10) === 1) {
@@ -24,8 +60,16 @@ const BannerItem = props => {
         //category
         if (item.url_path) {
             action = () => {
+                const location = {
+                    pathname: '/' + item.url_path + cateUrlSuffix(),
+                    state: {},
+                    cateId: item.category_id
+                }
+                document
+                    .getElementById('root')
+                    .scrollIntoView({ behavior: 'smooth' });
                 setSimiNProgressLoading(true);
-                history.push(item.url_path + cateUrlSuffix());
+                setClickedLocation(location);
             };
         }
     } else {

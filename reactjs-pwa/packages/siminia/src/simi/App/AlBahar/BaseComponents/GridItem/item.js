@@ -1,4 +1,4 @@
-import React, {useCallback, useMemo} from 'react';
+import React, {useState, useCallback, useMemo, useEffect} from 'react';
 import defaultClasses from './item.css';
 import { configColor } from 'src/simi/Config';
 import PropTypes from 'prop-types';
@@ -25,6 +25,8 @@ import {
 import { connect } from 'src/drivers';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
 import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
+import connectorGetProductDetailBySku from 'src/simi/App/AlBahar/queries/catalog/getProductDetailBySku.graphql';
+import { simiUseQuery as useQuery } from 'src/simi/Network/Query';
 
 require('./item.scss')
 
@@ -32,14 +34,17 @@ const Griditem = props => {
     const { lazyImage, toggleMessages, setSimiNProgressLoading } = props;
     const history = useHistory();
     const [{ cartId }] = useCartContext();
+    const [clickedLocation, setClickedLocation] = useState(null);
+
     let quantity = 1;
 
+    const clickedProductSku = clickedLocation && clickedLocation.sku ? clickedLocation.sku : null;
     const item = prepareProduct(props.item);
     const logo_url = logoUrl();
     const { classes } = props
     if (!item) return '';
     const itemClasses = mergeClasses(defaultClasses, classes);
-    const { name, url_key, stock_status, id, price, type_id, small_image, rating_summary, review_count, price_tiers } = item;
+    const { name, url_key, stock_status, id, price, type_id, small_image, rating_summary, review_count, price_tiers, sku } = item;
     const product_url = `/${url_key}${productUrlSuffix()}`;
 
     saveDataToUrl(product_url, item);
@@ -49,11 +54,16 @@ const Griditem = props => {
         state: {
             product_id: id,
             item_data: item
-        }
+        },
+        sku
     };
 
     const handleLink = useCallback((location) => {
-        history.push(location)
+        if (props.handleLink) {
+            props.handleLink(location)
+        } else {
+            history.push(location)
+        }
     })
 
 
@@ -70,16 +80,56 @@ const Griditem = props => {
         }
     })
 
+    const { data: preFetchProductResult, error: preFetchProductError } = useQuery(connectorGetProductDetailBySku,
+        {
+            variables: {
+                sku: clickedProductSku,
+                onServer: false
+            },
+            skip: !clickedProductSku
+        }
+    );
+
+    useEffect(() => {
+        if (preFetchProductResult && preFetchProductResult.productDetail
+            && preFetchProductResult.productDetail.items && preFetchProductResult.productDetail.items[0]
+            && item && item.url_key && clickedLocation) {
+            try {
+                const productDataReturned = preFetchProductResult.productDetail.items[0];
+                if (productDataReturned && productDataReturned.hasOwnProperty('simiExtraField')) {
+                    if (productDataReturned.simiExtraField) {
+                        try {
+                            productDataReturned.simiExtraField = productDataReturned.simiExtraField ? JSON.parse(productDataReturned.simiExtraField) : null
+                        } catch (e) {}
+                    }
+                }
+
+                saveDataToUrl(clickedLocation.pathname, productDataReturned, false);
+            } catch (err) {
+                console.error(err)
+            }
+            setSimiNProgressLoading(false)
+            handleLink(clickedLocation)
+        } else if (preFetchProductResult || preFetchProductError) {
+            setSimiNProgressLoading(false)
+            if (clickedLocation)
+                handleLink(clickedLocation)
+        }
+    }, [setSimiNProgressLoading, handleLink, item, preFetchProductResult, preFetchProductError, clickedLocation])
+
     const image = (
         <div className={itemClasses["siminia-product-image"]} style={{
             borderColor: configColor.image_border_color,
             backgroundColor: 'white'
         }} >
-            <div style={{ position: 'absolute', top: 0, bottom: 0, width: '100%', padding: 1 }}
-                onClick={()=>{setSimiNProgressLoading(true)}}
-            >
-                <Link to={location}>
-                    <Image src={small_image} alt={name} />
+            <div style={{ position: 'absolute', top: 0, bottom: 0, width: '100%', padding: 1 }}>
+                <Link to={location}
+                    onClick={e => {
+                        e.preventDefault();
+                        setSimiNProgressLoading(true);
+                        setClickedLocation(location);
+                    }}>
+                    <Image src={small_image} alt={name} key={Identify.randomString(3)} />
                 </Link>
             </div>
         </div>
@@ -126,7 +176,8 @@ const Griditem = props => {
                 </div>
             </div>
             <div className={itemClasses['siminia-product-des-below']}>
-                <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} onClick={() => props.handleLink(location)}>
+                <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} 
+                    onClick={() => setClickedLocation(location)}>
                     {priceLabel}
                 </div>
                 <div className={`${itemClasses['add-to-cart-action']}`}>
