@@ -14,6 +14,8 @@ import MyAccount from './Component/MyAccount'
 import Settings from './Component/Settings'
 import { withRouter } from 'react-router-dom';
 import { logoUrl } from 'src/simi/Helper/Url'
+import DesktopLogo from '../BaseComponents/Images/DesktopLogo.png'
+import MobileLogo from '../BaseComponents/Images/MobileLogo.png'
 require('./header.scss');
 
 const SearchForm = React.lazy(() => import('./Component/SearchForm'));
@@ -46,12 +48,23 @@ class Header extends React.Component{
 
     renderLogo = () => {
         const {isPhone} = this.state;
+        if(isPhone) {
+            return (
+                <div className={`${this.classes['search-icon']} ${this.classes['header-logo']}`} >
+                    <Link to='/'>
+                        <img
+                            src={MobileLogo}
+                            alt="siminia-logo" style={{width: 180, height: 48}}/>
+                    </Link>
+                </div>
+            )
+        }
         return (
             <div className={`${this.classes['search-icon']} ${this.classes['header-logo']}`} >
                 <Link to='/'>
                     <img
-                        src={logoUrl()}
-                        alt="siminia-logo" style={!isPhone?{width: 300, height: 70}:{width: 180, height: 48}}/>
+                        src={DesktopLogo}
+                        alt="siminia-logo" style={{width: 300, height: 70}}/>
                 </Link>
             </div>
         )

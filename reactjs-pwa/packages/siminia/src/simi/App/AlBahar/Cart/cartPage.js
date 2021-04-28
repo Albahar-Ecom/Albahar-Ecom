@@ -21,6 +21,8 @@ import {formatPrice} from 'src/simi/Helper/Pricing'
 require('./cart.scss');
 let toggledErrMessOnce = false
 
+let toogleErrMinimumOrder = false
+
 const CartPage = props => {
     const { toggleMessages, history, location } = props
     const talonProps = useCartPage({
@@ -64,12 +66,19 @@ const CartPage = props => {
         if(cart.prices && cart.prices.grand_total && cart.prices.grand_total.value > 0) {
             if(parseFloat(salesConfig.sales_minimum_order_amount) > parseFloat(cart.prices.grand_total.value)) {
                 disableButtonCheckout = true;
+                toogleErrMinimumOrder = true
                 const message = (
                     <div>{Identify.__("Minimum order amount is")} {formatPrice(parseFloat(salesConfig.sales_minimum_order_amount))}</div>
                 )
                 toggleMessages([{ type: 'error', message: message, auto_dismiss: false }])
+            } else {
+                if(toogleErrMinimumOrder) {
+                    toogleErrMinimumOrder = false
+                    toggleMessages([])
+                }
+                
             }
-        }
+        } 
     }
 
     const couponCode = () => {

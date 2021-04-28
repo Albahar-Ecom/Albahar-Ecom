@@ -46,7 +46,7 @@ const HomeCatItem = props => {
                 <div className="--text">{item.simicategory_name}</div>
             </div>
             <div className="cate-arrow">
-                <ArrowRight color="#fff" style={{width:60,height:60}}/>
+                <ArrowRight color="#0082ff" style={{width:60,height:60, fill: '#0082ff'}}/>
             </div>
         </div>
     )
