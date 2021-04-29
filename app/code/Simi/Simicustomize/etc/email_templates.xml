@@ -7,4 +7,6 @@
 -->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
     <template id="customer_password_forgot_email_template" label="Simi || Forgot Password" file="password_reset_confirmation.html" type="html" module="Simi_Simicustomize" area="frontend"/>
+    <template id="simi_new_order_eng" label="Simi || New Order English" file="new_order_eng.html" type="html" module="Simi_Simicustomize" area="frontend"/>
+    <template id="simi_header_template" label="Simi || Header Template" file="simi_header_template" type="html" module="Simi_Simicustomize" area="frontend" />
 </config>

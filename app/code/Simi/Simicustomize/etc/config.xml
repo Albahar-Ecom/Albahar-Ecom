@@ -12,6 +12,9 @@ xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
                 <footer_1_title>Customer Services</footer_1_title>
                 <footer_2_title>Our policies</footer_2_title>
             </footer>
+            <custom_email>
+                <email_header_template>simi_header_template</email_header_template>
+            </custom_email>
         </siminiaconfig>
     </default>
 </config>
