@@ -1,0 +1,26 @@
+.email-heading {
+    width: 58.0%;
+    border: none;
+    border-right: dashed #c3ced4 1.0pt;
+    background: #e1f0f8;
+    padding: 0cm 6.1pt 0cm 6.1pt;
+}
+
+.store-info {
+    width: 40.0%;
+    background: #e1f0f8;
+    padding: 12.25pt 12.25pt 12.25pt 12.25pt;
+}
+
+.order-details {
+    border: solid #ebebeb 1.0pt;
+    background: white;
+    padding: 3.75pt 3.75pt 3.75pt 3.75pt;
+}
+
+.no-link {
+    font-size: 13.0pt;
+    font-family: "Verdana",sans-serif;
+    color: #333333;
+}
+

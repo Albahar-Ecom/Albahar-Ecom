@@ -77,6 +77,12 @@
                     <label>Social Login Client ID</label>
                 </field>
             </group>
+            <group id="custom_email" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Custom Email</label>
+                <field id="email_header_template" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Header Custom Email</label>
+                </field>
+            </group>
         </section>
     </system>
 </config>
