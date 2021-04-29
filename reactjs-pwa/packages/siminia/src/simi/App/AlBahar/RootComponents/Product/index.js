@@ -7,7 +7,7 @@ import connectorGetProductDetailByUrl from 'src/simi/App/AlBahar/queries/catalog
 import connectorGetProductDetailBySku from 'src/simi/App/AlBahar/queries/catalog/getProductDetailBySku.graphql'
 import { Simiquery } from 'src/simi/Network/Query'
 import { smoothScrollToView } from 'src/simi/Helper/Behavior'
-import { saveDataToUrl, productUrlSuffix } from 'src/simi/Helper/Url';
+import { saveDataToUrl, productUrlSuffix, getDataFromUrl } from 'src/simi/Helper/Url';
 
 const Product = props => {
     const { preloadedData, history } = props
@@ -29,6 +29,16 @@ const Product = props => {
         variables.sku = sku;
     else
         variables.urlKey = getUrlKey();
+
+    // if has preloaded data
+    const dataFromDict = getDataFromUrl(history.location.pathname);
+    if (dataFromDict) {
+        return (
+            <ProductFullDetail
+                product={dataFromDict}
+                history={history} />
+        );
+    }
 
     return (
         <Simiquery

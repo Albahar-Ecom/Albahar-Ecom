@@ -68,7 +68,7 @@ const Griditem = props => {
 
 
     const {
-        handleAddCart, 
+        handleAddCart: handleAddCartTalon, 
         isPhone
     } = useGridItem({
         cartId,
@@ -79,6 +79,16 @@ const Griditem = props => {
             addSimpleToCartMutation: ADD_SIMPLE_MUTATION
         }
     })
+
+    const handleAddCart = (itemAdd, quantity) => {
+        if(stock_status === "OUT_OF_STOCK") return
+        if (item.type_id === 'simple' && (!item.hasOwnProperty('options') || (item.hasOwnProperty('options') && item.options === null))) {
+            handleAddCartTalon(itemAdd, quantity)
+        } else {
+            setSimiNProgressLoading(true);
+            setClickedLocation(location);
+        }
+    }
 
     const { data: preFetchProductResult, error: preFetchProductError } = useQuery(connectorGetProductDetailBySku,
         {
@@ -177,7 +187,10 @@ const Griditem = props => {
             </div>
             <div className={itemClasses['siminia-product-des-below']}>
                 <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} 
-                    onClick={() => setClickedLocation(location)}>
+                    onClick={() => {
+                        setSimiNProgressLoading(true);
+                        setClickedLocation(location);
+                    }}>
                     {priceLabel}
                 </div>
                 <div className={`${itemClasses['add-to-cart-action']}`}>
