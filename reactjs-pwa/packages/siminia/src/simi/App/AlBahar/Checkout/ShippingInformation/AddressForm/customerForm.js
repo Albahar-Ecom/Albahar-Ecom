@@ -8,8 +8,9 @@ import { isRequired as oriIsRequired } from '@magento/venia-ui/lib/util/formVali
 import Button from '@magento/venia-ui/lib/components/Button';
 import Checkbox from 'src/simi/BaseComponents/CheckboxInformed';
 import Country from '@magento/venia-ui/lib/components/Country';
+import Field from '@magento/venia-ui/lib/components/Field';
 import { Message } from '@magento/venia-ui/lib/components/Field';
-import Field from 'src/simi/BaseComponents/Field';
+// import Field from 'src/simi/BaseComponents/Field';
 import FormError from '@magento/venia-ui/lib/components/FormError';
 import Region from '@magento/venia-ui/lib/components/Region';
 import TextInput from '@magento/venia-ui/lib/components/TextInput';
@@ -63,7 +64,7 @@ const CustomerForm = props => {
     const classes = mergeClasses(defaultClasses, propClasses);
 
     const emailRow = !hasDefaultShipping ? (
-        <div className={classes.email}>
+        <div className={classes.email + ' ' + classes.required}>
             <Field id="email" label={Identify.__('Email')}>
                 <TextInput
                     disabled={true}
@@ -151,19 +152,19 @@ const CustomerForm = props => {
             >
                 {formMessageRow}
                 {emailRow}
-                <div className={classes.firstname}>
-                    <Field id="firstname" label={Identify.__('First Name')} required={true}>
+                <div className={classes.firstname + ' ' + classes.required}>
+                    <Field id="firstname" label={Identify.__('First Name')}>
                         <TextInput
-                            disabled={!hasDefaultShipping}
+                            // disabled={hasDefaultShipping}
                             field="firstname"
                             validate={isRequired}
                         />
                     </Field>
                 </div>
-                <div className={classes.lastname}>
-                    <Field id="lastname" label={Identify.__('Last Name')} required={true}>
+                <div className={classes.lastname + ' ' + classes.required}>
+                    <Field id="lastname" label={Identify.__('Last Name')}>
                         <TextInput
-                            disabled={!hasDefaultShipping}
+                            // disabled={hasDefaultShipping}
                             field="lastname"
                             validate={isRequired}
                         />
@@ -175,14 +176,14 @@ const CustomerForm = props => {
                 {
                     (!simiCIMenabled || (simiCIMenabled && (getCIMConf('street') !== 3))) &&
                     <>
-                        <div className={classes.street0}>
+                        <div className={`${classes.street0} ${getCIMConf('street') === 1 ? classes.required:''}`}>
                             <Field id="street0" label={Identify.__('Street Address')}
                                 required={!simiCIMenabled || (getCIMConf('street') === 1)}
                                 >
                                 <TextInput field="street[0]" validate={(!simiCIMenabled || (getCIMConf('street') === 1)) ? isRequired : false} />
                             </Field>
                         </div>
-                        <div className={classes.street1}>
+                        <div className={`${classes.street1} ${getCIMConf('street') === 1 ? classes.required:''}`}>
                             <Field id="street1" label={Identify.__('Street Address 2')}>
                                 <TextInput field="street[1]" />
                             </Field>
@@ -191,9 +192,8 @@ const CustomerForm = props => {
                 }
                 {
                     (!simiCIMenabled || (simiCIMenabled && (getCIMConf('city') !== 3))) &&
-                    <div className={classes.city}>
-                        <Field id="city" label="City"
-                            required={!simiCIMenabled || (getCIMConf('city') === 1)}>
+                    <div className={`${classes.city} ${getCIMConf('city') === 1 ? classes.required:''}`}>
+                        <Field id="city" label="City">
                             <TextInput field="city" validate={(!simiCIMenabled || (getCIMConf('city') === 1)) ? isRequired : false} />
                         </Field>
                     </div>
@@ -203,7 +203,7 @@ const CustomerForm = props => {
                 </div>
                 {
                     (!simiCIMenabled || (simiCIMenabled && (getCIMConf('zipcode') !== 3))) &&
-                    <div className={classes.postcode}>
+                    <div className={`${classes.postcode} ${getCIMConf('zipcode') === 1 ? classes.required:''}`}>
                         <Field id="postcode" label="ZIP / Postal Code">
                             <TextInput field="postcode" validate={getCIMConf('zipcode') === 1 ? isRequired : false} />
                         </Field>
@@ -211,7 +211,7 @@ const CustomerForm = props => {
                 }
                 {
                     (!simiCIMenabled || (simiCIMenabled && (getCIMConf('telephone') !== 3))) &&
-                    <div className={classes.telephone}>
+                    <div className={`${classes.telephone} ${getCIMConf('telephone') === 1 ? classes.required:''}`}>
                         <Field id="telephone" label="Phone Number">
                             <TextInput field="telephone" validate={getCIMConf('telephone') === 1 ? isRequired : false} />
                         </Field>
@@ -219,7 +219,7 @@ const CustomerForm = props => {
                 }
                 {
                     (simiCIMenabled && (getCIMConf('company') !== 3)) &&
-                    <div>
+                    <div className={`${classes.cimfield} ${getCIMConf('company') === 1 ? classes.required:''}`}>
                         <Field id="company" label={Identify.__('Company')} className={classes.cimfield}>
                             <TextInput field="company" validate={getCIMConf('company') === 1 ? isRequired : false} />
                         </Field>

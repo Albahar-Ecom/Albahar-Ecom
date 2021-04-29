@@ -96,18 +96,66 @@ export const useAddressBook = props => {
     );
 
     const handleAddAddress = useCallback(() => {
-        const { simiStoreConfig } = Identify.getStoreConfig() || {}
+        const { simiStoreConfig, countries } = Identify.getStoreConfig() || {}
         const { config } = simiStoreConfig || {}
-        const { base } = config || {}
+        const { base, customer } = config || {}
         const { country_code } = base || {}
-        const defaultAddressData = {
-            country: {
-                code: country_code
-            },
+        let defaultAddressData = {
             region: {
                 code: ''
             }
         };
+        // Fix bug add default address data from config
+        // check if country_code available in countries (fix for case 1 country in the available country list)
+        const available = countries && countries.find((c)=>c.id === country_code);
+        if (available) {
+            defaultAddressData.country = {
+                code: country_code
+            };
+        } else if(countries && countries.length) {
+            defaultAddressData.country = {
+                code: countries[0].id || ''
+            };
+        } else {
+            defaultAddressData.country = {
+                code: ''
+            };
+        }
+        // Add default address field data from simiconnector config
+        const {address_fields_config} = customer || {}
+        const {
+            enable,
+            company_show,
+            street_default,
+            street_show,
+            city_default,
+            city_show,
+            zipcode_default,
+            zipcode_show,
+            telephone_default,
+            telephone_show,
+    
+            // country_id_default, // native only
+            // country_id_show,
+            // dob_show, // native only
+            // fax_show,
+            // gender_show,
+            // prefix_show,
+            // region_id_default, // native only
+            // region_id_show,
+            // suffix_show,
+            // taxvat_show,
+        } = address_fields_config || {}
+        if (enable) {
+            defaultAddressData = {
+                ...defaultAddressData,
+                street: street_show !== '1' ? [street_default]: [],
+                city: city_show !== '1' ? city_default: '',
+                postcode: zipcode_show !== '1' ? zipcode_default: '',
+                telephone: telephone_show !== '1' ? telephone_default: '',
+            }
+        }
+
         handleEditAddress(defaultAddressData);
     }, [handleEditAddress]);
 

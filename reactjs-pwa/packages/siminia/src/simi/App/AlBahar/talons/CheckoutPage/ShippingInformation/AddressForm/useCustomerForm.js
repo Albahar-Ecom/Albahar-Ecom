@@ -49,7 +49,7 @@ export const useCustomerForm = props => {
         createCustomerAddressLoading || updateCustomerAddressLoading;
 
     // Simple heuristic to indicate form was submitted prior to this render
-    const isUpdate = !!shippingData.city;
+    const isUpdate = !!shippingData.id;
 
     const { country, region } = shippingData;
     const { code: countryCode } = country;

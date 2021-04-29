@@ -56,13 +56,16 @@
 .region,
 .postcode,
 .cimfield,
+.company,
 .telephone {
     composes: field;
 }
 
-.country label[class*='field-label'], .region label[class*='field-label'] {
+.root label[class*='field-label'] {
     justify-content: initial;
 }
+
+.root .required label[class*='field-label']::after,
 .country label[class*='field-label']::after, .region label[class*='field-label']::after {
     content: '*';
     color: #D3337D;

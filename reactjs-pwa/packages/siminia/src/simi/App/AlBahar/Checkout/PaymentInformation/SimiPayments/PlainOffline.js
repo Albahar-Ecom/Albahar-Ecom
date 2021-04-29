@@ -58,7 +58,8 @@ const PlainOffline = props => {
             'city',
             'state',
             'postal_code',
-            'phone_number'
+            'phone_number',
+            'cimfield'
         ].reduce((acc, fieldName) => {
             acc[fieldName] = { root: classes[fieldName] };
 
