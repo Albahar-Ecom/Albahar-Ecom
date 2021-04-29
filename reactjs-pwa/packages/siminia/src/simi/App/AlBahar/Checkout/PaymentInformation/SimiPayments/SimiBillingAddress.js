@@ -46,7 +46,7 @@ const SimiBillingAddress = props => {
 
     let selectedAddress = currentSelectedAddressId;
 
-    const savedAddressOptions = [{ label: 'New Address', value: -1 }]
+    const savedAddressOptions = [{ label: 'New Address', value: 'new' }]
     let selectedAddrItem = {}
     if (customerAddresses && customerAddresses.length) {
         customerAddresses.map(customerAddressItem => {
@@ -118,7 +118,7 @@ const SimiBillingAddress = props => {
                     </Field> : ''
             }
             {
-                (!isSignedIn || (selectedAddress && (parseInt(selectedAddress) === -1))) ?
+                (!isSignedIn || (selectedAddress && (parseInt(selectedAddress) === -1 || selectedAddress === 'new'))) ?
                     <Fragment>
                         <Field classes={fieldClasses.first_name} label={Identify.__('First Name')} required={true}>
                             <TextInput
