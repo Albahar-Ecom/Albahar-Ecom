@@ -31,7 +31,7 @@ const StoreSwitcher = props => {
 
     availableStores.forEach((store, code) => {
         const isSelected = store.isCurrent
-        const countryCode = code.split('_')
+        const countryCode = store.locale.split('_')
         const selectedSign = isSelected ?
             <Check color={configColor.button_background} style={{ width: 18, height: 18 }} /> :
             <span className={`${classes["not-selected"]} not-selected`} style={{ borderColor: configColor.menu_text_color, width: 18, height: 18 }}></span>;

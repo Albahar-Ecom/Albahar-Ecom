@@ -32,7 +32,7 @@ const Setting  = (props) => {
                         primarytext={primarytext}
                     >
                         <Storeview classes={classes} />
-                        <Currency classes={classes} />
+                        {/* <Currency classes={classes} /> */}
                     </ListItemNested>
                 </div>
             )
