@@ -8,8 +8,9 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Email:etc/email_templates.xsd">
     <template id="customer_password_forgot_email_template" label="Simi || Forgot Password" file="password_reset_confirmation.html" type="html" module="Simi_Simicustomize" area="frontend"/>
     <template id="simi_new_order_eng" label="Simi || New Order English" file="simi_new_order_eng.html" type="html" module="Simi_Simicustomize" area="frontend"/>
-    <template id="simi_new_order_ar" label="Simi || New Invoice Ar" file="simi_new_order_ar.html" type="html" module="Simi_Simicustomize" area="frontend"/>
-    <template id="simi_new_invoice_ar" label="Simi || New Order Ar" file="simi_new_invoice_ar.html" type="html" module="Simi_Simicustomize" area="frontend"/>
+    <template id="simi_new_order_ar" label="Simi || New Order Ar" file="simi_new_order_ar.html" type="html" module="Simi_Simicustomize" area="frontend"/>
+    <template id="simi_new_invoice_ar" label="Simi || New Invoice Ar" file="simi_new_invoice_ar.html" type="html" module="Simi_Simicustomize" area="frontend"/>
+    <template id="simi_new_shipment_ar" label="Simi || New Shipment Ar" file="simi_new_shipment_ar.html" type="html" module="Simi_Simicustomize" area="frontend"/>
     <template id="simi_header_template" label="Simi || Header Template" file="simi_header_template.html" type="html" module="Simi_Simicustomize" area="frontend" />
     <template id="simi_footer_template" label="Simi || Footer Template" file="simi_footer_template.html" type="html" module="Simi_Simicustomize" area="frontend" />
 
