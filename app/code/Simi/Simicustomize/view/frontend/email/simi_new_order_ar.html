@@ -34,11 +34,11 @@
             <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td class="email-heading">
-                        <h1>Thank you for your order from {{var store.frontend_name}}.</h1>
-                        <p>Once your package ships we will you send an email. Thank you for shopping at Al-Bahar Online!</p>
+                        <h1>{{trans "Thank you for your order from"}} {{var store.frontend_name}}.</h1>
+                        <p>{{trans "Once your package ships we will you send an email. Thank you for shopping at Al-Bahar Online!"}}</p>
                     </td>
                     <td class="store-info">
-                        <h4>Order Questions?</h4>
+                        <h4>{{trans "Order Questions"}}?</h4>
                         <p>
                             {{depend store_phone}}
                             <b>Call Us:</b>
@@ -58,8 +58,8 @@
     </tr>
     <tr>
         <td class="order-details">
-            <h3>Your order <span class="no-link">#{{var order.increment_id}}</span></h3>
-            <p>Placed on {{var created_at_formatted }}</p>
+            <h3>{{trans "Your order"}} <span class="no-link">#{{var order.increment_id}}</span></h3>
+            <p>{{trans "Placed on"}} {{var created_at_formatted }}</p>
         </td>
     </tr>
     <tr class="order-information">
@@ -75,12 +75,12 @@
             <table cellpadding="0" cellspacing="0" border="0">
                 <tr>
                     <td class="address-details">
-                        <h6 dir="LTR">Bill to:</h6>
+                        <h6 dir="LTR">{{trans "Bill to"}}:</h6>
                         <p><span class="no-link">{{var formattedBillingAddress|raw}}</span></p>
                     </td>
                     {{depend order_data.is_not_virtual}}
                     <td class="address-details">
-                        <h6 dir="LTR">Ship to:</h6>
+                        <h6 dir="LTR">{{trans "Ship to"}}:</h6>
                         <p><span class="no-link">{{var formattedShippingAddress|raw}}</span></p>
                     </td>
                     {{/depend}}
@@ -88,12 +88,12 @@
                 <tr>
                     {{depend order_data.is_not_virtual}}
                     <td class="method-info">
-                        <h6 dir="LTR">Shipping method:</h6>
+                        <h6 dir="LTR">{{trans "Shipping method"}}:</h6>
                         <p>{{var order.shipping_description}}</p>
                     </td>
                     {{/depend}}
                     <td class="method-info">
-                        <h6 dir="LTR">Payment method:</h6>
+                        <h6 dir="LTR">{{trans "Payment method"}}:</h6>
                         {{var payment_html || raw}}
                     </td>
                 </tr>
