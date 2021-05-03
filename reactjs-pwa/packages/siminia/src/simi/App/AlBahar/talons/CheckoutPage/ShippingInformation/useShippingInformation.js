@@ -92,7 +92,7 @@ export const useShippingInformation = props => {
                 };
                 const { simiStoreConfig, countries } = Identify.getStoreConfig() || {}
                 const { config } = simiStoreConfig || {}
-                const { base } = config || {}
+                const { base, customer } = config || {}
                 const { country_code } = base || {}
                 // check if country_code available in countries (fix for case 1 country in the available country list)
                 const available = countries && countries.find((c)=>c.id === country_code);
@@ -108,6 +108,41 @@ export const useShippingInformation = props => {
                     filteredData.country = {
                         code: ''
                     };
+                }
+
+                // Add default address field data from simiconnector config
+                const {address_fields_config} = customer || {}
+                const {
+                    enable,
+                    company_show,
+                    street_default,
+                    street_show,
+                    city_default,
+                    city_show,
+                    zipcode_default,
+                    zipcode_show,
+                    telephone_default,
+                    telephone_show,
+            
+                    // country_id_default, // native only
+                    // country_id_show,
+                    // dob_show, // native only
+                    // fax_show,
+                    // gender_show,
+                    // prefix_show,
+                    // region_id_default, // native only
+                    // region_id_show,
+                    // suffix_show,
+                    // taxvat_show,
+                } = address_fields_config || {}
+                if (enable) {
+                    filteredData = {
+                        ...filteredData,
+                        street: street_show !== '1' ? [street_default]: [],
+                        city: city_show !== '1' ? city_default: '',
+                        postcode: zipcode_show !== '1' ? zipcode_default: '',
+                        telephone: telephone_show !== '1' ? telephone_default: '',
+                    }
                 }
             }
         }
@@ -126,7 +161,7 @@ export const useShippingInformation = props => {
             const { customer } = defaultShippingData;
             const { default_shipping: defaultAddressId } = customer;
             const lastDefaultShippingAddressId = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'simi_last_shipping_default_address_id');
-            if (lastDefaultShippingAddressId !== defaultAddressId) {
+            if (lastDefaultShippingAddressId !== defaultAddressId && defaultAddressId) {
                 // reset the default shipping address selected, set to current cart address
                 setDefaultAddressOnCart({
                     variables: {
@@ -142,7 +177,7 @@ export const useShippingInformation = props => {
     // Simple heuristic to check shipping data existed prior to this render.
     // On first submission, when we have data, we should tell the checkout page
     // so that we set the next step correctly.
-    const doneEditing = !!shippingData && !!shippingData.city;
+    const doneEditing = !!shippingData && !!shippingData.firstname;
 
     useEffect(() => {
         if (doneEditing) {

@@ -46,7 +46,7 @@ const SimiBillingAddress = props => {
 
     let selectedAddress = currentSelectedAddressId;
 
-    const savedAddressOptions = [{ label: 'New Address', value: -1 }]
+    const savedAddressOptions = [{ label: 'New Address', value: 'new' }]
     let selectedAddrItem = {}
     if (customerAddresses && customerAddresses.length) {
         customerAddresses.map(customerAddressItem => {
@@ -67,8 +67,6 @@ const SimiBillingAddress = props => {
         const measureResult = hasLengthAtLeast(stringValue, null, 1);
         if (measureResult) return FAILURE;
     }
-
-    const classes = fieldClasses
 
     let selectedAddrInfo = '';
     if (selectedAddress && selectedAddrItem && selectedAddrItem.id) {
@@ -120,7 +118,7 @@ const SimiBillingAddress = props => {
                     </Field> : ''
             }
             {
-                (!isSignedIn || (selectedAddress && (parseInt(selectedAddress) === -1))) ?
+                (!isSignedIn || (selectedAddress && (parseInt(selectedAddress) === -1 || selectedAddress === 'new'))) ?
                     <Fragment>
                         <Field classes={fieldClasses.first_name} label={Identify.__('First Name')} required={true}>
                             <TextInput
@@ -223,13 +221,11 @@ const SimiBillingAddress = props => {
                         }
                         {
                             (simiCIMenabled && (getCIMConf('company') !== 3)) &&
-                            <div className={classes.cimfield}>
-                                <Field id="company" label={Identify.__('Company')} required={getCIMConf('company') === 1}>
-                                    <TextInput field="company" validate={getCIMConf('company') === 1 ? isFieldRequired : false}
-                                        initialValue={initialValues.company}
-                                    />
-                                </Field>
-                            </div>
+                            <Field classes={fieldClasses.cimfield} id="company" label={Identify.__('Company')} required={getCIMConf('company') === 1}>
+                                <TextInput field="company" validate={getCIMConf('company') === 1 ? isFieldRequired : false}
+                                    initialValue={initialValues.company}
+                                />
+                            </Field>
                         }
                     </Fragment> : ''
             }
