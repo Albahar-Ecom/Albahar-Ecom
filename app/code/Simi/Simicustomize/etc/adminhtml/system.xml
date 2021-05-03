@@ -82,6 +82,9 @@
                 <field id="email_header_template" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Header Custom Email</label>
                 </field>
+                <field id="email_footer_template" translate="label" type="text" sortOrder="299" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Footer Custom Email</label>
+                </field>
             </group>
         </section>
     </system>
