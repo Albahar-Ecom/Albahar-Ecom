@@ -9,7 +9,6 @@
 <tr>
     <td class="item-info<?= ($block->getItemOptions() ? ' has-extra' : '') ?>">
         <p class="product-name"><?= $block->escapeHtml($_item->getName()) ?></p>
-        <p class="sku"><?= $block->escapeHtml(__('SKU')) ?>: <?= $block->escapeHtml($block->getSku($_item)) ?></p>
         <?php if ($block->getItemOptions()) : ?>
             <dl>
                 <?php foreach ($block->getItemOptions() as $option) : ?>
