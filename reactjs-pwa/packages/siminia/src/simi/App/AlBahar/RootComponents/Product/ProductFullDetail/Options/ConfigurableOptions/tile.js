@@ -25,6 +25,11 @@ class Tile extends Component {
         isSelected: false
     };
 
+    handleOnClick = (isOutStock) => {
+        if(isOutStock) return
+        this.props.onClick()
+    }
+
     render() {
         const {
             classes,
@@ -37,6 +42,21 @@ class Tile extends Component {
         } = this.props;
         const className = classes[getClassName('root', isSelected, hasFocus)];
 
+        let isOutStock = false
+        if(item.products && item.products.length > 0) {
+            const outStockProduct = item.products.filter((itemProduct) => {
+                if(itemProduct.product && itemProduct.product.stock_status !== "IN_STOCK") {
+                    return true
+                }
+
+                return false
+            })
+
+            if(outStockProduct.length === item.products.length) {
+                isOutStock = true
+            }
+        }
+
         const { label, swatch_data } = item;
         let swatchStyle = {};
         if (swatch_data) {
@@ -48,7 +68,11 @@ class Tile extends Component {
         }
 
         return (
-            <button {...restProps} className={`${className} ${isSelected ? 'selected' : ''} tile-option-item`} style={swatchStyle}>
+            <button 
+                onClick={() => this.handleOnClick(isOutStock)} 
+                className={`${className} ${isSelected ? 'selected' : ''} ${isOutStock ? 'product-out-stock' : ''} tile-option-item`} 
+                style={swatchStyle}
+            >
                 <span>{label}</span>
             </button>
         );

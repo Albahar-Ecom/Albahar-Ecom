@@ -178,6 +178,9 @@
             } 
         }
         .option-item-type {
+            .product-out-stock {
+                background: linear-gradient(to top left, #fff calc(50% - 1px), #aaa, #fff calc(50% + 1px));
+            }
             &.option-item-type-size {
                 button {
                     &.selected {
