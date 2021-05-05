@@ -1,0 +1,137 @@
+*{
+    padding:0;
+    margin:0;
+}
+h1,h2,h3,h4,h5,h6,p{
+    padding:0;
+    margin:0;
+}
+
+#wrapper{
+    margin:20px;
+    padding: 0px 20px;
+    font-size: 11px;
+}
+.clr{
+    clear:both;
+}
+.black-line{
+    width: 100%;
+    height: 5px;
+    background-color: black;
+}
+/******* HEADER **********/
+.footer-content{
+    width:50%;
+    float:left;
+}
+.header{
+    padding-top: 20px;
+}
+.header-title{
+    width: 100%;
+    text-align: center;
+    vertical-align: middle;
+    font-size: 12px;
+    margin-top: 5px;
+}
+.header-info{
+    width: 100%;
+    padding: 0px 10px;
+    margin-top: 20px;
+}
+.header-logo{
+    width: 100%;
+    vertical-align: middle;
+    text-align: center;
+}
+img{
+    margin-top:8px;
+}
+.business-information{
+    margin-top:5px;
+}
+
+/******* END HEADER **********/
+
+/********** CONTENT **********/
+.content{
+    margin-top: 15px;
+}
+.billing-address,.shipping-address,.payment-method,.shipping-method, .company-info{
+    padding-top: 5px;
+    float:left;
+    color:black;
+}
+.billing-address p,.shipping-address p,.payment-method p,.shipping-method p, .company-info p{
+    margin-left:5px;
+}
+.mp-block-heading{
+    width: 98% !important;
+}
+/* Items table */
+.itemTable{
+    padding: 10px 0px;
+}
+.itemTable .table {
+    font-size: 11px;
+    text-align: center;
+    vertical-align: center;
+}
+.mp-heading td {
+    font-weight:bold;
+}
+.mp-row .mp-qty {
+    text-align: center;
+}
+.mp-row .mp-item {
+    width: 30%;
+    text-align: center;
+}
+.mp-row .mp-code {
+    width: 10%;
+    text-align: center;
+}
+.total-table {
+    width: 100%;
+    margin: 15px 0px;
+}
+.total-table .mp td{
+    text-align: center;
+}
+.total-table .mp .mp-label{
+    text-align: left;
+}
+.total-table .mp .ar{
+    text-align: right;
+}
+/* End items table*/
+
+.footer-note{
+    font-size: 10px;
+    margin: 10px 0px;
+    float: left;
+}
+.mp-note{
+    font-size: 10px;
+    padding-left: 2px;
+}
+.footer-note p{
+    font-size: 10px;
+    margin-left: 0px;
+    font-style: italic;
+}
+.footer-barcode{
+    /*width:40%;*/
+    padding: 5px;
+    margin-bottom: 5px;
+    margin-top: 5px;
+}
+.mp-invoice-barcode{
+    text-align: center;
+}
+/********** END CONTENT **********/
+.payment-method .content{display:none}
+.paymentTable{
+    font-size: 11px;
+}
