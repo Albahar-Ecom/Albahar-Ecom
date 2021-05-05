@@ -16,7 +16,7 @@ const Navigation = (props) => {
     const {classes, setSimiNProgressLoading} = props;
 
     const [clickedLocation, setClickedLocation] = useState(null);
-
+    
     const history = useHistory();
 
     const handleLink = (location) => {
@@ -184,6 +184,8 @@ const Navigation = (props) => {
                                 classes={classes}
                                 data={item}
                                 itemAndChild={item}
+                                setSimiNprogressLoading={setSimiNProgressLoading}
+                                setClickedLocation={setClickedLocation}
                                 toggleMegaItemContainer={() => toggleMegaItemContainer()}
                             />
                         </div>

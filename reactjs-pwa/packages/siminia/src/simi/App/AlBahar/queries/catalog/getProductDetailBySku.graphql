@@ -1,8 +1,8 @@
 #import "src/simi/queries/Fragments/SimiPrice"
 #import "../Fragments/ConfigurableOptions"
-#import "src/simi/queries/Fragments/GroupOptions"
+#import "../Fragments/GroupOptions"
 #import "src/simi/queries/Fragments/DownloadableProduct"
-#import "src/simi/queries/Fragments/BundleProduct"
+#import "../Fragments/BundleProduct"
 #import "src/simi/queries/Fragments/CustomizableProductInterface"
 query productDetail($sku: String, $onServer: Boolean!) {
     productDetail: simiproducts(filter: { sku: { eq: $sku } }) {
@@ -28,7 +28,6 @@ query productDetail($sku: String, $onServer: Boolean!) {
             url_key
             special_price
             special_from_date
-            stock_status
             product_links {
                 link_type
                 linked_product_sku
@@ -36,6 +35,7 @@ query productDetail($sku: String, $onServer: Boolean!) {
                 position
                 sku
             }
+            stock_status
             media_gallery_entries {
                 label
                 position
@@ -61,11 +61,9 @@ query productDetail($sku: String, $onServer: Boolean!) {
             simiRelatedProduct {
                 sku
             }
-            meta_title @include(if: $onServer)
-            # Yes, Products have `meta_keyword` and
-            # everything else has `meta_keywords`.
+            meta_title
             meta_keyword @include(if: $onServer)
-            meta_description @include(if: $onServer)
+            meta_description
             rating_summary
             review_count
             price_tiers {

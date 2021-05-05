@@ -155,7 +155,7 @@
     display: none;
     color: #333132;
     padding: 5px;
-    max-height: 450px;
+    max-height: 465px;
     overflow: auto;
 }
 .main-nav .active .nav-mega-item {
@@ -170,14 +170,17 @@
     padding-bottom: 40px;
     padding-right: 120px;
     font-size: 16px;
-    max-width: 800px;
-    display: flex;
+    /* max-width: 800px; */
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    grid-column-gap: 50px;
+    grid-row-gap: 30px;
 }
-@media (min-width: 1440px) {
+/* @media (min-width: 1440px) {
     .main-nav .nav-mega-item .mega-content {
         width: 1000px;
     }
-}
+} */
 .main-nav .nav-mega-item .mega-lv1-name{
     color: #333132;
     text-decoration: none;

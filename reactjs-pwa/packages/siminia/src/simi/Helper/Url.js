@@ -91,7 +91,7 @@ export const saveDataToUrl = (url, data, is_dummy_data = true) => {
     let localUrlDict =  Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'LOCAL_URL_DICT');
     localUrlDict = localUrlDict?localUrlDict:{}
     if (!localUrlDict[url] || !is_dummy_data) {
-        data.is_dummy_data = is_dummy_data
+        // data.is_dummy_data = is_dummy_data
         localUrlDict[url] = data
         Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'LOCAL_URL_DICT', localUrlDict);
     }

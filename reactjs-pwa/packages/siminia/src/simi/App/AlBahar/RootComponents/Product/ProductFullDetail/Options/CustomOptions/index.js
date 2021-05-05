@@ -22,6 +22,7 @@ class CustomOptions extends OptionBase {
     renderOptions = () => {
         if (this.data instanceof Object && this.data.hasOwnProperty('custom_options')) {
             const options = this.data.custom_options;
+            console.log(options)
             if (!options) return <div></div>;
             const mainClass = this;
             const optionsHtml = options.map(function (item) {
@@ -104,7 +105,6 @@ class CustomOptions extends OptionBase {
 
     renderContentOption = (ObjOptions, type, configField) => {
         const id = ObjOptions.option_id;
-        console.log(this.selected)
         if (type === 'multiple' || type === 'checkbox') {
             return this.renderMutilCheckbox(ObjOptions, id)
         }

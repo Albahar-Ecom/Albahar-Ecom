@@ -65,10 +65,13 @@ export const useBrands = props => {
                             return
                     }
                     if (startWith && brandItem.url_key) {
-                        if (brandItem.default_value.toLowerCase()[0] !== startWith)
-                            return
+                        if (brandItem.default_value.toLowerCase()[0] === startWith) {
+                            filteredItems.push(brandItem)
+                        }
+                    } else if(startWith === '') {
+                        filteredItems.push(brandItem)
                     }
-                    filteredItems.push(brandItem)
+                  
                 }
             )
             return filteredItems

@@ -1,0 +1,107 @@
+<!--
+/**
+ * Copyright © Magento, Inc. All rights reserved.
+ * See COPYING.txt for license details.
+ */
+-->
+<!--@subject {{trans "Your %store_name order has shipped" store_name=$store.frontend_name}} @-->
+<!--@vars {
+"var formattedBillingAddress|raw":"Billing Address",
+"var this.getUrl($store,'customer/account/',[_nosid:1])":"Customer Account URL",
+"var order_data.customer_name":"Customer Name",
+"var order.increment_id":"Order Id",
+"var payment_html|raw":"Payment Details",
+"var comment|escape|nl2br":"Shipment Comment",
+"var shipment.increment_id":"Shipment Id",
+"layout handle=\"simi_sales_email_order_shipment_items\" shipment=$shipment order=$order":"Shipment Items Grid",
+"block class='Magento\\\\Framework\\\\View\\\\Element\\\\Template' area='frontend' template='Magento_Sales::email\/shipment\/track.phtml' shipment=$shipment order=$order":"Shipment Track Details",
+"var formattedShippingAddress|raw":"Shipping Address",
+"var order.shipping_description":"Shipping Description",
+"var store.frontend_name":"Store Frontend Name",
+"var store_phone":"Store Phone",
+"var store_email":"Store Email",
+"var store_hours":"Store Hours",
+"var order_data.is_not_virtual": "Order Type",
+"var shipment": "Shipment",
+"var order": "Order",
+"var order_id": "Order DB Id",
+"var shipment_id": "Shipment DB Id"
+} @-->
+{{template config_path="siminiaconfig/custom_email/email_header_template"}}
+
+<table cellpadding="0" cellspacing="0" border="0">
+    <tr>
+        <td>
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td class="email-heading">
+                        <h1>{{trans "Thank you for your order from"}} {{var store.frontend_name }}.</h1>
+                        <p>{{trans "You can check the status of your order by"}} <a href="{{store url="customer/account/"}}">{{trans "logging into your account"}}</a>.</p>
+                    </td>
+                    <td class="store-info">
+                        <h4>{{trans "Order Questions"}}?</h4>
+                        <p>
+                            {{depend store_phone}}
+                            <b>Call Us:</b>
+                            <a href="tel:{{var phone}}">{{var store_phone}}</a><br>
+                            {{/depend}}
+                            {{depend store_hours}}
+                            <span class="no-link">{{var store_hours}}</span><br>
+                            {{/depend}}
+                            {{depend store_email}}
+                            <b>Email:</b> <a href="mailto:{{var store_email}}">{{var store_email}}</a>
+                            {{/depend}}
+                        </p>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+    <tr>
+        <td class="order-details">
+            <h3>{{trans "Your Shipment"}} <span class="no-link">#{{var shipment.increment_id}}</span></h3>
+            <p>{{trans "Order"}} <span class="no-link">#{{var order.increment_id}}</span></p>
+        </td>
+    </tr>
+    <tr class="order-information">
+        <td><div id="info-table">
+            {{if comment}}
+            <table cellspacing="0" cellpadding="0" class="message-container">
+                <tr>
+                    <td>{{var comment|escape|nl2br}}</td>
+                </tr>
+            </table>
+            {{/if}}
+            {{layout handle="simi_sales_email_order_shipment_items" shipment_id=$shipment_id order_id=$order_id}}
+            <table cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                    <td class="address-details">
+                        <h6>{{trans "Bill to"}}:</h6>
+                        <p><span class="no-link">{{var formattedBillingAddress|raw}}</span></p>
+                    </td>
+                    {{depend order_data.is_not_virtual}}
+                    <td class="address-details">
+                        <h6>{{trans "Ship to"}}:</h6>
+                        <p><span class="no-link">{{var formattedShippingAddress|raw}}</span></p>
+                    </td>
+                    {{/depend}}
+                </tr>
+                <tr>
+                    {{depend order_data.is_not_virtual}}
+                    <td class="method-info">
+                        <h6>{{trans "Shipping method"}}:</h6>
+                        <p>{{var order.shipping_description}}</p>
+                    </td>
+                    {{/depend}}
+                    <td class="method-info">
+                        <h6>{{trans "Payment method"}}:</h6>
+                        {{var payment_html|raws}}
+                    </td>
+                </tr>
+            </table>
+            {{layout handle="sales_email_order_shipment_track" shipment_id=$shipment_id order_id=$order_id}}
+        </div></td>
+    </tr>
+</table>
+
+{{template config_path="siminiaconfig/custom_email/email_footer_template"}}

@@ -14,6 +14,10 @@ type SimiStoreConfigDetailsSales {
 	sales_minimum_order_amount: String
 }
 
+type ConfigurableProductOptions {
+	attributeFrontendInput: String @doc(description: "Frontend Input") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\Attribute\\FrontendInput")
+}
+
 type Mutation {
 	socialGenerateCustomerToken(email: String!, id: String!, firstname: String, lastname: String): MbCustomerToken @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\SocialGenerateCustomerToken") @doc(description:"Retrieve the customer token by email. Strong validate social user before generate token")
 }

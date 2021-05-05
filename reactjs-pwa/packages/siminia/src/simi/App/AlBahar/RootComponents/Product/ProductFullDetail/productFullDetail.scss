@@ -192,18 +192,18 @@
                     background-color: #dddddd;
                 }
             }
-            &.option-item-type-color {
-                button {
-                    height: 40px;
-                    width: 60px;
-                    border-radius: 0;
-                    border: 1px solid #efefef;
-                    font-size: 0;
-                    &.selected {
-                        border-color: #101820;
-                    }
-                }
-            }
+            // &.option-item-type-color {
+            //     button {
+            //         height: 40px;
+            //         width: 60px;
+            //         border-radius: 0;
+            //         border: 1px solid #efefef;
+            //         font-size: 0;
+            //         &.selected {
+            //             border-color: #101820;
+            //         }
+            //     }
+            // }
         }
     }
 }

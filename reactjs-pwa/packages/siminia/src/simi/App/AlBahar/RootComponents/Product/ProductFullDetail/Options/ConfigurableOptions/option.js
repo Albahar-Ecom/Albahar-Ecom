@@ -28,7 +28,7 @@ class Option extends Component {
     };
 
     getProduct = (values) => {
-        const {variants} = this.props
+        const {variants, attributeFrontendInput} = this.props
         values.forEach((value) => {
             const products = variants.filter((variant) => {
                 if(variant.attributes && variant.attributes.length > 0) {
@@ -40,13 +40,14 @@ class Option extends Component {
                 return false
             })
             value.products = products
+            value.frontend_input = attributeFrontendInput
         })
         
     }
 
     render() {
         const { handleSelectionChange, props } = this;
-        const { classes, label, values, attribute_code, variants } = props;
+        const { classes, label, values, attribute_code, attributeFrontendInput, variants } = props;
 
         this.getProduct(values)
         

@@ -104,7 +104,7 @@ const Griditem = props => {
         if (preFetchProductResult && preFetchProductResult.productDetail
             && preFetchProductResult.productDetail.items && preFetchProductResult.productDetail.items[0]
             && item && item.url_key && clickedLocation) {
-            try {
+            // try {
                 const productDataReturned = preFetchProductResult.productDetail.items[0];
                 if (productDataReturned && productDataReturned.hasOwnProperty('simiExtraField')) {
                     if (productDataReturned.simiExtraField) {
@@ -114,10 +114,12 @@ const Griditem = props => {
                     }
                 }
 
+                console.log(productDataReturned)
+
                 saveDataToUrl(clickedLocation.pathname, productDataReturned, false);
-            } catch (err) {
-                console.error(err)
-            }
+            // } catch (err) {
+            //     console.error(err)
+            // }
             setSimiNProgressLoading(false)
             handleLink(clickedLocation)
         } else if (preFetchProductResult || preFetchProductError) {
