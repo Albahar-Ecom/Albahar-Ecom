@@ -155,6 +155,8 @@
     display: none;
     color: #333132;
     padding: 5px;
+    max-height: 450px;
+    overflow: auto;
 }
 .main-nav .active .nav-mega-item {
     display: flex;

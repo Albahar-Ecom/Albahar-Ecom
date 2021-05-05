@@ -13,11 +13,11 @@ const NoProductsFound = props => {
 
     return (
         <div className={classes.root}>
-            <Image
+            {/* <Image
                 alt="Sorry! We couldn't find any products."
                 classes={{ image: classes.image, root: classes.imageContainer }}
                 src={noProductsFound}
-            />
+            /> */}
             <h2 className={classes.title}>
                 Sorry! We couldn't find any products.
             </h2>
