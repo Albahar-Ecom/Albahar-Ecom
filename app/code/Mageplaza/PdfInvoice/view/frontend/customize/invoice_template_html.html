@@ -1,0 +1,125 @@
+<html>
+<body>
+<div id="wrapper">
+    <div class="header">
+        <div class="header-logo">
+            <a class="logo" href="{{store url=""}}">
+              <img
+                   width="{{var businessInformation.getLogoWidth()}}"
+                   height="{{var businessInformation.getLogoHeight()}}"
+                   src="{{var logo_url}}"
+                   alt="{{var logo_alt}}"
+                   border="0"
+                   />
+          	</a>
+          	<h1 class="header-title">{{trans "ONLINE ORDER"}}</h1>
+        </div>
+      	<div class="clr"></div>
+      	<div class="header-info">
+          	<table border="0" style="width: 100%;font-size:12px;font-weight:bold;padding: 0 20px;">
+              <tr>
+                <td style="width: 105px;">Invoice No</td><td style="width:15px">:</td>
+                <td style="text-align:center;">{{var invoice.increment_id}}</td>
+                <td style="direction:rtl;width: 120px;">رقم الفاتورة :</td>
+              </tr>
+              <tr>
+                <td style="width: 105px;">Order No</td><td style="width:15px">:</td>
+                <td style="text-align:center;">{{var order.increment_id}}</td>
+                <td style="direction:rtl;width: 120px;">رقم الطلب عبر الإنترنت :</td>
+              </tr>
+              <tr>
+                <td style="width: 105px;">Phone No</td><td style="width:15px">:</td>
+                <td style="text-align:center;">{{var businessInformation.getPhone()}}</td>
+                <td style="direction:rtl;width: 120px;">رقم الھاتف :</td>
+              </tr>
+              <tr>
+                <td style="width: 105px;">To Mr. /Mrs.</td><td style="width:15px">:</td>
+                <td style="text-align:center;">{{var billing.getName()}}</td>
+                <td style="direction:rtl;width: 120px;">إلى السید / السیدة :</td>
+              </tr>
+          	</table>
+        </div>
+    </div>
+    <div class="clr"></div>
+    <div class="content">
+    </div>
+    <div class="itemTable">
+        <div class="black-line" style="margin-bottom: 20px;"></div>
+        {{layout handle="pdfinvoice_order_invoice_items_customize" invoice=$invoice order=$order item_barcode=0}}
+        <div class="black-line"></div>
+    </div>
+    <footer>
+      	<table border="0" style="width: 100%;vertical-align:top;font-size:10px;">
+          <tr>
+            <td style="padding:0px;width: 20%;font-weight:bold;">Your order ID:</td>
+            <td style="padding:0px;text-align:center;">{{var order.increment_id}}</td>
+            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">معرف الطلب الخاص بك:</td>
+          </tr>
+          <tr>
+            <td style="padding:0px;width: 20%;font-weight:bold;">Delivering to:</td>
+            <td style="padding:0px;text-align:center;">{{var formattedShippingAddress|raw}}</td>
+            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">التوصیل إلى:</td>
+          </tr>
+          <tr>
+            <td style="padding:0px;width: 20%;font-weight:bold;">Time of order:</td>
+            <td style="padding:0px;text-align:center;">{{var invoice.created_at}}</td>
+            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">الطلب وقت:</td>
+          </tr>
+          <tr>
+            <td style="padding:0px;width: 20%;font-weight:bold;">Paid by:</td>
+            <td style="padding:0px;text-align:center;">{{var payment_html|raw}}</td>
+            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">جھة الدفع:</td>
+          </tr>
+      	</table>
+        {{depend invoiceNote}}
+        <div class="footer-note">
+            <h3 class="mp-note">{{trans "Notes"}}:</h3>
+            <p>{{var invoiceNote|raw}}</p>
+        </div>
+        {{/depend}}
+        <div class="footer-barcode">
+            <div class="barcode">
+                <!-- BARCODE: Sugest Type: C39/EAN128A -->
+                <p class="mp-invoice-barcode">
+                    <barcode code="{{var invoice.increment_id}}" type="C39"/>
+                </p>
+                <!-- QRCODE -->
+                <!-- <p class="mp-invoice-barcode"><barcode code="{{var invoice.increment_id}}" type="QR" size="0.8" error="M" disableborder="1"  /></p> -->
+                <!-- Sugest Type:-->
+            </div>
+            <div class="barcode-text">
+                <p class="mp-invoice-barcode">
+                    {{var invoice.increment_id}}
+                </p>
+            </div>
+        </div>
+      	<table border="0" style="width: 100%;vertical-align:top;font-size:10px;margin-top:10px;">
+          <tr>
+            <td style="width: 50%;padding:0px;padding-right: 10px;">Please print a copy of this Order Confirmation and store safely. If you
+have any problems or questions regarding your order, please contact Al-Bahar sales staff by going to our Contact Us page or calling Al-Bahar customer service hotline number at 1848848</td>
+            <td style="width: 50%;padding:0px;padding-left: 10px;direction:rtl;">یرجى طباعة نسخة من تأكید الطلب وتخزینھا بأمان. إذا كانت لدیك أي مشاكل أو أسئلة
+بخصوص طلبك ، فیرجى الاتصال بفریق مبیعات البحر بالذھاب إلى صفحة اتصل بنا أو
+الاتصال على الخط الساخن لخدمة عملاء البحر على 1848848</td>
+          </tr>
+      	</table>
+        <p style="font-size:12px;text-align:center;margin-top: 30px;">Thank you for Shopping with us!<p>
+        <table style="width:100%;text-align:center;vertical-align: middle;margin:20px;">
+          <tr>
+            <td>
+              <a href="https://www.instagram.com/accounts/login/?next=/albaharonline/" style="color:back;text-decoration:none;">
+                <img src="{{config path="web/secure/base_url"}}/pub/media/pdfinvoice/instagram_logo.png" style="width:40px;height:40px;vertical-align:middle;"/>&nbsp; <span style="font-weight:bold;">albaharonline</span></td>
+              </a>
+            <td>
+              <a href="https://www.facebook.com/AlBaharOnline/" style="color:back;text-decoration:none;">
+                <img src="{{config path="web/secure/base_url"}}/pub/media/pdfinvoice/facebook_logo.png" style="width:40px;height:40px;vertical-align:middle;"/>&nbsp; <span style="font-weight:bold;">albaharonline</span></td>
+              </a>
+            <td>
+              <a href="https://twitter.com/albahar_online" style="color:back;text-decoration:none;">
+                <img src="{{config path="web/secure/base_url"}}/pub/media/pdfinvoice/twiiter_logo.png" style="width:40px;height:40px;vertical-align:middle;"/>&nbsp; <span style="font-weight:bold;">albaharonline</span></td>
+              </a>
+          </tr>
+        </table>
+    </footer>
+</div>
+</body>
+</html>
