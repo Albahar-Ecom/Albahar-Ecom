@@ -2,6 +2,8 @@ import { useMemo, useState } from 'react';
 import { useQuery } from '@apollo/client';
 import { GET_BRANDS_LIST } from './Brand.gql';
 import { Util } from '@magento/peregrine';
+import {getBrandConfig} from '../../Helper/Data'
+
 const { BrowserPersistence } = Util;
 const storage = new BrowserPersistence();
 
@@ -17,7 +19,7 @@ const checkValidCateId = (categoryId, brandItem) => {
 }
 
 export const useBrands = props => {
-    const brandConfiguration = storage.getItem('simiBrandConfiguration');
+    const brandConfiguration = getBrandConfig()
     const { categoryId } = props
     //get Brand List useQuery
     const {

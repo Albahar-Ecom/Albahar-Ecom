@@ -30,6 +30,15 @@ export const getSalesConfig = () => {
     return null
 }
 
+export const getBrandConfig = () => {
+    const {brandConfig} = Identify.getStoreConfig() || {}
+    if(brandConfig) {
+        return brandConfig
+    }
+
+    return null
+} 
+
 export const translateWithLocale = (text, locale = null) => {
     const appConfig = Identify.getAppDashboardConfigs();
     let config = null;

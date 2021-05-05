@@ -88,11 +88,13 @@ const HomeCatItem = props => {
                      alt={item.simicategory_name}/>
             </div>
             <div className="cate-title">
+                <div className="blue-background"></div>
                 <div className="--text">{item.simicategory_name}</div>
+                <div className="cate-arrow">
+                    <ArrowRight color="#ffffff" style={{width:60,height:60}}/>
+                </div>
             </div>
-            <div className="cate-arrow">
-                <ArrowRight color="#0082ff" style={{width:60,height:60, fill: '#0082ff'}}/>
-            </div>
+            
         </div>
     )
 }

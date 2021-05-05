@@ -38,6 +38,14 @@
     margin-top: 10px;
 }
 
+@media (max-width: 1199px) and (min-width: 1024px) {
+    .add-to-cart-btn  {
+        padding: 3px 6px;
+        width: 34%;
+        font-size: 12px;
+    }
+}
+
 @media (max-width: 1023px) {
     .add-to-cart-btn {
         width: 100%;

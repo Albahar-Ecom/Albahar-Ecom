@@ -27,10 +27,29 @@ class Option extends Component {
         }
     };
 
+    getProduct = (values) => {
+        const {variants} = this.props
+        values.forEach((value) => {
+            const products = variants.filter((variant) => {
+                if(variant.attributes && variant.attributes.length > 0) {
+                    return variant.attributes.some(attribute => {
+                        return attribute.value_index === value.value_index
+                    });
+                }
+
+                return false
+            })
+            value.products = products
+        })
+        
+    }
+
     render() {
         const { handleSelectionChange, props } = this;
-        const { classes, label, values, attribute_code } = props;
+        const { classes, label, values, attribute_code, variants } = props;
 
+        this.getProduct(values)
+        
         return (
             <div className={`${classes.root} option-item-type option-item-type-${attribute_code}`}>
                 <h3 className={classes.title}>

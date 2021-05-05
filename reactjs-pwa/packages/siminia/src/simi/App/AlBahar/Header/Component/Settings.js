@@ -3,8 +3,8 @@ import Identify from "src/simi/Helper/Identify";
 import ClickAwayListener from '@material-ui/core/ClickAwayListener';
 import Grow from '@material-ui/core/Grow';
 import Popper from '@material-ui/core/Popper';
-import Storeview from "src/simi/BaseComponents/Settings/Storeview/index";
-import Currency from "src/simi/BaseComponents/Settings/Currency/index";
+import Storeview from "src/simi/App/AlBahar/BaseComponents/Settings/Storeview/index";
+import Currency from "src/simi/App/AlBahar/BaseComponents/Settings/Currency/index";
 import CountryFlag from 'src/simi/BaseComponents/CountryFlag'
 import {translateWithLocale} from '../../Helper/Data'
 

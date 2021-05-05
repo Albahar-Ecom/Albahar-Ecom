@@ -15,10 +15,12 @@
 
 @media (min-width: 1024px) {
     .root {
-        height: 33px;
-        min-width: 33px;
+        min-height: 35px;
+        height: auto;
+        min-width: 71px;
         box-sizing: border-box;
         border: 1px solid #E0E0E0;
+        border-radius: 4px;
     }
 }
 

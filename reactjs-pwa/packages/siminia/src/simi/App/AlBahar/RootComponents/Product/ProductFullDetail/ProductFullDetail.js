@@ -150,7 +150,7 @@ class ProductFullDetail extends Component {
         const { fallback, handleConfigurableSelectionChange, props } = this;
         const { configurable_options, type_id, is_dummy_data,
             downloadable_product_links, downloadable_product_samples,
-            links_title, links_purchased_separately, items, id } = props.product;
+            links_title, links_purchased_separately, items, id, variants } = props.product;
         const isConfigurable = isProductConfigurable(prepareProduct(props.product));
 
         if (is_dummy_data)
@@ -159,6 +159,7 @@ class ProductFullDetail extends Component {
             <Suspense fallback={fallback}>
                 {isConfigurable && <ConfigurableOptions
                     options={configurable_options}
+                    variants={variants}
                     onSelectionChange={handleConfigurableSelectionChange}
                 />}
                 {type_id === 'bundle' && <BundleOptions
@@ -457,7 +458,6 @@ class ProductFullDetail extends Component {
     }
 
     returnStructuredJSON = (prod, hasStock, app_reviews) => {
-        console.log(prod)
         const simiStoreConfig = Identify.getStoreConfig();
         const base_media_url = simiStoreConfig && simiStoreConfig.storeConfig.base_media_url || '';
 
