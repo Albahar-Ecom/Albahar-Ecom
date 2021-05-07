@@ -224,3 +224,8 @@ Rate
 .prices-layout-rtl{
     text-align: right;
 }
+
+.add-to-cart-action-rtl .quantity{
+    margin-left: 10px;
+    margin-right: 0;
+}

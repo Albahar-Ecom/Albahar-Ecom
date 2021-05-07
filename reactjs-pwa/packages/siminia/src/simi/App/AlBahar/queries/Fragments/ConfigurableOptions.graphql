@@ -2,6 +2,7 @@ fragment ConfigurableOptions on ConfigurableProduct {
     configurable_options {
         attribute_code
         attribute_id
+        attributeFrontendInput
         id
         label
         values {

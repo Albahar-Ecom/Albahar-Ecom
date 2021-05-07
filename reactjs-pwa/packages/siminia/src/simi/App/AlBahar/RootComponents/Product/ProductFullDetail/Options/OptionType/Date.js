@@ -25,7 +25,7 @@ class DateField extends Abstract {
             if(datetime) {
                 const selected = parent.selected[id];
                 if(selected) {
-                    console.log(selected)
+
                     if (!selected.hasOwnProperty('date')) {
                         error = Identify.__('Missing date value')
                     } else if (!selected.hasOwnProperty('time')) {

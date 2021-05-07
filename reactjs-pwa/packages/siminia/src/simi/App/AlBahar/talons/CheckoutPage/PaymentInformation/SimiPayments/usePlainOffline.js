@@ -315,7 +315,11 @@ export const usePlainOffline = props => {
                 if (formState.values.isBillingAddressSame) {
                     setShippingAddressAsBillingAddress();
                 } else {
-                    if (formState.values.saved_address_for_billing && (parseInt(formState.values.saved_address_for_billing) !== -1)) {
+                    if (formState.values.saved_address_for_billing
+                        && formState.values.saved_address_for_billing !== 'new'
+                        && (parseInt(formState.values.saved_address_for_billing) !== -1
+                    )) {
+                        console.log(formState.values.saved_address_for_billing)
                         //use saved address
                         setBillingAddressById(formState.values.saved_address_for_billing);
                     } else {

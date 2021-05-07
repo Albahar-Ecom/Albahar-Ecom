@@ -153,8 +153,8 @@ class ProductFullDetail extends Component {
             links_title, links_purchased_separately, items, id, variants } = props.product;
         const isConfigurable = isProductConfigurable(prepareProduct(props.product));
 
-        if (is_dummy_data)
-            return <Skeleton />
+        // if (is_dummy_data)
+        //     return <Skeleton />
         return (
             <Suspense fallback={fallback}>
                 {isConfigurable && <ConfigurableOptions

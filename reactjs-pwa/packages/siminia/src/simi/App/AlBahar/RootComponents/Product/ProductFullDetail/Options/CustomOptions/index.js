@@ -104,7 +104,6 @@ class CustomOptions extends OptionBase {
 
     renderContentOption = (ObjOptions, type, configField) => {
         const id = ObjOptions.option_id;
-        console.log(this.selected)
         if (type === 'multiple' || type === 'checkbox') {
             return this.renderMutilCheckbox(ObjOptions, id)
         }

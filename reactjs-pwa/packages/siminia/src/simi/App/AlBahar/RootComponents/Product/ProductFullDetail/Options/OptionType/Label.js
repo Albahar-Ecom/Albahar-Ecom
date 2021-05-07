@@ -34,7 +34,6 @@ class Label extends Abstract{
             if(images.hasOwnProperty('img') && images.img){
                 this.handleColorSwatch(images.img)
             }
-            console.log(images)
         }
 
         const value = item.id;

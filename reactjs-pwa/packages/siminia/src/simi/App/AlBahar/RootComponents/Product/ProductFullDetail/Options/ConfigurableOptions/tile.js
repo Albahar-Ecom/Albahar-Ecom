@@ -40,6 +40,7 @@ class Tile extends Component {
             itemIndex,
             ...restProps
         } = this.props;
+
         const className = classes[getClassName('root', isSelected, hasFocus)];
 
         let isOutStock = false
@@ -56,10 +57,9 @@ class Tile extends Component {
                 isOutStock = true
             }
         }
-
-        const { label, swatch_data } = item;
+        const { label, swatch_data, frontend_input } = item;
         let swatchStyle = {};
-        if (swatch_data) {
+        if (swatch_data && (frontend_input === 'swatch_visual' || frontend_input === 'swatch_text')) {
             if (swatch_data.hasOwnProperty('thumbnail')) {
                 swatchStyle = { background: `url(${swatch_data.thumbnail})`, backgroundRepeat: 'no-repeat', backgroundSize: 'cover' };
             } else {
