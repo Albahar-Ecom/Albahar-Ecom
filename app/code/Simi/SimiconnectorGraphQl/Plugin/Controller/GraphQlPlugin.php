@@ -1,5 +1,5 @@
 <?php
-namespace Simi\SimiconnectorGraphQl\Module\Plugin\Controller;
+namespace Simi\SimiconnectorGraphQl\Plugin\Controller;
 
 class GraphQlPlugin
 {
