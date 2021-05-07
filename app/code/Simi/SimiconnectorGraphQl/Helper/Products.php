@@ -136,7 +136,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                     }
                     $this->filteredAttributes[$key] = $value;
                     $collection->addCategoriesFilter(['in' => $value]);
-                } elseif ($key == 'size' || $key == 'color') {
+                } elseif (strpos($key, 'size') == 0  || $key == 'color') {
                     $this->filteredAttributes[$key] = $value;
                     # code...
                     $productIds = [];
@@ -165,6 +165,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
 
                     foreach ($collectionChid as $product) {
                         $productIds[] = $product->getParentId();
+                        $productIds[] = $product->getId();
                     }
 
                     $collection->addAttributeToFilter('entity_id', array('in' => $productIds));
@@ -320,11 +321,12 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function _filterByAtribute($collection, $attributeCollection, &$titleFilters, &$layerFilters, $arrayIDs)
     {
-        $childProductsIds = [];
+        $childProductsIds = [];        
         if ($arrayIDs && count($arrayIDs)) {
             $childProducts = $this->productCollectionFactory->create()
                 ->addAttributeToSelect('*')
-                ->addAttributeToFilter('type_id', 'simple');
+                ->addAttributeToFilter('type_id', ['simple', 'virtual']);
+            
             $select = $childProducts->getSelect();
             $select->joinLeft(
                 array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
@@ -333,9 +335,14 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             );
             $select = $childProducts->getSelect();
             $select->where("link_table.parent_id IN (" . implode(',', array_keys($arrayIDs)) . ")");
-            foreach ($childProducts->getAllIds() as $allProductId) {
+
+            $arrChilds = [];            
+            $reduceArrChilds = array_reduce($arrChilds, 'array_merge', array());
+            $childMerged = array_unique (array_merge ($childProducts->getAllIds(), $reduceArrChilds));
+            foreach ($childMerged as $allProductId) {
                 $childProductsIds[$allProductId] = '1';
             }
+            
         }
 
         foreach ($attributeCollection as $attribute) {
