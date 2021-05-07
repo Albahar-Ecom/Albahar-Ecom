@@ -22,7 +22,6 @@ class CustomOptions extends OptionBase {
     renderOptions = () => {
         if (this.data instanceof Object && this.data.hasOwnProperty('custom_options')) {
             const options = this.data.custom_options;
-            console.log(options)
             if (!options) return <div></div>;
             const mainClass = this;
             const optionsHtml = options.map(function (item) {

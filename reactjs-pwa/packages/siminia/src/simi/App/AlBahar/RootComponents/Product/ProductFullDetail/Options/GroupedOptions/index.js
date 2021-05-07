@@ -41,7 +41,6 @@ class GroupOptions extends OptionBase {
         const id = product.id
         const qty = attribute.qty;
         const { price_range, price_tiers, stock_status } = product;
-        console.log('run')
         if(stock_status === "OUT_OF_STOCK") return null
 
         return (

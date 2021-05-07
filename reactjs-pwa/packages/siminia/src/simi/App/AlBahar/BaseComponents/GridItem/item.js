@@ -104,7 +104,7 @@ const Griditem = props => {
         if (preFetchProductResult && preFetchProductResult.productDetail
             && preFetchProductResult.productDetail.items && preFetchProductResult.productDetail.items[0]
             && item && item.url_key && clickedLocation) {
-            // try {
+            try {
                 const productDataReturned = preFetchProductResult.productDetail.items[0];
                 if (productDataReturned && productDataReturned.hasOwnProperty('simiExtraField')) {
                     if (productDataReturned.simiExtraField) {
@@ -114,12 +114,12 @@ const Griditem = props => {
                     }
                 }
 
-                console.log(productDataReturned)
+                // console.log(productDataReturned)
 
                 saveDataToUrl(clickedLocation.pathname, productDataReturned, false);
-            // } catch (err) {
-            //     console.error(err)
-            // }
+            } catch (err) {
+                console.error(err)
+            }
             setSimiNProgressLoading(false)
             handleLink(clickedLocation)
         } else if (preFetchProductResult || preFetchProductError) {
@@ -135,14 +135,14 @@ const Griditem = props => {
             backgroundColor: 'white'
         }} >
             <div style={{ position: 'absolute', top: 0, bottom: 0, width: '100%', padding: 1 }}>
-                <Link to={location}
+                <a href={location.pathname}
                     onClick={e => {
                         e.preventDefault();
                         setSimiNProgressLoading(true);
                         setClickedLocation(location);
                     }}>
                     <Image src={small_image} alt={name} key={Identify.randomString(3)} />
-                </Link>
+                </a>
             </div>
         </div>
     )
@@ -183,19 +183,26 @@ const Griditem = props => {
                         <StaticRate rate={rating_summary} classes={itemClasses} />
                         <span className={itemClasses["item-review-count"]}>({review_count} {(review_count) ? Identify.__('Reviews') : Identify.__('Review')})</span>
                     </div> : ''}
-                    <div role="presentation" className={`${itemClasses["product-name"]} ${itemClasses["small"]}`} onClick={() => props.handleLink(location)}>{ReactHTMLParse(name)}</div>
-                    
+                    <div 
+                        role="presentation" 
+                        className={`${itemClasses["product-name"]} 
+                        ${itemClasses["small"]}`} 
+                        onClick={
+                            () => {
+                                setSimiNProgressLoading(true);
+                                setClickedLocation(location);
+                            }
+                        }
+                    >
+                            {ReactHTMLParse(name)}
+                    </div>
                 </div>
             </div>
             <div className={itemClasses['siminia-product-des-below']}>
-                <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} 
-                    onClick={() => {
-                        setSimiNProgressLoading(true);
-                        setClickedLocation(location);
-                    }}>
+                <div role="presentation" className={`${itemClasses["prices-layout"]} ${Identify.isRtl() ? itemClasses["prices-layout-rtl"] : ''}`} id={`price-${id}`} >
                     {priceLabel}
                 </div>
-                <div className={`${itemClasses['add-to-cart-action']}`}>
+                <div className={`${itemClasses['add-to-cart-action']} ${Identify.isRtl() ? itemClasses['add-to-cart-action-rtl'] : ''}`}>
                     <div className={itemClasses['quantity']}>
                         <Quantity handleSetQty={handleSetQty} isOutOfStock={isOutOfStock} isPhone={isPhone}/>
                     </div>

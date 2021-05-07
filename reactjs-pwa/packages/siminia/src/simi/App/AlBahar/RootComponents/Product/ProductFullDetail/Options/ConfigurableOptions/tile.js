@@ -57,7 +57,6 @@ class Tile extends Component {
                 isOutStock = true
             }
         }
-        console.log(item)
         const { label, swatch_data, frontend_input } = item;
         let swatchStyle = {};
         if (swatch_data && (frontend_input === 'swatch_visual' || frontend_input === 'swatch_text')) {

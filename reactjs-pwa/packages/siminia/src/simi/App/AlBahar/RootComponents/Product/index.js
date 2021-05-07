@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import Loading from 'src/simi/BaseComponents/Loading'
 import Identify from 'src/simi/Helper/Identify'
 import ProductFullDetail from './ProductFullDetail';
@@ -11,6 +11,11 @@ import { saveDataToUrl, productUrlSuffix, getDataFromUrl } from 'src/simi/Helper
 
 const Product = props => {
     const { preloadedData, history } = props
+
+    useEffect(() => {
+        smoothScrollToView($('#root'))
+    }, [])
+
     if (preloadedData && !preloadedData.is_dummy_data) { //saved api is full api, then no need api getting anymore
         return (
             <ProductFullDetail
@@ -19,8 +24,6 @@ const Product = props => {
             />
         )
     }
-
-    smoothScrollToView($('#root'))
 
     const sku = Identify.findGetParameter('sku') //cases with url like: product.html?sku=ab12
     const productQuery = sku ? connectorGetProductDetailBySku : connectorGetProductDetailByUrl

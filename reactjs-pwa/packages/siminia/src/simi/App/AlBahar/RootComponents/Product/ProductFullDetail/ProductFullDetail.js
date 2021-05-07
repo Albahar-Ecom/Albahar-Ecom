@@ -499,7 +499,6 @@ class ProductFullDetail extends Component {
         const { optionCodes, optionSelections } = state;
         const { history, toggleMessages } = props;
         const product = prepareProduct(props.product);
-        console.log(product)
         const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, variants } = product;
         const short_desc = (product.short_description && product.short_description.html) ? product.short_description.html : '';
 

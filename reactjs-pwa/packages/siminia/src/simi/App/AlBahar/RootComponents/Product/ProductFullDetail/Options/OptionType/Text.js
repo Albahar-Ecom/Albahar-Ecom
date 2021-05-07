@@ -69,7 +69,6 @@ class Text extends Abstract {
 
     renderTextArea =()=>{
         const {id} = this.props
-        console.log(this.state.value)
         return (
             <div className={`form-group`}>
                 <textarea 
@@ -87,7 +86,6 @@ class Text extends Abstract {
     }
 
     render(){
-        console.log(this.props)
         const {configField, type} = this.props
         let content = this.renderTextField()
         if(type === 'area') {
