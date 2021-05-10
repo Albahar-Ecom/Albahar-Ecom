@@ -13,5 +13,12 @@
             <argument name="queryComplexity" xsi:type="number">500</argument>
         </arguments>
     </type>
+    
+    <type name="Magento\Quote\Observer\SubmitObserver">
+        <plugin name="custom_order_stop_email" type="Simi\Simicustomize\Plugin\SubmitObserver" />
+    </type>
+
+    <preference for="Gateway\Tap\Controller\Standard\Response" type="Simi\Simicustomize\Controller\Standard\Response" />
+
     <preference for="Magento\Sitemap\Model\Sitemap" type="Simi\Simicustomize\Model\Sitemap" />
 </config>
