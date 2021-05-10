@@ -17,8 +17,6 @@ const SimiPagination = props => {
         itemsPerPageOptions
     } = props;
 
-    console.log(props)
-
     const {
         startPage,
         endPage,

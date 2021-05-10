@@ -31,7 +31,11 @@ const Contact = (props) => {
 }
 
 const Product = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/core/RootComponents/Product')} {...props} />
+    return <LazyComponent component={() => import(/* webpackChunkName: "SimiProduct"*/'src/simi/App/AlBahar/RootComponents/Product')} {...props} />
+}
+
+const BrandDetails = (props) => {
+    return <LazyComponent component={() => import(/* webpackChunkName: "BrandDetails"*/'src/simi/App/AlBahar/Shopbybrand/Category')} {...props} />
 }
 
 const Search = (props) => {
@@ -58,9 +62,9 @@ const BrandCategory = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "BrandCategory"*/'src/simi/App/AlBahar/Shopbybrand/components/category/index')} {...props} />
 }
 
-const BrandDetails = (props) => {
-    return <LazyComponent component={() => import(/* webpackChunkName: "BrandDetails"*/'src/simi/App/AlBahar/Shopbybrand/components/branddetails/index')} {...props} />
-}
+// const BrandDetails = (props) => {
+//     return <LazyComponent component={() => import(/* webpackChunkName: "BrandDetails"*/'src/simi/App/AlBahar/Shopbybrand/components/branddetails/index')} {...props} />
+// }
 
 const BrandList = (props) => {
     return <LazyComponent component={() => import(/* webpackChunkName: "BrandList"*/'src/simi/App/AlBahar/Shopbybrand/components/brands/index')} {...props} />

@@ -56,6 +56,8 @@ export const useCategoryContent = props => {
         }
     }
 
+    console.log(filterData)
+
     const [
         getProductsByCategory,
         { data: oriProductsData, error: error, loading: loading }

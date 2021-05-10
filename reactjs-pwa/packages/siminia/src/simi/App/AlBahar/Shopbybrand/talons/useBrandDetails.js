@@ -11,7 +11,9 @@ export const useBrandDetails = props => {
     } = useQuery(GET_BRANDS_BY_URL, {
         variables: {
             url_key: url_key
-        }
+        },
+        fetchPolicy: "no-cache"
+
     });
 
     let derivedErrorMessage;
