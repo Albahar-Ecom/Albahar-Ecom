@@ -127,16 +127,19 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             } else {
                 if ($key == 'category_id') {
                     $cat_filtered = true;
-                    if ($this->category) {
-                        if (is_array($value)) {
-                            $value[] = $this->category->getId();
-                        } else {
-                            $value = [$this->category->getId(), $value];
-                        }
-                    }
+                    // if ($this->category) {
+                    //     if (is_array($value)) {
+                    //         $value[] = $this->category->getId();
+                    //     } else {
+                    //         $value = [$this->category->getId(), $value];
+                    //     }
+                    // }
+                    //var_dump($value[0]);die();
                     $this->filteredAttributes[$key] = $value;
-                    $collection->addCategoriesFilter(['in' => $value]);
-                } elseif (strpos($key, 'size') == 0  || $key == 'color') {
+//                     $collection->addCategoriesFilter(['in' => $value]);
+                    $collection->addCategoryFilter(\Magento\Framework\App\ObjectManager::getInstance()->create('Magento\Catalog\Model\Category')->load($value[0]));
+                    //die('23233');
+                }elseif (strpos($key, 'size') != false || $key == 'color') {
                     $this->filteredAttributes[$key] = $value;
                     # code...
                     $productIds = [];
