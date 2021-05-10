@@ -101,26 +101,46 @@ const Brands = props => {
     }
 
     const dictionaryOptions = "abcdefghijklmnopqrstuvwxyz".split('').map(
-        dictionaryOption => (
-            <div
-                key={dictionaryOption}
-                onClick={
-                    () => {
-                        if (availableChars.indexOf(dictionaryOption) !== -1) {
-                            setStartWith(dictionaryOption)
+        dictionaryOption => {
+            const style = {
+                color: '#777',
+                opacity: '0.5',
+                cursor: 'not-allowed'
+            }
+            if(availableChars.indexOf(dictionaryOption) !== -1) {
+                style.color = '#333333'
+                style.opacity = '1'
+                style.cursor = 'pointer'
+            }
+            if(dictionaryOption === startWith) {
+                style.color = '#ffffff'
+                style.backgroundColor = (brandConfiguration && brandConfiguration.color) ? brandConfiguration.color : `#0ed08e`
+                style.opacity = '1'
+                style.cursor = 'pointer'
+            }
+            // if()
+            return (
+                <div
+                    key={dictionaryOption}
+                    onClick={
+                        () => {
+                            if (availableChars.indexOf(dictionaryOption) !== -1) {
+                                setStartWith(dictionaryOption)
+                            }
                         }
                     }
-                }
-                className={`${classes.dictOption} ${(dictionaryOption === startWith) && classes.selected} ${(availableChars.indexOf(dictionaryOption) === -1) && classes.disabled}`}
-                style={{
-                    backgroundColor: (availableChars.indexOf(dictionaryOption) !== -1 || (dictionaryOption === startWith)) ?
-                        ((brandConfiguration && brandConfiguration.color) ? brandConfiguration.color : `#0ed08e`) :
-                        `white`
-                }}
-            >
-                {dictionaryOption.toUpperCase()}
-            </div>
-        )
+                    className={`${classes.dictOption} ${(dictionaryOption === startWith) && classes.selected} ${(availableChars.indexOf(dictionaryOption) === -1) && classes.disabled}`}
+                    style={style}
+                    // style={{
+                    //     backgroundColor: (availableChars.indexOf(dictionaryOption) !== -1 || (dictionaryOption === startWith)) ?
+                    //         ((brandConfiguration && brandConfiguration.color) ? brandConfiguration.color : `#0ed08e`) :
+                    //         `white`
+                    // }}
+                >
+                    {dictionaryOption.toUpperCase()}
+                </div>
+            )
+        }
     )
     const listTitle = (brandConfiguration && brandConfiguration.brand_list_name) ? brandConfiguration.brand_list_name : `Brands`
     return (
@@ -182,7 +202,7 @@ const Brands = props => {
                 <div
                     key="all"
                     onClick={() => setStartWith('')}
-                    style={{ backgroundColor: (brandConfiguration && brandConfiguration.color) ? brandConfiguration.color : `#0ed08e` }}
+                    style={{ backgroundColor: !startWith ? ((brandConfiguration && brandConfiguration.color) ? brandConfiguration.color : `#0ed08e`) : '#ffffff' }}
                     className={`${classes.dictOption} ${!startWith && classes.selected}`}
                 >{`All`}</div>
                 {dictionaryOptions}
