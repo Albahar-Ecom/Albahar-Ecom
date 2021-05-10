@@ -12,4 +12,9 @@
         <observer name="Simi_Simicustomize_simiconnector_system_rest_modify"
                   instance="Simi\Simicustomize\Observer\SimiSystemRestModify" />
     </event>
+    
+    <event name="sales_order_save_after">
+        <observer name="simi_sales_order_save_after" instance="Simi\Simicustomize\Observer\SalesOrderSaveAfter" />
+    </event>
+
 </config>
