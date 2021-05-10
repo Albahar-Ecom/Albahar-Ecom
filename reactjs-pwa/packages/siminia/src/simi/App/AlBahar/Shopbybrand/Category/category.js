@@ -158,7 +158,7 @@ const Category = props => {
     }
 
     // const { category } = products;
-    console.log(brandInfo)
+    // console.log(brandInfo)
     //breadcrumb
     const categoryTitle =
         brandInfo && brandInfo.value ? Identify.__(brandInfo.value) : '';
