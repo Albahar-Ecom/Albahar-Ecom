@@ -222,9 +222,9 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                     }
                     $this->filteredAttributes[$key] = $value;
                     $collection->addCategoriesFilter(['in' => $value]);
-                }elseif (strpos($key, 'size') == 0 || $key == 'color') {
+                }elseif (strpos($key, 'size') == 0  || $key == 'color') {
                     $this->filteredAttributes[$key] = $value;                    
-                    # code...
+                    # code...                    
                     $productIds = [];
                     $collectionChid         = $this->simiObjectManager
                         ->create('Magento\Catalog\Model\ResourceModel\Product\Collection');
@@ -233,6 +233,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                         ->addStoreFilter()
                         ->addAttributeToFilter('status', 1)
                         ->addFinalPrice();
+
                     if (is_array($value)) {
                         $insetArray = array();
                         foreach ($value as $child_value) {
@@ -241,6 +242,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                         $collectionChid->addAttributeToFilter($key, $insetArray);
                     } else
                         $collectionChid->addAttributeToFilter($key, ['finset' => $value]);
+
                     $collectionChid->getSelect()
                         ->joinLeft(
                             array('link_table' => $collection->getResource()->getTable('catalog_product_super_link')),
@@ -252,8 +254,9 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
 
                     foreach ($collectionChid as $product) {
                         $productIds[] = $product->getParentId();
+                        $productIds[] = $product->getId();
                     }
-
+                    
                     $collection->addAttributeToFilter('entity_id', array('in' => $productIds));                                        
                 } else {
                     $this->filteredAttributes[$key] = $value;
@@ -438,15 +441,15 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             $select->where("link_table.parent_id IN (" . implode(',', array_keys($arrayIDs)) . ")");
 
             $arrChilds = [];
-            foreach ($arrayIDs as $product_id => $product_value){
-                /* @var \Magento\Catalog\Model\Product $product */
-                $product = $this->simiObjectManager->create('\Magento\Catalog\Api\ProductRepositoryInterface')->getById($product_id);
-                $typeInstance = $product->getTypeInstance();
-                if ( $product->getTypeId() === \Magento\Bundle\Model\Product\Type::TYPE_CODE || $product->getTypeId() === \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE  ) {
-                    $requiredChildrenIds = $typeInstance->getChildrenIds($product_id, true);
-                    $arrChilds[] = array_reduce($requiredChildrenIds, 'array_merge', array());
-                }
-            }
+            // foreach ($arrayIDs as $product_id => $product_value){
+            //     /* @var \Magento\Catalog\Model\Product $product */
+            //     $product = $this->simiObjectManager->create('\Magento\Catalog\Api\ProductRepositoryInterface')->getById($product_id);
+            //     $typeInstance = $product->getTypeInstance();
+            //     if ( $product->getTypeId() === \Magento\Bundle\Model\Product\Type::TYPE_CODE || $product->getTypeId() === \Magento\GroupedProduct\Model\Product\Type\Grouped::TYPE_CODE  ) {
+            //         $requiredChildrenIds = $typeInstance->getChildrenIds($product_id, true);
+            //         $arrChilds[] = array_reduce($requiredChildrenIds, 'array_merge', array());
+            //     }
+            // }
             $reduceArrChilds = array_reduce($arrChilds, 'array_merge', array());
             $childMerged = array_unique (array_merge ($childProducts->getAllIds(), $reduceArrChilds));
             foreach ($childMerged as $allProductId) {

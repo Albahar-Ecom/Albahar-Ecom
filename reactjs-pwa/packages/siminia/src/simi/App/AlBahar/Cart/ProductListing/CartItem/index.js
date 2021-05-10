@@ -113,8 +113,23 @@ const CartItem = props => {
     const itemOption = Array.isArray(optionText) && optionText.length ?
         <div className='item-options'>{optionText.reverse()}</div>
         : ''
+    console.log(item)
 
-    const stockWarning = (!product.stock_status || product.stock_status !== 'IN_STOCK') ?
+    const {simiChildProduct} =item
+    let outStockStatus = false
+    if(simiChildProduct && simiChildProduct.length > 0) {
+        const outStockChildProduct = simiChildProduct.some(childProduct => {
+            return childProduct.stock_status === 'OUT_OF_STOCK'
+        })
+
+        if(outStockChildProduct) {
+            outStockStatus = true
+        }
+    } else if(!product.stock_status || product.stock_status !== 'IN_STOCK') {
+        outStockStatus = true
+    }
+    
+    const stockWarning = (outStockStatus) ?
         <div className="outstock-warning">{Identify.__('The requested qty is not available')}</div> : ''
 
     const tax_cart_display_price = 3; // 1 - exclude, 2 - include, 3 - both

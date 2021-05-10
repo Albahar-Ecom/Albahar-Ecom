@@ -45,7 +45,7 @@ $_order = $block->getOrder();
     <?php else: ?>
         <?php if ($_code == 'grand_total' && $_source->getCustomerBalanceAmount()): ?>
             <tr class="mp">
-                <td class="mp-label">
+                <td class="mp-label" style="width: 33%">
                     <?php /* @noEscape */
                     echo __('Store Credit') ?>
                 </td>
@@ -53,11 +53,7 @@ $_order = $block->getOrder();
                     <span class="balance discount">-<?php /* @noEscape */
                         echo $_order->formatPrice($_source->getCustomerBalanceAmount()) ?></span>
                 </td>
-                <td class="mp-value">
-                    <span class="balance discount">-<?php /* @noEscape */
-                        echo $_order->formatPrice($_source->getCustomerBalanceAmount()) ?></span>
-                </td>
-                <td class="mp-label ar">
+                <td class="mp-label ar" style="width: 33%">
                     <?php /* @noEscape */
                     echo __('مخزن اعتمادات') ?>
                 </td>
@@ -65,7 +61,7 @@ $_order = $block->getOrder();
         <?php endif ?>
 
         <tr class="<?php /* @noEscape */ echo $_code ?> mp">
-            <td class="mp-label">
+            <td class="mp-label" style="width: 33%">
                 <?php if ($_total->getStrong()): ?>
                     <strong><?= /** @noEscape */ $arLabelMap[$_code]['en']??'' ?></strong>
                 <?php else: ?>
@@ -83,18 +79,7 @@ $_order = $block->getOrder();
                     echo $block->formatValue($_total) ?>
                 <?php endif ?>
             </td>
-            <td <?php /* @noEscape */
-            echo $block->getValueProperties() ?> class="mp-value"
-                                                data-th="<?= /** @noEscape */ $block->escapeHtml($_total->getLabel()) ?>">
-                <?php if ($_total->getStrong()): ?>
-                    <strong><?php /* @noEscape */
-                        echo $block->formatValue($_total) ?></strong>
-                <?php else: ?>
-                    <?php /* @noEscape */
-                    echo $block->formatValue($_total) ?>
-                <?php endif ?>
-            </td>
-            <td class="mp-label ar">
+            <td class="mp-label ar" style="width: 33%">
                 <?php if ($_total->getStrong()): ?>
                     <strong><?= /** @noEscape */ $arLabelMap[$_code]['ar']??'' ?></strong>
                 <?php else: ?>
@@ -106,7 +91,7 @@ $_order = $block->getOrder();
 <?php endforeach ?>
 <?php if ($_source->getCustomerBalTotalRefunded()): ?>
     <tr class="mp">
-        <td class="mp-str">
+        <td class="mp-str" style="width: 33%">
             <?php /* @noEscape */
             echo __('Refunded to Store Credit') ?>
         </td>
@@ -114,11 +99,7 @@ $_order = $block->getOrder();
             <span class="balance discount">-<?php /* @noEscape */
                 echo $_order->formatPrice($_source->getCustomerBalTotalRefunded()) ?></span>
         </td>
-        <td class="mp-right">
-            <span class="balance discount">-<?php /* @noEscape */
-                echo $_order->formatPrice($_source->getCustomerBalTotalRefunded()) ?></span>
-        </td>
-        <td class="mp-str">تم رد الأموال إلى رصيد المتجر</td>
+        <td class="mp-str" style="width: 33%">تم رد الأموال إلى رصيد المتجر</td>
     </tr>
 <?php endif ?>
 </table>

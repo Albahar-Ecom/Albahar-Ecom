@@ -16,6 +16,10 @@ export const ProductListingFragment = gql`
                 }
                 stock_status
             }
+            simiChildProduct {
+                product_id
+                stock_status
+            }
             prices {
                 price {
                     currency

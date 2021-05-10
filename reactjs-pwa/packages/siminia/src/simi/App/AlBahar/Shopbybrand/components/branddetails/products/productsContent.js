@@ -80,11 +80,11 @@ const ProductsContent = props => {
     return (
         <Fragment>
             <article className={classes.root}>
-                <div className={classes.headerButtons}>
+                {/* <div className={classes.headerButtons}>
                     {maybeFilterButtons}
                     {maybeSortButton}
-                </div>
-                {maybeSortContainer}
+                </div> */}
+                {/* {maybeSortContainer} */}
                 {content}
                 <Suspense fallback={null}>{modal}</Suspense>
             </article>

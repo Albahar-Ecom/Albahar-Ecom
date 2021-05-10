@@ -152,9 +152,9 @@
                         $_item->getQty() * 1 ?></span>
                 </td>
                 <td class="mp-item">
-                    <p class="product-name"><?= $block->escapeHtml($_item->getName()) ?></p>
+                    <p class="product-name" style="font-size: 14px;"><?= $block->escapeHtml($_item->getName()) ?></p>
                     <?php if ($block->getItemOptions()): ?>
-                        <p>
+                        <p style="font-size: 14px;">
                             <?php $c = 0 ?>
                             <?php foreach ($block->getItemOptions() as $option): ?>
                                 <strong><em><?= /* @noEscape */

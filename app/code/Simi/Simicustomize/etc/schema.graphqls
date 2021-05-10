@@ -54,4 +54,11 @@ type SimiFooterMenu {
 	url: String
 }
 
+interface CartItemInterface {
+	simiChildProduct: [SimiChildProduct] @doc(description: "Frontend Input") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\ConfigurableCartItem\\SimiConfigurableProducts")
+}
 
+type SimiChildProduct {
+	product_id: String
+	stock_status: String
+}
