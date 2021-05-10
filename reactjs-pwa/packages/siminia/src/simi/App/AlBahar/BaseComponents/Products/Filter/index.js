@@ -61,13 +61,14 @@ const Filter = props => {
                                 }
                             >
                                 <input
-                                    type="checkbox"
+                                    type="radio"
                                     defaultChecked={
                                         filtersToApply[item.request_var] &&
                                         filtersToApply[
                                             item.request_var
                                         ].includes(optionItem.value_string)
                                     }
+                                    name={item.request_var}
                                     onChange={() => {
                                         clickedFilter(
                                             item.request_var,
