@@ -73,12 +73,15 @@ img{
 .itemTable{
     padding: 10px 0px;
 }
-.itemTable .table {
-    font-size: 11px;
+.table {
+    font-size: 12px;
     text-align: center;
     vertical-align: center;
 }
-.mp-heading td {
+.table td{
+    font-size: 12px;
+}
+.mp-heading td{
     font-weight:bold;
 }
 .mp-row .mp-qty {
@@ -95,6 +98,7 @@ img{
 .total-table {
     width: 100%;
     margin: 15px 0px;
+    font-size: 12px;
 }
 .total-table .mp td{
     text-align: center;
