@@ -195,13 +195,15 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         if (isset($params['filter']['layer'])) {
             $this->filterCollectionByAttribute($collection, $params, $cat_filtered);
         }
-        
+
         return $collection;
     }
 
     public function filterCollectionByAttribute($collection, $params, &$cat_filtered)
     {
-        foreach ($params['filter']['layer'] as $key => $value) {
+
+        //var_dump($params);die();
+        foreach ($params['filter']['layer'] as $key => $value) {            
             if ($key == 'price') {
                 $value  = explode('-', $value);
                 $priceFilter = array();
@@ -213,16 +215,23 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             } else {
                 if ($key == 'category_id') {
                     $cat_filtered = true;
-                    if ($this->category) {
-                        if (is_array($value)) {
-                            $value[] = $this->category->getId();
-                        } else {
-                            $value = [$this->category->getId(), $value];
-                        }
-                    }
+                    // var_dump($value);
+                    // if ($this->category) {
+                    //     if (is_array($value)) {
+                    //         $value[] = $this->category->getId();
+                    //     } else {
+                    //         $value = [$this->category->getId(), $value];
+                    //     }
+                    // }                                        
+                   // $value = [$value];
                     $this->filteredAttributes[$key] = $value;
-                    $collection->addCategoriesFilter(['in' => $value]);
-                }elseif (strpos($key, 'size') == 0  || $key == 'color') {
+                   // var_dump($value);
+                   // $collection->addCategoryFilter($this->category);
+                    //var_dump($collection->count());
+                    $collection->addCategoryFilter($this->loadCategoryWithId($value));
+                    //var_dump($collection->count());
+                    //die();                    
+                }elseif (strpos($key, 'size') != false || $key == 'color') {                    
                     $this->filteredAttributes[$key] = $value;                    
                     # code...                    
                     $productIds = [];
@@ -258,19 +267,19 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                     }
                     
                     $collection->addAttributeToFilter('entity_id', array('in' => $productIds));                                        
-                } else {
-                    $this->filteredAttributes[$key] = $value;
+                } else {                    
+                    $this->filteredAttributes[$key] = $value;                                        
                     if (is_array($value)) {
                         $insetArray = array();
                         foreach ($value as $child_value) {
                             $insetArray[] = array('finset'=> array($child_value));
-                        }
+                        }                                                
                         $collection->addAttributeToFilter($key, $insetArray);
                     } else
                         $collection->addAttributeToFilter($key, ['finset' => $value]);
                 }
             }
-        }
+        }           
     }
 
     public function getSearchProducts(&$collection, $params)

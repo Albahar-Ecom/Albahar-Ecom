@@ -30,60 +30,124 @@ $_order = $block->getOrder();
 ?>
 
 <?php 
-    $arLabelMap = [
-        'vat' => ['en' => 'Total VAT:', 'ar'=>'ضریبة'],
-        'subtotal' => ['en' => 'Gross Amount:', 'ar'=>'سعر الكامل'],
-        'discount' => ['en' => 'Total Discount:', 'ar'=>'خصم النھائي'],
-        'grand_total' => ['en' => 'Net Amount in KWD:', 'ar'=>'سعر النھائي']
+$arLabelMap = [
+    'subtotal' => ['en' => 'Gross Amount:', 'ar'=>'سعر الكامل'],
+    'shipping' => ['en' => 'Shipping:', 'ar'=>'شحن'],
+    'discount' => ['en' => 'Total Discount:', 'ar'=>'خصم النھائي'],
+    'tax' => ['en' => 'Total VAT:', 'ar'=>'ضریبة'],
+    'grand_total' => ['en' => 'Net Amount in KWD:', 'ar'=>'سعر النھائي']
+];
+
+// remap total
+$totals = $block->getTotals();
+$displayTotals = array();
+if (isset($totals['subtotal_excl']) || isset($totals['subtotal'])) {
+    $displayTotals['subtotal'] = $totals['subtotal_excl'] ?? $totals['subtotal'];
+}
+if (isset($totals['shipping_incl']) || isset($totals['shipping'])) {
+    $displayTotals['shipping'] = $totals['shipping_incl'] ?? $totals['shipping_incl'];
+}
+if (isset($totals['discount'])) {
+    $displayTotals['discount'] = $totals['discount'];
+}
+if ($_source->getTaxAmount() > 0 && isset($totals['tax'])) {
+    $displayTotals['tax'] = $totals['tax'];
+    $displayTotals['tax']->setValue($_source->getTaxAmount());
+} else {
+    $displayTotals['tax'] = [
+        'label' => 'Total VAT:',
+        'value' => $_source->getTaxAmount()
     ];
+}
+if (isset($totals['grand_total_incl']) || isset($totals['grand_total'])) {
+    $displayTotals['grand_total'] = $totals['grand_total_incl'] ?? $totals['grand_total'];
+}
 ?>
 <div class="black-line" style="margin-top: 40px;"></div>
 <table class="total-table">
-<?php foreach ($block->getTotals() as $_code => $_total): ?>
-    <?php if ($_total->getBlockName()): ?>
+<?php foreach ($displayTotals as $_code => $_total): ?>
+    <?php if (!is_array($_total) && $_total->getBlockName()): ?>
         <?= /** @noEscape */ $block->getChildHtml($_total->getBlockName(), false) ?>
-    <?php else: ?>
-        <?php if ($_code == 'grand_total' && $_source->getCustomerBalanceAmount()): ?>
-            <tr class="mp">
+    <?php endif ?>
+    <?php if ($_code == 'grand_total' && $_source->getCustomerBalanceAmount()): ?>
+        <tr class="mp">
+            <td class="mp-label" style="width: 33%">
+                <?php /* @noEscape */
+                echo __('Store Credit') ?>
+            </td>
+            <td class="mp-value">
+                <span class="balance discount">-<?php /* @noEscape */
+                    echo $_order->formatPrice($_source->getCustomerBalanceAmount()) ?></span>
+            </td>
+            <td class="mp-label ar" style="width: 33%">
+                <?php /* @noEscape */
+                echo __('مخزن اعتمادات') ?>
+            </td>
+        </tr>
+    <?php endif ?>
+    <?php if($_code == 'tax'): ?>
+        <tr class="<?php /* @noEscape */ echo $_code ?> mp">
+            <?php if(is_array($_total)): ?>
                 <td class="mp-label" style="width: 33%">
-                    <?php /* @noEscape */
-                    echo __('Store Credit') ?>
+                    <?= /** @noEscape */ $arLabelMap[$_code]['en']??$_total['label'] ?>
                 </td>
-                <td class="mp-value">
-                    <span class="balance discount">-<?php /* @noEscape */
-                        echo $_order->formatPrice($_source->getCustomerBalanceAmount()) ?></span>
+                <td <?php /* @noEscape */ echo $block->getValueProperties() ?> class="mp-value">
+                    <?php /* @noEscape */ echo $_order->formatPrice($_total['value']) ?>
                 </td>
                 <td class="mp-label ar" style="width: 33%">
-                    <?php /* @noEscape */
-                    echo __('مخزن اعتمادات') ?>
+                    <?= /** @noEscape */ $arLabelMap[$_code]['ar']??$_total['label'] ?>
                 </td>
-            </tr>
-        <?php endif ?>
-
+            <?php else: ?>
+                <td class="mp-label" style="width: 33%">
+                    <?php if ($_total->getStrong()): ?>
+                        <strong><?= /** @noEscape */ $arLabelMap[$_code]['en']??$block->escapeHtml($_total->getLabel()) ?></strong>
+                    <?php else: ?>
+                        <?= /** @noEscape */ $arLabelMap[$_code]['en']??$block->escapeHtml($_total->getLabel()) ?>
+                    <?php endif ?>
+                </td>
+                <td <?php /* @noEscape */ echo $block->getValueProperties() ?> 
+                    class="mp-value" data-th="<?= /** @noEscape */ $block->escapeHtml($_total->getLabel()) ?>">
+                    <?php if ($_total->getStrong()): ?>
+                        <strong><?php /* @noEscape */
+                            echo $block->formatValue($_total) ?></strong>
+                    <?php else: ?>
+                        <?php /* @noEscape */ echo $block->formatValue($_total) ?>
+                    <?php endif ?>
+                </td>
+                <td class="mp-label ar" style="width: 33%">
+                    <?php if ($_total->getStrong()): ?>
+                        <strong><?= /** @noEscape */ 
+                            $arLabelMap[$_code]['ar']??$block->escapeHtml($_total->getLabel()) ?></strong>
+                    <?php else: ?>
+                        <?= /** @noEscape */ $arLabelMap[$_code]['ar']??$block->escapeHtml($_total->getLabel()) ?>
+                    <?php endif ?>
+                </td>
+            <?php endif ?>
+        </tr>
+    <?php else: ?>
         <tr class="<?php /* @noEscape */ echo $_code ?> mp">
             <td class="mp-label" style="width: 33%">
                 <?php if ($_total->getStrong()): ?>
-                    <strong><?= /** @noEscape */ $arLabelMap[$_code]['en']??'' ?></strong>
+                    <strong><?= /** @noEscape */ $arLabelMap[$_code]['en']??$block->escapeHtml($_total->getLabel()) ?></strong>
                 <?php else: ?>
-                    <?= /** @noEscape */ $arLabelMap[$_code]['en']??'' ?>
+                    <?= /** @noEscape */ $arLabelMap[$_code]['en']??$block->escapeHtml($_total->getLabel()) ?>
                 <?php endif ?>
             </td>
-            <td <?php /* @noEscape */
-            echo $block->getValueProperties() ?> class="mp-value"
-                                                data-th="<?= /** @noEscape */ $block->escapeHtml($_total->getLabel()) ?>">
+            <td <?php /* @noEscape */ echo $block->getValueProperties() ?> 
+                class="mp-value" data-th="<?= /** @noEscape */ $block->escapeHtml($_total->getLabel()) ?>">
                 <?php if ($_total->getStrong()): ?>
                     <strong><?php /* @noEscape */
                         echo $block->formatValue($_total) ?></strong>
                 <?php else: ?>
-                    <?php /* @noEscape */
-                    echo $block->formatValue($_total) ?>
+                    <?php /* @noEscape */ echo $block->formatValue($_total) ?>
                 <?php endif ?>
             </td>
             <td class="mp-label ar" style="width: 33%">
                 <?php if ($_total->getStrong()): ?>
-                    <strong><?= /** @noEscape */ $arLabelMap[$_code]['ar']??'' ?></strong>
+                    <strong><?= /** @noEscape */ 
+                        $arLabelMap[$_code]['ar']??$block->escapeHtml($_total->getLabel()) ?></strong>
                 <?php else: ?>
-                    <?= /** @noEscape */ $arLabelMap[$_code]['ar']??'' ?>
+                    <?= /** @noEscape */ $arLabelMap[$_code]['ar']??$block->escapeHtml($_total->getLabel()) ?>
                 <?php endif ?>
             </td>
         </tr>
