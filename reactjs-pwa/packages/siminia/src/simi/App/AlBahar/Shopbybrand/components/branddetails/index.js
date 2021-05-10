@@ -13,6 +13,7 @@ const BrandDetails = () => {
     const classes = defaultClasses
     const { brandUrl = "" } = useParams();
     const { brandData, brandLoading, derivedErrorMessage } = useBrandDetails({ url_key: brandUrl.replace('.html', '') });
+
     if (brandLoading)
         return fullPageLoadingIndicator;
     if (derivedErrorMessage)
@@ -40,7 +41,7 @@ const BrandDetails = () => {
                 <span className={classes.breadCrumbSeparator}>{`/`}</span>
                 <Link className={classes.breadCrumbLink} to="/brand.html">{`Brands`}</Link>
                 <span className={classes.breadCrumbSeparator}>{`/`}</span>
-                <span className={classes.breadCrumbText}>{`Brands`}</span>
+                <span className={classes.breadCrumbText}>{brandInformation.value || `Brands`}</span>
             </div>
             {brandInformation.page_title && <div className="container">
                 <h1>{brandInformation.page_title}</h1>

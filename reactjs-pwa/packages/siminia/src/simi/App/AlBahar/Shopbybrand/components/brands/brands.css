@@ -53,10 +53,13 @@
     -webkit-transition: border-color ease-in-out 0.15s, -webkit-box-shadow ease-in-out .15s;
     -o-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out .15s;
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out .15s;
-    padding: 20px 10px 20px 50px !important;
+    padding: 20px 10px 20px 50px;
     height: auto !important;
     margin-bottom: 40px;
     margin-top: 1em;
+}
+.brandPageSearchInputRTL {
+    padding: 20px 50px 20px 10px !important;
 }
 .searchResult {
     position: absolute;

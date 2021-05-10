@@ -6,6 +6,7 @@ import { Link } from '@magento/venia-drivers';
 import defaultClasses from './brands.css'
 import Icon from '@magento/venia-ui/lib/components/Icon';
 import { Search as SearchIcon } from 'react-feather';
+import Identify from 'src/simi/Helper/Identify';
 
 const Brands = props => {
     const { categoryId, categoryName } = props
@@ -167,7 +168,7 @@ const Brands = props => {
                 </div>
                 <div className={classes.brandPageSearchBox}>
                     <input type="text" value={brandSearchString}
-                        className={classes.brandPageSearchInput}
+                        className={`${classes.brandPageSearchInput} ${Identify.isRtl() ? classes.brandPageSearchInputRTL : ''}`}
                         onChange={e => setBrandSearchString(e.target.value)}
                         placeholder={`Search a brand name`}
                     />
