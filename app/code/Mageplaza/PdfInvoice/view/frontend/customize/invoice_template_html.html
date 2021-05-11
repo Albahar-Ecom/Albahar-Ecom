@@ -77,22 +77,6 @@
             <p>{{var invoiceNote|raw}}</p>
         </div>
         {{/depend}}
-        <div class="footer-barcode">
-            <div class="barcode">
-                <!-- BARCODE: Sugest Type: C39/EAN128A -->
-                <p class="mp-invoice-barcode">
-                    <barcode code="{{var invoice.increment_id}}" type="C39"/>
-                </p>
-                <!-- QRCODE -->
-                <!-- <p class="mp-invoice-barcode"><barcode code="{{var invoice.increment_id}}" type="QR" size="0.8" error="M" disableborder="1"  /></p> -->
-                <!-- Sugest Type:-->
-            </div>
-            <div class="barcode-text">
-                <p class="mp-invoice-barcode">
-                    {{var invoice.increment_id}}
-                </p>
-            </div>
-        </div>
       	<table border="0" style="width: 100%;vertical-align:top;font-size:10px;margin-top:10px;">
           <tr>
             <td style="width: 50%;padding:0px;padding-right: 10px;">Please print a copy of this Order Confirmation and store safely. If you
