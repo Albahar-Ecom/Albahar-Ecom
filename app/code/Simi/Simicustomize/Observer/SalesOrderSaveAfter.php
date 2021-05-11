@@ -9,9 +9,11 @@ use Magento\Framework\Event\ObserverInterface;
 class SalesOrderSaveAfter implements ObserverInterface {
     protected $orderSender;
     public function __construct(
-        \Simi\Simicustomize\Model\OrderSender $orderSender
+        \Magento\Sales\Api\OrderManagementInterface $orderManagement,
+        \Psr\Log\LoggerInterface $logger
     ) {
-        $this->orderSender = $orderSender;
+        $this->orderManagement = $orderManagement;
+        $this->logger = $logger;
     }
     public function execute(\Magento\Framework\Event\Observer $observer) {
         $order = $observer->getOrder();
@@ -20,15 +22,12 @@ class SalesOrderSaveAfter implements ObserverInterface {
             && $order->getEntityId() 
             && $order->getStatus() == \Magento\Sales\Model\Order::STATE_PROCESSING
         ) {
-            try{
-                // $orderEmailSender = $this->orderEmailSenderFactory->create([
-                //     'templateContainer' => $this->emailContainerTemplate,
-                //     'identityContainer' => $this->emailContainerShipmentIdentity,
-                // ]);
-                // $orderEmailSender->send($order);
-                $this->orderSender->send($order);
-            }catch(\Exception $e){
-                
+            try {
+                $this->orderManagement->notify($order->getEntityId());
+            } catch (\Magento\Framework\Exception\LocalizedException $e) {
+                $this->logger->critical($e->getMessage());
+            } catch (\Exception $e) {
+                $this->logger->critical($e);
             }
         }
     }
