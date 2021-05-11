@@ -31,11 +31,11 @@ $_order = $block->getOrder();
 
 <?php 
 $arLabelMap = [
-    'subtotal' => ['en' => 'Gross Amount:', 'ar'=>'سعر الكامل'],
-    'shipping' => ['en' => 'Shipping:', 'ar'=>'شحن'],
-    'discount' => ['en' => 'Total Discount:', 'ar'=>'خصم النھائي'],
-    'tax' => ['en' => 'Total VAT:', 'ar'=>'ضریبة'],
-    'grand_total' => ['en' => 'Net Amount in KWD:', 'ar'=>'سعر النھائي']
+    'subtotal' => ['en' => 'Gross Amount:', 'ar' => 'سعر الكامل'],
+    'discount' => ['en' => 'Total Discount:', 'ar' => 'خصم النھائي'],
+    'tax' => ['en' => 'Total VAT:', 'ar'=>'ضريبة'],
+    'shipping' => ['en' => 'Delivery Cost:', 'ar' => 'مصاريف التوصيل'],
+    'grand_total' => ['en' => 'Net Amount in KWD:', 'ar' => 'سعر النھائي']
 ];
 
 // remap total
@@ -44,12 +44,17 @@ $displayTotals = array();
 if (isset($totals['subtotal_excl']) || isset($totals['subtotal'])) {
     $displayTotals['subtotal'] = $totals['subtotal_excl'] ?? $totals['subtotal'];
 }
-if (isset($totals['shipping_incl']) || isset($totals['shipping'])) {
-    $displayTotals['shipping'] = $totals['shipping_incl'] ?? $totals['shipping_incl'];
-}
+// Add discount
 if (isset($totals['discount'])) {
     $displayTotals['discount'] = $totals['discount'];
+} else {
+    $displayTotals['discount'] = clone $displayTotals['subtotal'];
+    $displayTotals['discount']->setValue(0);
+    $displayTotals['discount']->setLabel('Total Discount');
+    $displayTotals['discount']->setCode('discount');
+    $displayTotals['discount']->setStrong(false);
 }
+// Add Tax
 if ($_source->getTaxAmount() > 0 && isset($totals['tax'])) {
     $displayTotals['tax'] = $totals['tax'];
     $displayTotals['tax']->setValue($_source->getTaxAmount());
@@ -59,6 +64,17 @@ if ($_source->getTaxAmount() > 0 && isset($totals['tax'])) {
         'value' => $_source->getTaxAmount()
     ];
 }
+// Add shipping fee
+if (isset($totals['shipping_incl']) || isset($totals['shipping'])) {
+    $displayTotals['shipping'] = $totals['shipping_incl'] ?? $totals['shipping_incl'];
+} else {
+    $displayTotals['shipping'] = clone $displayTotals['subtotal'];
+    $displayTotals['shipping']->setValue(0);
+    $displayTotals['shipping']->setLabel('Delivery Cost');
+    $displayTotals['shipping']->setCode('shipping');
+    $displayTotals['shipping']->setStrong(false);
+}
+// Add grand total
 if (isset($totals['grand_total_incl']) || isset($totals['grand_total'])) {
     $displayTotals['grand_total'] = $totals['grand_total_incl'] ?? $totals['grand_total'];
 }
