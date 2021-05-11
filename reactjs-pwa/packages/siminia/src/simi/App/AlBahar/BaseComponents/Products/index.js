@@ -43,6 +43,7 @@ const Products = props => {
                     <Filter
                         data={data.products.filters}
                         filterData={filterData}
+                        type={type}
                         maxPrice={maxPrice}
                         minPrice={minPrice}
                         total_count={total_count ? total_count : 0}

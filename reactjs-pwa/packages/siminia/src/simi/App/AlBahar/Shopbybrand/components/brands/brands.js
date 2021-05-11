@@ -64,11 +64,18 @@ const Brands = props => {
                     );
                 }
                 const urlKey = '/brand/' + (item.url_key ? item.url_key : item.default_value.toLowerCase()) + '.html';
+                const location = {
+                    pathname: urlKey,
+                    state: {
+                        attribute_id: item.attribute_id,
+                        option_id: item.option_id
+                    }
+                }
                 brandListItems.push(
                     <div key={item.brand_id} className={classes.brandItem} style={{ flexBasis: `${brand_list_logo_width + 10}px` }}>
                         {
                             (displayOption === 1 || displayOption === 0) &&
-                            <Link to={urlKey} >
+                            <Link to={location} >
                                 <div className={classes.brandItemImageWrapper}
                                     style={{
                                         backgroundImage: `url("${item.image}")`,

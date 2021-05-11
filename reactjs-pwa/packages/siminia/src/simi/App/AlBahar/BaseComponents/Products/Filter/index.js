@@ -23,9 +23,11 @@ const Filter = props => {
         location,
         total_count,
         maxPrice,
-        minPrice
+        minPrice,
+        type
     } = props;
 
+    console.log(props)
     let filtersToApply = filterData ? filterData : {};
     let rowFilterAttributes = [];
 
@@ -50,6 +52,7 @@ const Filter = props => {
                                 )}
                             </span>
                         );
+
                         return (
                             <div
                                 role="presentation"
@@ -138,6 +141,9 @@ const Filter = props => {
 
         if (data && data.length !== 0) {
             data.map((item, index) => {
+                if(item.request_var === type) {
+                    return null;
+                } 
                 const filterOptions = renderFilterItemsOptions(item);
                 if (filterOptions.length > 0) {
                     if (item.request_var === 'price') return null;
