@@ -44,7 +44,8 @@ class Currency extends AbstractFormat
      */
     public function aroundFormatTxt(DirectoryCurrency $subject, callable $proceed, $price, $options = [])
     {
-        if (!$this->_helperData->isEnabled()) {
+        if (!$this->_helperData->isEnabled()
+            || $this->_request->getControllerName() === 'order_creditmemo') {
             return $proceed($price, $options);
         }
         $storeId = $this->_helperData->isAdmin() ? 0 : null;
