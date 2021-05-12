@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { number } from 'prop-types';
 import Identify from 'src/simi/Helper/Identify';
 import { withRouter, connect } from 'src/drivers';
@@ -14,6 +14,7 @@ import {
 import CategoryHeader from './categoryHeader';
 import NoProductsFound from './NoProductsFound';
 import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
+import { smoothScrollToView } from 'src/simi/Helper/Behavior'
 
 const Category = props => {
     const { id, history, setSimiNProgressLoading } = props;
@@ -43,6 +44,10 @@ const Category = props => {
         cmsData,
         pageControl
     } = talonProps;
+
+    useEffect(() => {
+        smoothScrollToView($('#root'))
+    }, [])
 
     if (error) return <div>{Identify.__('Data Fetch Error')}</div>;
 

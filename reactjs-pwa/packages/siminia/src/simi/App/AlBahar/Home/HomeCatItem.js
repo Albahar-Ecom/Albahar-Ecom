@@ -51,9 +51,9 @@ const HomeCatItem = props => {
                 state: {},
                 cateId: item.category_id
             }
-            document
-                .getElementById('root')
-                .scrollIntoView({ behavior: 'smooth' });
+            // document
+            //     .getElementById('root')
+            //     .scrollIntoView({ behavior: 'smooth' });
             setSimiNProgressLoading(true);
             setClickedLocation(location);
         }
