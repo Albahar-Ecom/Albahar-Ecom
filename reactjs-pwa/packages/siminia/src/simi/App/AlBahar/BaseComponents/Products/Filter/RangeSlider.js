@@ -8,12 +8,12 @@ class RangeSlider extends React.Component {
     constructor(props) {
         super(props);
 
-        this.minPrice = this.props.priceFrom;
-        this.maxPrice = this.props.priceTo;
+        this.minPrice = Math.floor(this.props.priceFrom);
+        this.maxPrice = Math.ceil(this.props.priceTo);
         this.state = {
             slide: {
-                min: this.props.leftPrice,
-                max: this.props.rightPrice,
+                min: Math.floor(this.props.leftPrice),
+                max: Math.ceil(this.props.rightPrice),
             },
         };
     }
@@ -32,6 +32,8 @@ class RangeSlider extends React.Component {
 
     render() {
         const { slide } = this.state;
+        console.log(slide)
+
         return (
             <div className={`filter-price-range ${Identify.isRtl() ? 'price-range-rtl' : ''}`}>
                 <InputRange

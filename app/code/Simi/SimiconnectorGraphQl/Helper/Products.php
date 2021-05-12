@@ -123,7 +123,8 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                     $priceFilter['from'] = $value[0] / $rate;
                 if (isset($value[0]))
                     $priceFilter['to'] = $value[1] / $rate;
-                $collection->addFieldToFilter('price', $priceFilter);
+                // $collection->addFieldToFilter('price', $priceFilter);
+                $collection->getSelect()->where("price_index.min_price >= " .$priceFilter['from']. " AND price_index.min_price <= ".$priceFilter['to']."");
             } else {
                 if ($key == 'category_id') {
                     $cat_filtered = true;

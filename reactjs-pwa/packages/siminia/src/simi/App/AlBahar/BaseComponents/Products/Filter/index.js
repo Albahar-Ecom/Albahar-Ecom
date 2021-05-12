@@ -27,7 +27,6 @@ const Filter = props => {
         type
     } = props;
 
-    console.log(props)
     let filtersToApply = filterData ? filterData : {};
     let rowFilterAttributes = [];
 
