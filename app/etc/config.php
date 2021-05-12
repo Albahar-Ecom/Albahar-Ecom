@@ -310,6 +310,7 @@ return [
         'Klarna_Onsitemessaging' => 1,
         'Klarna_KpGraphQl' => 1,
         'Mageplaza_Core' => 1,
+        'Mageplaza_CurrencyFormatter' => 1,
         'Mageplaza_PdfInvoice' => 1,
         'Mageplaza_Shopbybrand' => 1,
         'Mageplaza_ShopbybrandGraphQl' => 1,
