@@ -17,4 +17,15 @@
         <observer name="simi_sales_order_save_after" instance="Simi\Simicustomize\Observer\SalesOrderSaveAfter" />
     </event>
 
+    <event name="email_order_set_template_vars_before">
+        <observer name="simi_email_order_set_template_vars_before" instance="Simi\Simicustomize\Observer\SimiEmailSetTemplateVarsBefore" />
+    </event>
+
+    <event name="email_invoice_set_template_vars_before">
+        <observer name="simi_email_invoice_set_template_vars_before" instance="Simi\Simicustomize\Observer\SimiEmailSetTemplateVarsBefore" />
+    </event>
+
+    <event name="email_shipment_set_template_vars_before">
+        <observer name="simi_email_shipment_set_template_vars_before" instance="Simi\Simicustomize\Observer\SimiEmailSetTemplateVarsBefore" />
+    </event>
 </config>
