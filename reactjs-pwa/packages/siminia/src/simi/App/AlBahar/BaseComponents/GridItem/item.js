@@ -79,12 +79,13 @@ const Griditem = props => {
             addSimpleToCartMutation: ADD_SIMPLE_MUTATION
         }
     })
-
+ 
     const handleAddCart = (itemAdd, quantity) => {
         if(stock_status === "OUT_OF_STOCK") return
         if (item.type_id === 'simple' && (!item.hasOwnProperty('options') || (item.hasOwnProperty('options') && item.options === null))) {
             handleAddCartTalon(itemAdd, quantity)
         } else {
+            location.state.quantity = quantity
             setSimiNProgressLoading(true);
             setClickedLocation(location);
         }
@@ -138,6 +139,7 @@ const Griditem = props => {
                 <a href={location.pathname}
                     onClick={e => {
                         e.preventDefault();
+                        location.state.quantity = quantity
                         setSimiNProgressLoading(true);
                         setClickedLocation(location);
                     }}>
@@ -189,6 +191,7 @@ const Griditem = props => {
                         ${itemClasses["small"]}`} 
                         onClick={
                             () => {
+                                location.state.quantity = quantity
                                 setSimiNProgressLoading(true);
                                 setClickedLocation(location);
                             }

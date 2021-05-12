@@ -21,4 +21,14 @@
     <!-- <preference for="Gateway\Tap\Controller\Standard\Response" type="Simi\Simicustomize\Controller\Standard\Response" /> -->
 
     <preference for="Magento\Sitemap\Model\Sitemap" type="Simi\Simicustomize\Model\Sitemap" />
+
+    <type name="Magento\Variable\Model\Source\Variables">
+        <arguments>
+            <argument name="configPaths" xsi:type="array">
+                <item name="simiconnector" xsi:type="array">
+                    <item name="simiconnector/general/pwa_studio_url" xsi:type="string">1</item>
+                </item>
+            </argument>            
+        </arguments>
+    </type>
 </config>

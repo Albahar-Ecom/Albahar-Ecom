@@ -55,6 +55,7 @@ class ProductFullDetail extends Component {
         optionCodes: new Map(),
         optionSelections: new Map(),
     };
+
     quantity = 1
 
     static getDerivedStateFromProps(props, state) {
@@ -498,6 +499,9 @@ class ProductFullDetail extends Component {
         const { productOptions, props, state } = this;
         const { optionCodes, optionSelections } = state;
         const { history, toggleMessages } = props;
+        if(history.location && history.location.state && history.location.state.quantity) {
+            this.quantity = history.location.state.quantity
+        }
         const product = prepareProduct(props.product);
         const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, variants } = product;
         const short_desc = (product.short_description && product.short_description.html) ? product.short_description.html : '';
