@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag';
-import { usePriceSummary } from 'src/simi/talons/CartPage/PriceSummary/usePriceSummary';
+import { usePriceSummary } from 'src/simi/App/AlBahar/talons/CartPage/PriceSummary/usePriceSummary';
 import { PriceSummaryFragment } from './priceSummaryFragments';
 import Total from 'src/simi/BaseComponents/Total'
 import Identify from 'src/simi/Helper/Identify'

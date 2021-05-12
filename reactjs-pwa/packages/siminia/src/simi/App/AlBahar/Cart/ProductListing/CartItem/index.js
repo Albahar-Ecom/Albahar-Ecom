@@ -113,7 +113,6 @@ const CartItem = props => {
     const itemOption = Array.isArray(optionText) && optionText.length ?
         <div className='item-options'>{optionText.reverse()}</div>
         : ''
-    console.log(item)
 
     const {simiChildProduct} =item
     let outStockStatus = false
