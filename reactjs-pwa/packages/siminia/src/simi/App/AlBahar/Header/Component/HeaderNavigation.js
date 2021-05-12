@@ -29,6 +29,10 @@ const Navigation = (props) => {
         });
     }
 
+    const storeData = Identify.getStoreConfig();
+    const {storeConfig} = storeData || {}
+    const {id: storeId} = storeConfig || {}
+
     const clickedCateId = (clickedLocation) ? clickedLocation.cateId : null;
     const {
         data: preFetchResult, 
@@ -38,7 +42,9 @@ const Navigation = (props) => {
             id: Number(clickedCateId),
             pageSize: 12,
             currentPage: 1,
-            stringId: String(clickedCateId)
+            stringId: String(clickedCateId),
+            storeId: storeId || 0,
+            simiStoreId: storeId || 0
         },
         skip: !clickedCateId
     });
