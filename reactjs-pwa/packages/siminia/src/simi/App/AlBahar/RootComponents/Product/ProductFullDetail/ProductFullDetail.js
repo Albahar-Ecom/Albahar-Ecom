@@ -475,8 +475,8 @@ class ProductFullDetail extends Component {
                 "priceCurrency": `${prod.price.regularPrice.amount.currency || "NOK"}`,
                 "price": prod.price.regularPrice.amount.value ? `${parseFloat(prod.price.regularPrice.amount.value)}` : 0,
                 "seller": {
-                    "@type": "Kniveksperten",
-                    "name": "Kniveksperten"
+                    "@type": "Albahar",
+                    "name": "Albahar"
                 },
                 "url": location.href,
                 "availability": !hasStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock"
@@ -499,7 +499,8 @@ class ProductFullDetail extends Component {
         const { productOptions, props, state } = this;
         const { optionCodes, optionSelections } = state;
         const { history, toggleMessages } = props;
-        if(history.location && history.location.state && history.location.state.quantity) {
+        if(history.location && history.location.state && history.location.state.quantity && !this.checkQtyFromList) {
+            this.checkQtyFromList = true
             this.quantity = history.location.state.quantity
         }
         const product = prepareProduct(props.product);
