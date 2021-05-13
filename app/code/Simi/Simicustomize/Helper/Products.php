@@ -157,6 +157,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             if (sizeof($allIds) > 0) {
                 $collection->addFieldToFilter('entity_id', ['in' => $allIds]);
             } else { 
+                $category = null;
                 $ids = $product->getCategoryIds();
                 if (!empty($ids)) {
                     $category = $this->simiObjectManager->create('\Magento\Catalog\Model\Category')->load($ids[0]);
