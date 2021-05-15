@@ -25,7 +25,8 @@
 "var shipment": "Shipment",
 "var order": "Order",
 "var order_id": "Order DB Id",
-"var shipment_id": "Shipment DB Id"
+"var shipment_id": "Shipment DB Id",
+"var pwa_url: "PWA Studio Url"
 } @-->
 {{template config_path="siminiaconfig/custom_email/email_header_template"}}
 
@@ -36,7 +37,7 @@
                 <tr>
                     <td class="email-heading">
                         <h1>{{trans "Thank you for your order from"}} {{var store.frontend_name }}.</h1>
-                        <p>{{trans "You can check the status of your order by"}} <a href="{{store url="customer/account/"}}">{{trans "logging into your account"}}</a>.</p>
+                        <p>{{trans "You can check the status of your order by"}} <a href="{{config path='simiconnector/general/pwa_studio_url'}}account.html">{{trans "logging into your account"}}</a>.</p>
                     </td>
                     <td class="store-info">
                         <h4>{{trans "Order Questions"}}?</h4>

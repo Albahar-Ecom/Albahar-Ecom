@@ -55,6 +55,7 @@ class ProductFullDetail extends Component {
         optionCodes: new Map(),
         optionSelections: new Map(),
     };
+
     quantity = 1
 
     static getDerivedStateFromProps(props, state) {
@@ -474,8 +475,8 @@ class ProductFullDetail extends Component {
                 "priceCurrency": `${prod.price.regularPrice.amount.currency || "NOK"}`,
                 "price": prod.price.regularPrice.amount.value ? `${parseFloat(prod.price.regularPrice.amount.value)}` : 0,
                 "seller": {
-                    "@type": "Kniveksperten",
-                    "name": "Kniveksperten"
+                    "@type": "Albahar",
+                    "name": "Albahar"
                 },
                 "url": location.href,
                 "availability": !hasStock ? "https://schema.org/OutOfStock" : "https://schema.org/InStock"
@@ -498,6 +499,10 @@ class ProductFullDetail extends Component {
         const { productOptions, props, state } = this;
         const { optionCodes, optionSelections } = state;
         const { history, toggleMessages } = props;
+        if(history.location && history.location.state && history.location.state.quantity && !this.checkQtyFromList) {
+            this.checkQtyFromList = true
+            this.quantity = history.location.state.quantity
+        }
         const product = prepareProduct(props.product);
         const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, variants } = product;
         const short_desc = (product.short_description && product.short_description.html) ? product.short_description.html : '';

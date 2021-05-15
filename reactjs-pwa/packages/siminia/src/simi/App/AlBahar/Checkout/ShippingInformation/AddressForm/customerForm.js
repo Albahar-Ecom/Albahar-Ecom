@@ -183,7 +183,7 @@ const CustomerForm = props => {
                                 <TextInput field="street[0]" validate={(!simiCIMenabled || (getCIMConf('street') === 1)) ? isRequired : false} />
                             </Field>
                         </div>
-                        <div className={`${classes.street1} ${getCIMConf('street') === 1 ? classes.required:''}`}>
+                        <div className={`${classes.street1}`}>
                             <Field id="street1" label={Identify.__('Street Address 2')}>
                                 <TextInput field="street[1]" />
                             </Field>
