@@ -11,24 +11,24 @@ const NavMegaitem = props => {
             const childCats = rootItem.children.map((item, index) => {
                 if (!item.name || !item.include_in_menu)
                     return ''
-                let subChildLevel2 = []
+                let childLevel3 = []
                 if (item.children) {
-                    subChildLevel2 = item.children.map((itemlv2, indexlv2)=> {
-                        if (!itemlv2.name)
+                    childLevel3 = item.children.map((itemlv3, indexlv3)=> {
+                        if (!itemlv3.name)
                             return ''
-                        const path = itemlv2.url_path?('/' + itemlv2.url_path + cateUrlSuffix()):itemlv2.link
+                        const path = itemlv3.url_path?('/' + itemlv3.url_path + cateUrlSuffix()):itemlv3.link
                         const location = {
                             pathname: path,
                             state: {},
-                            cateId: item.id
+                            cateId: itemlv3.id
                         }
-                        if (itemlv2.children)
-                            location.state.category_page_id = itemlv2.entity_id
+                        if (itemlv3.children)
+                            location.state.category_page_id = itemlv3.entity_id
 
                         return (
                             <Link 
                                 className={`${classes["mega-lv2-name"]} mega-lv2-name`}
-                                key={indexlv2} 
+                                key={indexlv3} 
                                 to={location}
                                 onClick={e => {
                                     e.preventDefault();
@@ -37,10 +37,9 @@ const NavMegaitem = props => {
                                         .scrollIntoView({ behavior: 'smooth' });
                                     setSimiNprogressLoading(true);
                                     setClickedLocation(location);
-                                    
                                 }}
                             >
-                                {itemlv2.name}
+                                {itemlv3.name}
                             </Link>
                         )
                     })
@@ -62,13 +61,12 @@ const NavMegaitem = props => {
                                     .scrollIntoView({ behavior: 'smooth' });
                                 setSimiNprogressLoading(true);
                                 setClickedLocation(location);
-                                
                             }}
                         >
                             {item.name}
                         </Link>
                         <div className={`${classes["mega-lv1-sub-cats"]}  mega-lv1-sub-cats`}>
-                            {subChildLevel2}
+                            {childLevel3}
                         </div>
                     </div>
                 )
