@@ -5,6 +5,7 @@ import { connect } from 'src/drivers';
 import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 import GET_CATEGORY from 'src/simi/queries/catalog/getCategory';
 import { simiUseQuery as useQuery } from 'src/simi/Network/Query';
+import {getStore} from '../Helper/Data'
 
 const HomeCatItem = props => {
     const {item, history, isPhone, setSimiNProgressLoading} = props;
@@ -15,6 +16,8 @@ const HomeCatItem = props => {
         history.push(location)
     }
 
+    const store = getStore();
+
     const clickedCateId = (clickedLocation) ? clickedLocation.cateId : null;
     const {
         data: preFetchResult, 
@@ -24,7 +27,8 @@ const HomeCatItem = props => {
             id: Number(clickedCateId),
             pageSize: 12,
             currentPage: 1,
-            stringId: String(clickedCateId)
+            stringId: String(clickedCateId),
+            cacheKeyStoreId: String(store.id || 1)
         },
         skip: !clickedCateId
     });

@@ -5,15 +5,18 @@ import getCategory from 'src/simi/queries/catalog/getHomeProductList.graphql'
 import Loading from "src/simi/BaseComponents/Loading";
 import { GridItem } from "src/simi/App/AlBahar/BaseComponents/GridItem";
 import { applySimiProductListItemExtraField } from 'src/simi/Helper/Product'
+import {getStore} from '../Helper/Data'
 
 const ProductItem = props => {
     const { dataProduct, history } = props;
+    const store = getStore();
     const { data } = simiUseQuery(getCategory, {
         variables: {
             id: Number(dataProduct.category_id),
             pageSize: Number(8),
             currentPage: Number(1),
-            stringId: String(dataProduct.category_id)
+            stringId: String(dataProduct.category_id),
+            cacheKeyStoreId: String(store.id || 1)
         },
         fetchPolicy: "cache-and-network"
     });

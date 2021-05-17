@@ -10,6 +10,16 @@ export const getFooterConfig = () => {
     return null
 }
 
+export const getStore = () => {
+    const {storeConfig} = Identify.getStoreConfig() || {}
+
+    if(storeConfig) {
+        return storeConfig
+    }
+
+    return null
+}
+
 export const getPwaContact = () => {
     const {simiStoreConfig} = Identify.getStoreConfig() || {}
 

@@ -10,7 +10,7 @@ import Skeleton from 'react-loading-skeleton';
 import GET_CATEGORY from 'src/simi/queries/catalog/getCategory';
 import {
     useCategoryContentSimiPagination /* useCategoryContent */
-} from 'src/simi/talons/Category/useCategoryContent';
+} from '../../talons/Category/useCategoryContent';
 import CategoryHeader from './categoryHeader';
 import NoProductsFound from './NoProductsFound';
 import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';

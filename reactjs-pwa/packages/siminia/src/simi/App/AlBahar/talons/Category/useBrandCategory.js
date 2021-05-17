@@ -6,6 +6,7 @@ import { usePagination } from '@magento/peregrine';
 import { useSimiPagination } from 'src/simi/talons/Pagination/useSimiPagination';
 import { useHistory } from 'react-router-dom';
 import { getDataFromUrl } from 'src/simi/Helper/Url';
+import {getStore} from '../../Helper/Data'
 
 let sortByData = null;
 let filterData = null;
@@ -25,6 +26,7 @@ export const useCategoryContentSimiPagination = props => {
         defaultInitialPage
     } = props;
 
+    const store = getStore();
     const history = useHistory();
     const pathname = history.location.search ? history.location.search : history.location.pathname;
 
@@ -104,7 +106,8 @@ export const useCategoryContentSimiPagination = props => {
         id: Number(categoryId),
         pageSize: pageSize,
         currentPage: currentPage,
-        stringId: String(categoryId)
+        stringId: String(categoryId),
+        cacheKeyStoreId: String(store.id || 1)
     };
     if (filterData) variables.simiFilter = filterData;
     if (sortByData) variables.sort = sortByData;
