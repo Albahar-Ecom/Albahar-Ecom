@@ -89,7 +89,7 @@ const HomeCatItem = props => {
             </div>
             <div className="cate-title">
                 <div className="blue-background"></div>
-                <div className="--text">{item.simicategory_name}</div>
+                <div className="--text">{item.cat_name || item.simicategory_name}</div>
                 <div className="cate-arrow">
                     <ArrowRight color="#ffffff" style={{width:60,height:60}}/>
                 </div>

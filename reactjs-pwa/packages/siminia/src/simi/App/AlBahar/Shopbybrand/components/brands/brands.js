@@ -88,7 +88,7 @@ const Brands = props => {
                             (displayOption === 1 || displayOption === 2) &&
                             <div className={classes.brandItemInfo}>
                                 <Link className={classes.brandItemLink} to={urlKey}>
-                                    {item.default_value} {show_product_qty ? `(${item.product_quantity})` : ''}
+                                    {item.value || item.default_value} {show_product_qty ? `(${item.product_quantity})` : ''}
                                 </Link>
                                 {!!(show_description && item.short_description) && <div className={classes.listItemSortDescription}>{item.short_description}</div>}
                             </div>
