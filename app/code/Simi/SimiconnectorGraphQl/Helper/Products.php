@@ -295,7 +295,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                 foreach ($attribute->getSource()->getAllOptions() as $layerFilter) {
                     if ($layerFilter['value'] == $value) {
                         $layerFilter['attribute'] = $key;
-                        $layerFilter['title'] = $attribute->getDefaultFrontendLabel();
+                        $layerFilter['title'] = $attribute->getStoreLabel() ?? $attribute->getDefaultFrontendLabel();
                         $selectedFilters[] = $layerFilter;
                     }
                 }
@@ -385,10 +385,10 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             if (count($filters) >= 1) {
-                $titleFilters[] = $attribute->getDefaultFrontendLabel();
+                $titleFilters[] = $attribute->getStoreLabel() ?? $attribute->getDefaultFrontendLabel();
                 $layerFilters[] = [
                     'attribute' => $attribute->getAttributeCode(),
-                    'title' => $attribute->getDefaultFrontendLabel(),
+                    'title' => $attribute->getStoreLabel() ?? $attribute->getDefaultFrontendLabel(),
                     'filter' => $filters,
                 ];
             }

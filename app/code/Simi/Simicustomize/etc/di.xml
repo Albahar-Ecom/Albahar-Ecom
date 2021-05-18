@@ -22,6 +22,8 @@
 
     <preference for="Magento\Sitemap\Model\Sitemap" type="Simi\Simicustomize\Model\Sitemap" />
 
+    <preference for="Magento\Catalog\Model\Category\Attribute\Source\Sortby" type="Simi\Simicustomize\Model\Category\Attribute\Source\Sortby" />
+
     <type name="Magento\Variable\Model\Source\Variables">
         <arguments>
             <argument name="configPaths" xsi:type="array">
