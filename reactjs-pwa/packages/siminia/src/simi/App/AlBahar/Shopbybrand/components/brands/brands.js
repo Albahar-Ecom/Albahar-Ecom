@@ -102,7 +102,7 @@ const Brands = props => {
             <div className={classes.brandError}>
                 <FormattedMessage
                     id={'brand.NoBrandFound'}
-                    defaultMessage={'No Brand Found'}
+                    defaultMessage={Identify.__('No Brand Found')}
                 />
             </div>
         )
@@ -154,7 +154,7 @@ const Brands = props => {
     return (
         <div className={classes.brandPageRoot}>
             <div className={classes.breadCrumb}>
-                <Link className={classes.breadCrumbLink} to="/">{`Home`}</Link>
+                <Link className={classes.breadCrumbLink} to="/">{Identify.__('Home')}</Link>
                 <span className={classes.breadCrumbSeparator}>{`/`}</span>
                 {categoryName ? (
                     <React.Fragment>
@@ -177,7 +177,7 @@ const Brands = props => {
                     <input type="text" value={brandSearchString}
                         className={`${classes.brandPageSearchInput} ${Identify.isRtl() ? classes.brandPageSearchInputRTL : ''}`}
                         onChange={e => setBrandSearchString(e.target.value)}
-                        placeholder={`Search a brand name`}
+                        placeholder={Identify.__('Search a brand name')}
                     />
                     <div className={classes.brandPageIcon}>
                         <Icon src={SearchIcon} />
@@ -212,7 +212,7 @@ const Brands = props => {
                     onClick={() => setStartWith('')}
                     style={{ backgroundColor: !startWith ? ((brandConfiguration && brandConfiguration.color) ? brandConfiguration.color : `#0ed08e`) : '#ffffff' }}
                     className={`${classes.dictOption} ${!startWith && classes.selected}`}
-                >{`All`}</div>
+                >{Identify.__(`All`)}</div>
                 {dictionaryOptions}
             </div>
             <div className={classes.brandListContent}>

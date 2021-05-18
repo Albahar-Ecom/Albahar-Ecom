@@ -8,6 +8,7 @@ import { Link } from '@magento/venia-drivers';
 import { Title, Meta } from '@magento/venia-ui/lib/components/Head';
 import Categories from './bdetailscategories';
 import Products from './products/index';
+import Identify from 'src/simi/Helper/Identify';
 
 const BrandDetails = () => {
     const classes = defaultClasses
@@ -23,7 +24,7 @@ const BrandDetails = () => {
             <div className={classes.brandError}>
                 <FormattedMessage
                     id={'brand.NoBrandFound'}
-                    defaultMessage={'No Brand Found'}
+                    defaultMessage={Identify.__("No Brand Found")}
                 />
             </div>
         );
@@ -37,11 +38,11 @@ const BrandDetails = () => {
             {meta_description && <Meta name="description" content={meta_description} />}
             {meta_keywords && <Meta name="keywords" content={meta_keywords} />}
             <div className={classes.breadCrumb}>
-                <Link className={classes.breadCrumbLink} to="/">{`Home`}</Link>
+                <Link className={classes.breadCrumbLink} to="/">{Identify.__("Home")}</Link>
                 <span className={classes.breadCrumbSeparator}>{`/`}</span>
-                <Link className={classes.breadCrumbLink} to="/brand.html">{`Brands`}</Link>
+                <Link className={classes.breadCrumbLink} to="/brand.html">{Identify.__("Brands")}</Link>
                 <span className={classes.breadCrumbSeparator}>{`/`}</span>
-                <span className={classes.breadCrumbText}>{brandInformation.value || `Brands`}</span>
+                <span className={classes.breadCrumbText}>{brandInformation.value || Identify.__("Brands")}</span>
             </div>
             {brandInformation.page_title && <div className="container">
                 <h1>{brandInformation.page_title}</h1>
