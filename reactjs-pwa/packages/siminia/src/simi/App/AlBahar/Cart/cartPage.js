@@ -62,8 +62,9 @@ const CartPage = props => {
     }
 
     let disableButtonCheckout = false
-    if(cart && salesConfig && salesConfig.sales_minimum_order_active) {
+    if(cart && cart.items && cart.items.length > 0 && salesConfig && salesConfig.sales_minimum_order_active) {
         if(cart.prices && cart.prices.grand_total && cart.prices.grand_total.value > 0) {
+            console.log(cart.prices.grand_total.value)
             if(parseFloat(salesConfig.sales_minimum_order_amount) > parseFloat(cart.prices.grand_total.value)) {
                 disableButtonCheckout = true;
                 toogleErrMinimumOrder = true
@@ -79,6 +80,11 @@ const CartPage = props => {
                 
             }
         } 
+    } else {
+        if(toogleErrMinimumOrder) {
+            toogleErrMinimumOrder = false
+            toggleMessages([])
+        }
     }
 
     const couponCode = () => {
