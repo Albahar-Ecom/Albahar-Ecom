@@ -113,6 +113,12 @@ const CheckoutPage = props => {
     const isMobile = windowSize.innerWidth <= 960;
 
     let checkoutContent;
+    if (
+        orderDetailsData && orderDetailsData.cart && orderDetailsData.cart.items
+        && orderDetailsData.cart.items.length
+    ) {
+        Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'SIMI_LAST_SUCCESS_ORDER_DATA', orderDetailsData)
+    }
 
     if (orderNumber) {
         if (isPreventPreview) {
@@ -129,10 +135,10 @@ const CheckoutPage = props => {
             orderDetailsData && orderDetailsData.cart && orderDetailsData.cart.items
             && orderDetailsData.cart.items.length
         ) {
-            Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'simi_last_success_order_data', orderDetailsData)
+            Identify.storeDataToStoreage(Identify.SESSION_STOREAGE, 'SIMI_LAST_SUCCESS_ORDER_DATA', orderDetailsData)
             window.history.pushState('', '', '/checkout.html?lastOrderId=' + orderNumber)
         }
-        const lastSuccessOrderData = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'simi_last_success_order_data')
+        const lastSuccessOrderData = Identify.getDataFromStoreage(Identify.SESSION_STOREAGE, 'SIMI_LAST_SUCCESS_ORDER_DATA')
         return (
             <OrderConfirmationPage
                 data={lastSuccessOrderData ? lastSuccessOrderData : orderDetailsData}

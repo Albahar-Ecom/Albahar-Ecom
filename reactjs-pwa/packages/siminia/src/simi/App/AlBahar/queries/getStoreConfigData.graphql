@@ -146,6 +146,7 @@ query storeConfigData($storeId: Int, $currency: String) {
             }
             google_config {
                 login_client_id
+                google_gtm
             }
             footer_config {
                 facebook_link

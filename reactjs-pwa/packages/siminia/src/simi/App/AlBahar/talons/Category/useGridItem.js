@@ -9,6 +9,7 @@ export const useGridItem = props => {
     const {
         updateCompare,
         handleLink,
+        analyticAddCartGTM,
         cartId,
         location,
         toggleMessages,
@@ -39,6 +40,7 @@ export const useGridItem = props => {
                     });
                     hideFogLoading();
                     smoothScrollToView($('#root'))
+                    analyticAddCartGTM(item, quantity)
                     toggleMessages([{ type: 'success', message: Identify.__("Add product to cart successfully!"), auto_dismiss: true }]);
                 } catch (error) {
                     hideFogLoading();

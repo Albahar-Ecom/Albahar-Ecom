@@ -11,6 +11,8 @@ import simiStoreConfigDataQuery from 'src/simi/App/AlBahar/queries/getStoreConfi
 import { Simiquery } from 'src/simi/Network/Query'
 import classes from './main.css';
 import ChevronCircleUp from 'src/simi/App/AlBahar/BaseComponents/Icon/ChevronCircleUp'
+import TagManager from 'react-gtm-module'
+import { store } from '@magento/peregrine/lib/RestApi/Magento2/MulticastCache';
 
 const $ = window.$
 
@@ -61,6 +63,22 @@ class Main extends Component {
     }
 
     mainContent(storeConfig = null) {
+        console.log(storeConfig)
+        if(
+            !this.addGtm 
+            && storeConfig 
+            && storeConfig.simiStoreConfig 
+            && storeConfig.simiStoreConfig.config
+            && storeConfig.simiStoreConfig.config.google_config
+            && storeConfig.simiStoreConfig.config.google_config.google_gtm
+        ) {
+            this.addGtm = true;
+            const tagManagerArgs = {
+                gtmId: storeConfig.simiStoreConfig.config.google_config.google_gtm
+            }
+            TagManager.initialize(tagManagerArgs)
+        }
+
         if (storeConfig && this.props.setStoreConfig)
             this.props.setStoreConfig(storeConfig)
         return (
@@ -78,6 +96,7 @@ class Main extends Component {
             && !window.DASHBOARD_CONFIG['app-configs'][0]['is_active']) {
             return null;
         }
+        console.log('run')
         return (
             <main className={classes.root}>
                 <div className="app-loading" style={{display:'none'}} id="app-loading">

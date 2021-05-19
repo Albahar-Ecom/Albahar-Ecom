@@ -5,12 +5,11 @@ import { HOPrice as Price } from 'src/simi/Helper/Pricing'
 import { logoUrl, productUrlSuffix } from 'src/simi/Helper/Url';
 import ReactHTMLParse from 'react-html-parser';
 import Identify from 'src/simi/Helper/Identify'
-import { useProduct } from 'src/simi/talons/CartPage/ProductListing/useProduct';
+import { useProduct } from '../../../talons/CartPage/ProductListing/useProduct';
 import { CartPageFragment } from 'src/simi/App/core/Cart/cartPageFragments.gql';
 import { AvailableShippingMethodsCartFragment } from '../../PriceAdjustments/ShippingMethods/shippingMethodsFragments.gql';
 import gql from 'graphql-tag';
 import { showToastMessage } from 'src/simi/Helper/Message'
-
 
 require('./cartItem.scss')
 

@@ -75,6 +75,7 @@ export const useCheckoutPage = props => {
             skip: (!cartId || !toFetchOrderDetails)
         });
 
+    console.log(orderDetailsData)
     const { data: customerData, loading: customerLoading } = useQuery(
         getCustomerQuery,
         { skip: !isSignedIn }

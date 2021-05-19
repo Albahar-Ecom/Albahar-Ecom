@@ -30,6 +30,7 @@ import Pdetailsbrand from '../../../Shopbybrand/components/pdetailsbrand/index';
 import {getChildProductSelected} from '../../../Helper'
 import { Helmet } from "react-helmet";
 import { stripHtml } from "../../../Helper"
+import {analyticAddCartGTM} from '../../../Helper/Analytics'
 
 import {
     ADD_CONFIGURABLE_MUTATION,
@@ -572,6 +573,7 @@ class ProductFullDetail extends Component {
                     showToastMessage(derivedErrorMessage);
                 }
                 if (data) {
+                    analyticAddCartGTM(product, this.quantity)
                     this.props.toggleMessages([{
                         type: 'success',
                         message: Identify.__('Add product to cart successful!'),

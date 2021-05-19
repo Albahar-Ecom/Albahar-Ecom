@@ -6,6 +6,27 @@ export const OrderConfirmationPageFragment = gql`
         id
         email
         total_quantity
+        prices {
+            grand_total {
+                value
+                currency
+            }
+            discounts {
+                label
+                amount {
+                    value
+                }
+            }
+            subtotal_excluding_tax {
+                value
+            }
+            applied_taxes {
+                label
+                amount {
+                    value
+                }
+            }
+        }
         shipping_addresses {
             firstname
             lastname
