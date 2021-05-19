@@ -81,8 +81,6 @@ const CartPage = props => {
 
     useLayoutEffect(() => {
         if(salesConfig && salesConfig.sales_minimum_order_active) {
-            console.log(grandTotalPrice > 0)
-            console.log(parseFloat(salesConfig.sales_minimum_order_amount) > grandTotalPrice)
             if(grandTotalPrice > 0 && parseFloat(salesConfig.sales_minimum_order_amount) > grandTotalPrice) {
                 const message = (
                     <div>{Identify.__("Minimum order amount is")} {formatPrice(parseFloat(salesConfig.sales_minimum_order_amount))}</div>
