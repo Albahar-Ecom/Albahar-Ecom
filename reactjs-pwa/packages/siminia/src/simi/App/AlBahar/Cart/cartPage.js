@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useMemo, useLayoutEffect} from 'react';
 import { useCartPage } from 'src/simi/talons/CartPage/useCartPage';
 import { GET_CART_DETAILS } from './cartPage.gql';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
@@ -25,6 +25,7 @@ let toogleErrMinimumOrder = false
 
 const CartPage = props => {
     const { toggleMessages, history, location } = props
+    const [errorMiniOrder, setErrorMiniOrder] = useState(null)
     const talonProps = useCartPage({
         queries: {
             getCartDetails: GET_CART_DETAILS
@@ -61,31 +62,68 @@ const CartPage = props => {
         })
     }
 
-    let disableButtonCheckout = false
-    if(cart && cart.items && cart.items.length > 0 && salesConfig && salesConfig.sales_minimum_order_active) {
-        if(cart.prices && cart.prices.grand_total && cart.prices.grand_total.value > 0) {
-            console.log(cart.prices.grand_total.value)
-            if(parseFloat(salesConfig.sales_minimum_order_amount) > parseFloat(cart.prices.grand_total.value)) {
-                disableButtonCheckout = true;
-                toogleErrMinimumOrder = true
+    const grandTotalPrice = useMemo(() => {
+        if(cart && cart.prices && cart.prices.grand_total && cart.prices.grand_total.value > 0) {
+            // if(parseFloat(salesConfig.sales_minimum_order_amount) > parseFloat(cart.prices.grand_total.value)) {
+            //     return cart.prices.grand_total.value
+            //     // const message = (
+            //     //     <div>{Identify.__("Minimum order amount is")} {formatPrice(parseFloat(salesConfig.sales_minimum_order_amount))}</div>
+            //     // )
+            //     // setErrorMiniOrder(message)
+            //     // toggleMessages([{ type: 'error', message: message, auto_dismiss: false }])
+            // }
+
+            return parseFloat(cart.prices.grand_total.value)
+        }
+
+        return 0
+    })
+
+    useLayoutEffect(() => {
+        if(salesConfig && salesConfig.sales_minimum_order_active) {
+            console.log(grandTotalPrice > 0)
+            console.log(parseFloat(salesConfig.sales_minimum_order_amount) > grandTotalPrice)
+            if(grandTotalPrice > 0 && parseFloat(salesConfig.sales_minimum_order_amount) > grandTotalPrice) {
                 const message = (
                     <div>{Identify.__("Minimum order amount is")} {formatPrice(parseFloat(salesConfig.sales_minimum_order_amount))}</div>
                 )
                 toggleMessages([{ type: 'error', message: message, auto_dismiss: false }])
+                setErrorMiniOrder(true)
             } else {
-                if(toogleErrMinimumOrder) {
-                    toogleErrMinimumOrder = false
+                if(errorMiniOrder) {
                     toggleMessages([])
+                    setErrorMiniOrder(false)
                 }
-                
             }
-        } 
-    } else {
-        if(toogleErrMinimumOrder) {
-            toogleErrMinimumOrder = false
-            toggleMessages([])
+
         }
-    }
+    }, [grandTotalPrice])
+
+    // let disableButtonCheckout = false
+    // if(cart && cart.items && cart.items.length > 0 && salesConfig && salesConfig.sales_minimum_order_active) {
+    //     if(cart.prices && cart.prices.grand_total && cart.prices.grand_total.value > 0) {
+    //         console.log(cart.prices.grand_total.value)
+    //         if(parseFloat(salesConfig.sales_minimum_order_amount) > parseFloat(cart.prices.grand_total.value)) {
+    //             disableButtonCheckout = true;
+    //             toogleErrMinimumOrder = true
+    //             const message = (
+    //                 <div>{Identify.__("Minimum order amount is")} {formatPrice(parseFloat(salesConfig.sales_minimum_order_amount))}</div>
+    //             )
+    //             toggleMessages([{ type: 'error', message: message, auto_dismiss: false }])
+    //         } else {
+    //             if(toogleErrMinimumOrder) {
+    //                 toogleErrMinimumOrder = false
+    //                 toggleMessages([])
+    //             }
+                
+    //         }
+    //     } 
+    // } else {
+    //     if(toogleErrMinimumOrder) {
+    //         toogleErrMinimumOrder = false
+    //         toggleMessages([])
+    //     }
+    // }
 
     const couponCode = () => {
         const childCPProps = {
@@ -103,14 +141,14 @@ const CartPage = props => {
     }
 
     const handleGoCheckout = useCallback(() => {
-        if(disableButtonCheckout) return
+        if(errorMiniOrder) return
         if (errors && errors.length && errors[0])
             showToastMessage(errors[0])
         else if (!Identify.isEnabledCheckoutAsGuest() && !isSignedIn) {
             history.push('/login.html');
         } else
             history.push('/checkout.html');
-    }, [cart, history, errors, disableButtonCheckout])
+    }, [cart, history, errors, errorMiniOrder])
 
     if (isCartUpdating || shouldShowLoadingIndicator) {
         showFogLoading();
@@ -184,7 +222,7 @@ const CartPage = props => {
                             <div className="cart-btn-section">
                                 <Colorbtn
                                     id="go-checkout"
-                                    className={`go-checkout ${disableButtonCheckout ? 'disable' : ''}`}
+                                    className={`go-checkout ${errorMiniOrder ? 'disable' : ''}`}
                                     onClick={() => handleGoCheckout()}
                                     text={Identify.__('Proceed to checkout')}
                                 />
