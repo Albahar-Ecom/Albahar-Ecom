@@ -36,6 +36,7 @@ type SimiFacebookConfig {
 
 type SimiGoogleConfig {
 	login_client_id: String
+	google_gtm: String
 }
 
 type SimiFooterConfig {

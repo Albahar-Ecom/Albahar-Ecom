@@ -37,6 +37,7 @@ class GetStoreviewInfoAfter implements ObserverInterface
 
         $confArray['google_config'] = array(
             'login_client_id' => $this->getStoreConfig('siminiaconfig/google/login_client_id'),
+            'google_gtm' => $this->getStoreConfig('siminiaconfig/google/google_gtm')
         );
 
         $confArray['footer_config'] = $this->getFooterConfig();
