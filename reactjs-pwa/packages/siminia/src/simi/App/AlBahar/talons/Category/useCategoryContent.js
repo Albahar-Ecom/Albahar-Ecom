@@ -397,9 +397,14 @@ export const useCategoryContentSimiPagination = props => {
         cacheKeyStoreId: String(store.id || 1)
     };
 
-    console.log(variables)
     if (filterData) variables.simiFilter = filterData;
-    if (sortByData) variables.sort = sortByData;
+    let simiSortByData = {}
+    for(let attribute in sortByData) {
+        const sortAttributeValue = sortByData[attribute]
+        simiSortByData.attribute = attribute
+        simiSortByData.direction = sortAttributeValue
+    }
+    if (sortByData) variables.simiProductSort = simiSortByData;
 
     useEffect(() => {
         if (categoryId && (!dataFromDict || !dataFromDict.simiproducts)) {

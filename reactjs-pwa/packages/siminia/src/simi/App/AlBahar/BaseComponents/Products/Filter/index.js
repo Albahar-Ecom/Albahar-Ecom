@@ -216,16 +216,17 @@ const Filter = props => {
         const newFiltersToApply = filtersToApply;
         if (attribute === 'price') newFiltersToApply[attribute] = value;
         else {
-            const existedValue = newFiltersToApply[attribute];
-            if (!existedValue) newFiltersToApply[attribute] = [value];
-            else {
-                const index = existedValue.indexOf(value);
-                if (index > -1) {
-                    if (existedValue.length > 1)
-                        newFiltersToApply[attribute].splice(index, 1);
-                    else delete newFiltersToApply[attribute];
-                } else newFiltersToApply[attribute].push(value);
-            }
+            newFiltersToApply[attribute] = [value]
+            // const existedValue = newFiltersToApply[attribute];
+            // if (!existedValue) newFiltersToApply[attribute] = [value];
+            // else {
+            //     const index = existedValue.indexOf(value);
+            //     if (index > -1) {
+            //         if (existedValue.length > 1)
+            //             newFiltersToApply[attribute].splice(index, 1);
+            //         else delete newFiltersToApply[attribute];
+            //     } else newFiltersToApply[attribute].push(value);
+            // }
         }
         filtersToApply = newFiltersToApply;
     };
