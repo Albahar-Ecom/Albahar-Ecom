@@ -156,6 +156,7 @@ class Storeviews extends Apiabstract
                     'success_url' => $this->getStoreConfig('simiconnector/checkout_config/url_success'),
                     'fail_url' => $this->getStoreConfig('simiconnector/checkout_config/url_failed'),
                 ],
+                'enable_address_params' => '1',
             ],
             'tax'               => [
                 'tax_display_type'               => $this->getStoreConfig('tax/display/type'),
