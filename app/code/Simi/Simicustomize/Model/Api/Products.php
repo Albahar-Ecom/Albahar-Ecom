@@ -27,7 +27,6 @@ class Products extends Apiabstract
      */
     public function setBuilderQuery()
     {
-
         $data                 = $this->getData();
         $parameters           = $data['params'];
         $this->helperProduct = $this->simiObjectManager->get('\Simi\Simicustomize\Helper\Products');
@@ -145,6 +144,8 @@ class Products extends Apiabstract
 
         $image_width = isset($parameters['image_width'])?$parameters['image_width']:null;
         $image_height = isset($parameters['image_height'])?$parameters['image_height']:null;
+        
+        $cacheIds = [];
 
         foreach ($collection as $entity) {
             if (++$check_offset <= $offset) {
@@ -156,6 +157,13 @@ class Products extends Apiabstract
             if ($this->reload_detail_product || $this->is_search) {
                 $entity = $this->loadProductWithId($entity->getId());
             }
+            foreach ($entity->getIdentities() as $tag) {
+                $tag = str_replace("cat_p_", "p", $tag);
+                if(!in_array($tag, $cacheIds)){
+                    $cacheIds[] = $tag;
+                }                
+            }
+
             $info_detail = $entity->toArray($fields);
 
             $images       = [];
@@ -200,6 +208,7 @@ class Products extends Apiabstract
 
             $all_ids[] = $entity->getId();
         }
+        header("X-Magento-Tags: ".implode(" ",$cacheIds));
         return $this->getList($info, $all_ids, $total, $limit, $offset);
     }
 
@@ -292,6 +301,14 @@ class Products extends Apiabstract
             'simi_simiconnector_model_api_products_show_after',
             ['object' => $this, 'data' => $this->detail_info]
         );
+        $cacheIds = [];
+        foreach ($entity->getIdentities() as $tag) {
+            $tag = str_replace("cat_p_", "p", $tag);
+            if(!in_array($tag, $cacheIds)){
+                $cacheIds[] = $tag;
+            }                
+        }
+        header("X-Magento-Tags: ".implode(" ",$cacheIds));
         return $this->detail_info;
     }
 
