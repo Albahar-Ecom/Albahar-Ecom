@@ -112,10 +112,12 @@ const CartItem = props => {
     const itemOption = Array.isArray(optionText) && optionText.length ?
         <div className='item-options'>{optionText.reverse()}</div>
         : ''
-
+    
     const {simiChildProduct} =item
     let outStockStatus = false
-    if(simiChildProduct && simiChildProduct.length > 0) {
+    if(!product.stock_status || product.stock_status !== 'IN_STOCK') {
+        outStockStatus = true
+    } else if(simiChildProduct && simiChildProduct.length > 0) {
         const outStockChildProduct = simiChildProduct.some(childProduct => {
             return childProduct.stock_status === 'OUT_OF_STOCK'
         })
@@ -123,9 +125,7 @@ const CartItem = props => {
         if(outStockChildProduct) {
             outStockStatus = true
         }
-    } else if(!product.stock_status || product.stock_status !== 'IN_STOCK') {
-        outStockStatus = true
-    }
+    } 
     
     const stockWarning = (outStockStatus) ?
         <div className="outstock-warning">{Identify.__('The requested qty is not available')}</div> : ''
