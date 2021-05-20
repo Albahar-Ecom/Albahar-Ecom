@@ -45,26 +45,26 @@ export const analyticCheckoutGTM = (cartItems) => {
     // try {
         const products = []
         cartItems.forEach((cartItem) => {
-            const {configurable_options, product} = cartItem
+            const {configurable_options, product, quantity} = cartItem
             let variant = ''
             if(configurable_options) {
                 configurable_options.forEach((option) => {
                     if(variant.length > 0) {
-                        variant += ` ,${option.option_label}: ${option.value_label} `
+                        variant += ` ,${option.value_label} `
                     } else {
-                        variant += `${option.option_label}: ${option.value_label} `
+                        variant += option.value_label
                     }
                 })
             }
-            const productParams = {
+            const productObj = {
                 name: product.name,
                 id: product.id,
-                quantity: cartItem.quantity
+                quantity: parseInt(quantity)
             }
             if(variant) {
-                productParams.variant = variant
+                productObj.variant = variant
             }
-            products.push(productParams)
+            products.push(productObj)
         })
         TagManager.dataLayer({
             dataLayer: { ecommerce: null }
@@ -94,12 +94,11 @@ export const analyticAddCartGTM = (product, quantity = 1, optionsSelected = null
                 configurable_options.forEach(optionItems => {
                     if(parseInt(optionItems.attribute_id) === parseInt(key)) {
                         optionItems.values.forEach((optionItem) => {
-                            console.log(optionItems)
                             if(parseInt(optionItem.value_index) === parseInt(value)) {
                                 if(variant.length > 0) {
-                                    variant += ` ,${optionItems.label}: ${optionItem.label}`
+                                    variant += ` ,${optionItem.label}`
                                 } else {
-                                    variant += `${optionItems.label}: ${optionItem.label}`
+                                    variant += `${optionItem.label}`
                                 }
                             }
                         })
@@ -112,7 +111,7 @@ export const analyticAddCartGTM = (product, quantity = 1, optionsSelected = null
             'name': product.name,
             'id': product.id,
             'price': product.price.minimalPrice.amount.value,
-            'quantity': quantity,
+            'quantity': parseInt(quantity),
         }]
 
         if(variant) {
@@ -141,23 +140,24 @@ export const analyticRemoveCartGTM = (cartItem) => {
     try {
         // if (window.dataLayer){
             // Measure the removal of a product from a shopping cart.
-            const products = [{                          //  removing a product to a shopping cart.
-                'name': cartItem.product.id,
-                'id': cartItem.product.name,
-                'price': cartItem.prices.price.value,
-                'quantity': cartItem.quantity
-            }];
-            const {configurable_options} = cartItem
+         
+            const {configurable_options, product, prices, quantity} = cartItem
             let variant = ''
             if(configurable_options) {
                 configurable_options.forEach((option) => {
                     if(variant.length > 0) {
-                        variant += ` ,${option.option_label}: ${option.value_label} `
+                        variant += ` ,${option.value_label} `
                     } else {
-                        variant += `${option.option_label}: ${option.value_label} `
+                        variant += `${option.value_label} `
                     }
                 })
             }
+            const products = [{                          //  removing a product to a shopping cart.
+                'name': product.name,
+                'id': product.id,
+                'price': prices.price.value,
+                'quantity': parseInt(quantity)
+            }];
             if(variant) {
                 products[0].variant = variant
             }
@@ -180,15 +180,31 @@ export const analyticRemoveCartGTM = (cartItem) => {
 
 export const analyticPurchaseGTM = (orderNumber, storeName='SimiCart Store', prices, shipping_price, orderItems) => {
     try {
-        const shippingMethodPrice = shipping_price && shipping_price instanceof Array && shipping_price.length ? shipping_price[0].selected_shipping_method.amount : 0;
+        const taxPrice = prices.applied_taxes && prices.applied_taxes instanceof Array && prices.applied_taxes.amount && prices.applied_taxes.amount.value ? prices.applied_taxes.amount.value : 0;
+        const shippingMethodPrice = shipping_price && shipping_price instanceof Array && shipping_price.length > 0 && shipping_price[0].selected_shipping_method  && shipping_price[0].selected_shipping_method.amount ? shipping_price[0].selected_shipping_method.amount : 0;
         const products = []
         orderItems.forEach(orderItem => {
-            products.push({
-                name: orderItem.product.name,
-                id: orderItem.product.id,
-                quantity: orderItem.quantity,
-                price: orderItem.prices.price.value
-            })
+            const {configurable_options, product, quantity, prices} = orderItem
+            let variant = ''
+            if(configurable_options) {
+                configurable_options.forEach((option) => {
+                    if(variant.length > 0) {
+                        variant += ` ,${option.value_label}`
+                    } else {
+                        variant += `${option.value_label}`
+                    }
+                })
+            }
+            const productObj = {
+                name: product.name,
+                id: product.id,
+                quantity: parseInt(quantity),
+                price: prices.price.value
+            }
+            if(variant) {
+                productObj.variant = variant
+            }   
+            products.push(productObj)         
         });
         if (window.dataLayer) {
             TagManager.dataLayer({
@@ -202,8 +218,8 @@ export const analyticPurchaseGTM = (orderNumber, storeName='SimiCart Store', pri
                             'actionField': {
                                 'id': orderNumber,
                                 'affiliation': storeName,
-                                'revenue': prices.grand_total,
-                                'tax': prices.applied_taxes,
+                                'revenue': prices.grand_total.value,
+                                'tax': taxPrice,
                                 'shipping': shippingMethodPrice,
                             },
                             'products': products
