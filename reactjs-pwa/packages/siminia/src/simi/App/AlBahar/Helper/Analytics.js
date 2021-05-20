@@ -50,7 +50,7 @@ export const analyticCheckoutGTM = (cartItems) => {
             if(configurable_options) {
                 configurable_options.forEach((option) => {
                     if(variant.length > 0) {
-                        variant += ` ,${option.value_label} `
+                        variant += ` ,${option.value_label}`
                     } else {
                         variant += option.value_label
                     }
@@ -146,9 +146,9 @@ export const analyticRemoveCartGTM = (cartItem) => {
             if(configurable_options) {
                 configurable_options.forEach((option) => {
                     if(variant.length > 0) {
-                        variant += ` ,${option.value_label} `
+                        variant += ` ,${option.value_label}`
                     } else {
-                        variant += `${option.value_label} `
+                        variant += `${option.value_label}`
                     }
                 })
             }
