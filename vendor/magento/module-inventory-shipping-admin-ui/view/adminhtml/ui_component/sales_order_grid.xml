@@ -13,6 +13,7 @@
             <settings>
                 <filter>false</filter>
                 <label translate="true">Allocated sources</label>
+                <sortable>false</sortable>
             </settings>
         </column>
     </columns>
