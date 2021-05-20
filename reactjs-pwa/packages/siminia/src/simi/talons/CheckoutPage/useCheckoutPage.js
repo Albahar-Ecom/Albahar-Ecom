@@ -94,6 +94,8 @@ export const useCheckoutPage = props => {
         }
     });
 
+    console.log(checkoutData)
+
     const [shippingMethodSelected, setShippingMethodSelected] = useState(false);
 
     /**

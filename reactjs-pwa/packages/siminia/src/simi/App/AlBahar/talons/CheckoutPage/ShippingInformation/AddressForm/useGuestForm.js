@@ -1,6 +1,6 @@
 import { useCallback } from 'react';
 import { simiUseMutation as useMutation } from 'src/simi/Network/Query';
-
+import {analyticCheckoutOptionGTM} from '../../../../Helper/Analytics'
 import { useCartContext } from '@magento/peregrine/lib/context/cart';
 
 export const useGuestForm = props => {
@@ -44,6 +44,7 @@ export const useGuestForm = props => {
                         }
                     }
                 });
+                analyticCheckoutOptionGTM(2, 'setGuestShipping')
             } catch {
                 return;
             }

@@ -1,5 +1,6 @@
 import { useCallback, useEffect } from 'react';
 import { simiUseMutation as useMutation, simiUseQuery as useQuery } from 'src/simi/Network/Query';
+import {analyticCheckoutOptionGTM} from '../../../../Helper/Analytics'
 
 export const useCustomerForm = props => {
     const {
@@ -103,6 +104,7 @@ export const useCustomerForm = props => {
                         },
                         refetchQueries: [{ query: getCustomerAddressesQuery }]
                     });
+                    analyticCheckoutOptionGTM(2, 'updateCustomerAddres')
                 } else {
                     await createCustomerAddress({
                         variables: {
@@ -113,6 +115,7 @@ export const useCustomerForm = props => {
                             { query: getDefaultShippingQuery }
                         ]
                     });
+                    analyticCheckoutOptionGTM(2, 'createCustomerAddres')
                 }
             } catch {
                 return;

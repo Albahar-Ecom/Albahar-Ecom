@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Gallery from './Gallery';
 import Identify from 'src/simi/Helper/Identify';
 import Sortby from './Sortby';
@@ -32,6 +32,11 @@ const Products = props => {
 
     const { products } = data;
     const { total_count } = products;
+
+    useEffect(() => {
+        const items = data ? data.products.items : null;
+        analyticImpressionsGTM(items, title, pageType || 'Category');
+    }, [data])
 
     const renderFilter = () => {
 
@@ -85,7 +90,6 @@ const Products = props => {
         const items = data ? data.products.items : null;
         if (!data) return <Loading />;
 
-        analyticImpressionsGTM(items, title, pageType || 'Category');
         return (
             <React.Fragment>
                 <Sortby data={data} sortByData={sortByData} />

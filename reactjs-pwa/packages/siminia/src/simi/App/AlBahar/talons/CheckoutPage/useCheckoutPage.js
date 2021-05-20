@@ -17,6 +17,8 @@ import { showFogLoading, hideFogLoading } from 'src/simi/BaseComponents/Loading/
 import { showToastMessage } from 'src/simi/Helper/Message';
 import { confirmAlert } from 'src/simi/BaseComponents/ConfirmAlert';
 
+import {analyticCheckoutOptionGTM, analyticCheckoutGTM} from '../../Helper/Analytics'
+
 export const CHECKOUT_STEP = {
     SHIPPING_ADDRESS: 1,
     SHIPPING_METHOD: 2,
@@ -75,7 +77,6 @@ export const useCheckoutPage = props => {
             skip: (!cartId || !toFetchOrderDetails)
         });
 
-    console.log(orderDetailsData)
     const { data: customerData, loading: customerLoading } = useQuery(
         getCustomerQuery,
         { skip: !isSignedIn }
@@ -95,6 +96,13 @@ export const useCheckoutPage = props => {
             cartId
         }
     });
+
+    useEffect(() => {
+        console.log(checkoutData)
+        if(checkoutStep === CHECKOUT_STEP.SHIPPING_ADDRESS && checkoutData && checkoutData.cart && checkoutData.cart.items && checkoutData.cart.items.length > 0) {
+            analyticCheckoutGTM(checkoutData.cart.items)
+        }
+    }, [checkoutData])
 
     const [shippingMethodSelected, setShippingMethodSelected] = useState(false);
 
@@ -309,7 +317,7 @@ export const useCheckoutPage = props => {
 
                 //simi session and local data cleanup
                 Identify.storeDataToStoreage(Identify.LOCAL_STOREAGE, 'simi_selected_payment_code', null)
-
+                analyticCheckoutOptionGTM(5, 'placeOrder')
                 // Cleanup stale cart and customer info.
                 await removeCart();
                 await clearCartDataFromCache(apolloClient);
@@ -317,6 +325,7 @@ export const useCheckoutPage = props => {
                 await createCart({
                     fetchCartId
                 });
+                
             } catch (err) {
                 console.error(
                     'An error occurred during when placing the order',

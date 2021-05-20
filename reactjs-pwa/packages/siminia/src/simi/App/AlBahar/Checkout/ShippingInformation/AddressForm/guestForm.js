@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react';
 import { Form } from 'informed';
 import { func, shape, string, arrayOf } from 'prop-types';
-import { useGuestForm } from 'src/simi/talons/CheckoutPage/ShippingInformation/AddressForm/useGuestForm';
+import { useGuestForm } from '../../../talons/CheckoutPage/ShippingInformation/AddressForm/useGuestForm';
 
 import { mergeClasses } from 'src/classify';
 import { isRequired as oriIsRequired } from '@magento/venia-ui/lib/util/formValidators';

@@ -5,7 +5,7 @@ import { Form } from 'informed';
 import {
     displayStates,
     useShippingMethod
-} from 'src/simi/talons/CheckoutPage/useShippingMethod';
+} from '../../talons/CheckoutPage/useShippingMethod';
 
 import { mergeClasses } from '@magento/venia-ui/lib/classify';
 import Button from '@magento/venia-ui/lib/components/Button';

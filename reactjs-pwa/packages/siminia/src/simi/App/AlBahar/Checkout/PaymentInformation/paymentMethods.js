@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { shape, string, bool, func } from 'prop-types';
 import { RadioGroup } from 'informed';
 
@@ -11,7 +11,7 @@ import PlainOffline from './SimiPayments/PlainOffline';
 import PurchaseOrder from './SimiPayments/PurchaseOrder/index';
 import StripeIntegration from './SimiPayments/StripeIntegration/index';
 import Paytap from './SimiPayments/Paytap';
-
+import {analyticCheckoutOptionGTM} from '../../Helper/Analytics'
 import paymentMethodOperations from './paymentMethods.gql';
 import defaultClasses from './paymentMethods.css';
 
@@ -49,6 +49,12 @@ const PaymentMethods = props => {
         isVirtual,
         isLoading
     } = talonProps;
+
+    useEffect(() => {
+        if(currentSelectedPaymentMethod) {
+            analyticCheckoutOptionGTM(4, `paymentMethod: ${currentSelectedPaymentMethod}`)
+        }
+    }, [currentSelectedPaymentMethod])
 
     if (isLoading) {
         return null;
