@@ -21,8 +21,6 @@ import {formatPrice} from 'src/simi/Helper/Pricing'
 require('./cart.scss');
 let toggledErrMessOnce = false
 
-let toogleErrMinimumOrder = false
-
 const CartPage = props => {
     const { toggleMessages, history, location } = props
     const [errorMiniOrder, setErrorMiniOrder] = useState(null)

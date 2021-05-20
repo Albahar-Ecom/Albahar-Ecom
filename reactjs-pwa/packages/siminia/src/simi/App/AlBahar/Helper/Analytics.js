@@ -274,7 +274,6 @@ export const analyticImpressionsGTM = (products, category = '', list_name = '') 
 }
 
 export const analyticsViewDetailsGTM = (product) => {
-    console.log(product);
     try {
         TagManager.dataLayer({
             dataLayer: { ecommerce: null }
