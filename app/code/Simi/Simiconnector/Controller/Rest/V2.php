@@ -51,10 +51,38 @@ class V2 extends Action
         return $serverModel;
     }
 
+    private function _noCache(){
+        $data = $this->_getServer()->getData();
+        switch ($data['resource']) {
+            case 'orders':              
+            case 'customers':                
+            case 'addresses':
+            case 'addresses':
+            case 'quoteitems':
+            case 'sociallogins':
+                # code...
+                break;
+            default:
+                # code...
+                return true;
+                break;
+        }
+        return false;;
+    }
     private function _printData($result)
     {
+        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
+        $customerSession = $objectManager->get('Magento\Customer\Model\Session');        
         try {
             $this->getResponse()->setHeader('Content-Type', 'application/json');
+            $data = $this->_getServer()->getData();
+            if((isset($data['resource']) && $this->_noCache()) 
+                || (isset($_GET['email']) && $_GET['email'])
+                || $customerSession->isLoggedIn()){                
+                $this->getResponse()->setNoCacheHeaders();
+            }else{                         
+                $this->getResponse()->setPublicHeaders('86400');
+            }            
             $this->setData($result);
             $this->_eventManager
                     ->dispatch('SimiconnectorRest', ['object' => $this, 'data' => $result]);

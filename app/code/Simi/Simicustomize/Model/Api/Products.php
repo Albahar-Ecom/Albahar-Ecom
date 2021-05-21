@@ -158,7 +158,7 @@ class Products extends Apiabstract
                 $entity = $this->loadProductWithId($entity->getId());
             }
             foreach ($entity->getIdentities() as $tag) {
-                $tag = str_replace("cat_p_", "p", $tag);
+               // $tag = str_replace("cat_p_", "p", $tag);
                 if(!in_array($tag, $cacheIds)){
                     $cacheIds[] = $tag;
                 }                
@@ -207,8 +207,8 @@ class Products extends Apiabstract
             $info[]                       = $info_detail;
 
             $all_ids[] = $entity->getId();
-        }
-        header("X-Magento-Tags: ".implode(" ",$cacheIds));
+        }                
+        header("X-Magento-Tags: ".implode(",",$cacheIds));                
         return $this->getList($info, $all_ids, $total, $limit, $offset);
     }
 
@@ -303,12 +303,12 @@ class Products extends Apiabstract
         );
         $cacheIds = [];
         foreach ($entity->getIdentities() as $tag) {
-            $tag = str_replace("cat_p_", "p", $tag);
+           // $tag = str_replace("cat_p_", "p", $tag);
             if(!in_array($tag, $cacheIds)){
                 $cacheIds[] = $tag;
             }                
         }
-        header("X-Magento-Tags: ".implode(" ",$cacheIds));
+        header("X-Magento-Tags: ".implode(",",$cacheIds));
         return $this->detail_info;
     }
 
