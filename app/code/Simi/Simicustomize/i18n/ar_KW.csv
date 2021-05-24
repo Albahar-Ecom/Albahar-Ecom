@@ -11,7 +11,7 @@
 
 "Can't check requested quantity for products without Source Items support.","لا يمكن التحقق من الكمية المطلوبة للمنتجات بدون دعم عناصر المصدر."
 "No linked stock found","لم يتم العثور على مخزون مرتبط"
-"We don't have as many quantity as you requested, but we'll back order the remaining %1.","ليس لدينا الكمية التي طلبتها ، لكننا سنعيد طلب 1% المتبقية."
+"We don't have as many quantity as you requested, but we'll back order the remaining %1.","ليس لدينا الكمية التي طلبتها ، لكننا سنعيد طلب %1 المتبقية."
 "Parameter ""object"" must be present.","Parameter ""object"" must be present."
 "Parameter ""sort_order"" must be present for unrequired conditions.","Parameter ""sort_order"" must be present for unrequired conditions."
 "Condition have to implement IsProductSalableInterface.","يجب أن تنفذ الشرط IsProductSalableInterface."
@@ -36,3 +36,8 @@
 "Could not replace Sales Channels for Stock","لا يمكن استبدال قنوات المبيعات للأسهم"
 "Wrong condition.","شرط خاطئ."
 "There are no source items with the in stock status","لا توجد عناصر مصدر بحالة المخزون"
+
+"You added %1 to your shopping cart.","لقد أضفت 1% إلى سلة التسوق الخاصة بك."
+"Coupon code "%1" was applied.","تم تطبيق رمز القسيمة "%1"."
+"Coupon code "%1" is not valid.","رمز القسيمة "%1" غير صالح."
+"Coupon code was canceled.","تم إلغاء رمز القسيمة."
