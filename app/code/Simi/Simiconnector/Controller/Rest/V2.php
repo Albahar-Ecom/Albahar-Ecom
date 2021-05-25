@@ -64,10 +64,10 @@ class V2 extends Action
                 break;
             default:
                 # code...
-                return true;
+                return false;
                 break;
         }
-        return false;;
+        return true;
     }
     private function _printData($result)
     {
@@ -78,7 +78,7 @@ class V2 extends Action
             $data = $this->_getServer()->getData();
             if((isset($data['resource']) && $this->_noCache()) 
                 || (isset($_GET['email']) && $_GET['email'])
-                || $customerSession->isLoggedIn()){                
+                || $customerSession->isLoggedIn()){    
                 $this->getResponse()->setNoCacheHeaders();
             }else{                         
                 $this->getResponse()->setPublicHeaders('86400');
