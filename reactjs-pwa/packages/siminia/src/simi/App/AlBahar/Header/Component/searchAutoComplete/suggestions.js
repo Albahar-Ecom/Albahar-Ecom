@@ -6,6 +6,8 @@ import SuggestedCategories from './suggestedCategories';
 import SuggestedProducts from './suggestedProducts';
 import defaultClasses from './suggestions.css';
 
+import {analyticImpressionsGTM} from '../../../Helper/Analytics'
+
 const Suggestions = props => {
     const { products, searchValue, setVisible, visible } = props;
     const { filters, items } = products;
@@ -18,6 +20,8 @@ const Suggestions = props => {
     if (!visible || !filters || !items) {
         return null;
     }
+
+    analyticImpressionsGTM(items, '', 'Search Results Suggestion');
 
     const categoryFilter =
         filters.find(({ name }) => name === 'Category') || {};

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Gallery from './Gallery';
 import Identify from 'src/simi/Helper/Identify';
 import Sortby from './Sortby';
@@ -8,6 +8,7 @@ import SimiPagination from 'src/simi/App/AlBahar/BaseComponents/SimiPagination';
 import Loading from 'src/simi/BaseComponents/Loading';
 import LoadMore from './loadMore';
 import NoProductsFound from './NoProductsFound';
+import { analyticImpressionsGTM } from '../../Helper/Analytics';
 
 require('./products.scss');
 
@@ -31,6 +32,11 @@ const Products = props => {
 
     const { products } = data;
     const { total_count } = products;
+
+    useEffect(() => {
+        const items = data ? data.products.items : null;
+        analyticImpressionsGTM(items, title, pageType || 'Category');
+    }, [data])
 
     const renderFilter = () => {
 

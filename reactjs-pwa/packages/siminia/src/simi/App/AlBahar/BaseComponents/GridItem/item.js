@@ -21,6 +21,7 @@ import { HOPrice } from 'src/simi/Helper/Pricing'
 import {
     ADD_SIMPLE_MUTATION,
 } from 'src/simi/App/AlBahar/RootComponents/Product/ProductFullDetail/productFullDetail.gql';
+import {analyticClickGTM, analyticAddCartGTM} from '../../Helper/Analytics'
 
 import { connect } from 'src/drivers';
 import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
@@ -73,6 +74,7 @@ const Griditem = props => {
     } = useGridItem({
         cartId,
         handleLink,
+        analyticAddCartGTM,
         location,
         toggleMessages,
         mutations: {
@@ -121,6 +123,8 @@ const Griditem = props => {
             } catch (err) {
                 console.error(err)
             }
+
+            analyticClickGTM(item)
             setSimiNProgressLoading(false)
             handleLink(clickedLocation)
         } else if (preFetchProductResult || preFetchProductError) {

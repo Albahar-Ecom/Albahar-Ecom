@@ -76,6 +76,9 @@
                 <field id="login_client_id" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
                     <label>Social Login Client ID</label>
                 </field>
+                <field id="google_gtm" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Google GTM</label>
+                </field>
             </group>
             <group id="custom_email" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
                 <label>Custom Email</label>

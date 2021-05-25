@@ -8,6 +8,7 @@ import Identify from 'src/simi/Helper/Identify';
 import CreateAccount from './createAccount';
 import ItemsReview from '../ItemsReview';
 import defaultClasses from './orderConfirmationPage.css';
+import {analyticPurchaseGTM} from '../../Helper/Analytics'
 
 const OrderConfirmationPage = props => {
     const classes = mergeClasses(defaultClasses, props.classes);
@@ -38,6 +39,13 @@ const OrderConfirmationPage = props => {
             </span>
         );
     }) : [];
+
+    useEffect(() => {
+        if (orderNumber && data && data.hasOwnProperty('cart')) {
+            window.sessionStorage.removeItem('SIMI_LAST_SUCCESS_ORDER_DATA')
+            analyticPurchaseGTM(orderNumber, 'Albahar Online Store', data.cart.prices, data.cart.shipping_addresses, data.cart.items);
+        }
+    }, [orderNumber, data]);
 
     useEffect(() => {
         window.scrollTo({

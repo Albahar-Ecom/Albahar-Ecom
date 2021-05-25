@@ -5,12 +5,11 @@ import { HOPrice as Price } from 'src/simi/Helper/Pricing'
 import { logoUrl, productUrlSuffix } from 'src/simi/Helper/Url';
 import ReactHTMLParse from 'react-html-parser';
 import Identify from 'src/simi/Helper/Identify'
-import { useProduct } from 'src/simi/talons/CartPage/ProductListing/useProduct';
+import { useProduct } from '../../../talons/CartPage/ProductListing/useProduct';
 import { CartPageFragment } from 'src/simi/App/core/Cart/cartPageFragments.gql';
 import { AvailableShippingMethodsCartFragment } from '../../PriceAdjustments/ShippingMethods/shippingMethodsFragments.gql';
 import gql from 'graphql-tag';
 import { showToastMessage } from 'src/simi/Helper/Message'
-
 
 require('./cartItem.scss')
 
@@ -113,10 +112,12 @@ const CartItem = props => {
     const itemOption = Array.isArray(optionText) && optionText.length ?
         <div className='item-options'>{optionText.reverse()}</div>
         : ''
-
+    
     const {simiChildProduct} =item
     let outStockStatus = false
-    if(simiChildProduct && simiChildProduct.length > 0) {
+    if(!product.stock_status || product.stock_status !== 'IN_STOCK') {
+        outStockStatus = true
+    } else if(simiChildProduct && simiChildProduct.length > 0) {
         const outStockChildProduct = simiChildProduct.some(childProduct => {
             return childProduct.stock_status === 'OUT_OF_STOCK'
         })
@@ -124,9 +125,7 @@ const CartItem = props => {
         if(outStockChildProduct) {
             outStockStatus = true
         }
-    } else if(!product.stock_status || product.stock_status !== 'IN_STOCK') {
-        outStockStatus = true
-    }
+    } 
     
     const stockWarning = (outStockStatus) ?
         <div className="outstock-warning">{Identify.__('The requested qty is not available')}</div> : ''
