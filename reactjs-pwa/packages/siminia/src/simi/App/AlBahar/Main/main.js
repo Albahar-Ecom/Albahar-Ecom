@@ -75,7 +75,9 @@ class Main extends Component {
                 gtmId: storeConfig.simiStoreConfig.config.google_config.google_gtm
             }
             TagManager.initialize(tagManagerArgs)
-            TagManager.initialize({gtmId: "GTM-W2KTV4V"})
+            if(window.location.host === "albaharonline.com") {
+                TagManager.initialize({gtmId: "GTM-W2KTV4V"})
+            }
         }
 
         if (storeConfig && this.props.setStoreConfig)
