@@ -12,7 +12,6 @@ import { Simiquery } from 'src/simi/Network/Query'
 import classes from './main.css';
 import ChevronCircleUp from 'src/simi/App/AlBahar/BaseComponents/Icon/ChevronCircleUp'
 import TagManager from 'react-gtm-module'
-import { store } from '@magento/peregrine/lib/RestApi/Magento2/MulticastCache';
 
 const $ = window.$
 
@@ -63,7 +62,6 @@ class Main extends Component {
     }
 
     mainContent(storeConfig = null) {
-        console.log(storeConfig)
         if(
             !this.addGtm 
             && storeConfig 
@@ -77,6 +75,7 @@ class Main extends Component {
                 gtmId: storeConfig.simiStoreConfig.config.google_config.google_gtm
             }
             TagManager.initialize(tagManagerArgs)
+            TagManager.initialize({gtmId: "GTM-W2KTV4V"})
         }
 
         if (storeConfig && this.props.setStoreConfig)
