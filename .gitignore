@@ -1,13 +1,8 @@
 .DS_Store
 /generated
 /var
-/vendor
 /pub/media
 /pub/static
-/lib/*
-!/lib
-!/lib/internal
-!/lib/internal/Mageplaza
 /bin
 /phpserver
 /setup

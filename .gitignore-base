@@ -1,0 +1,12 @@
+.DS_Store
+/generated
+/var
+/vendor
+/pub/media
+/pub/static
+/bin
+/phpserver
+/setup
+/dev
+app/etc/env.php
+.gitignore
