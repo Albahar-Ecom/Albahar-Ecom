@@ -35,6 +35,9 @@ siminiaResponse:
           pattern: '^/(graphql|rest|media|pub)(/|$)'
           use: siminiaProxy
         - matches: request.url.pathname
+          pattern: '^/appdashboard/rest/app_configs'
+          use: siminiaProxy
+        - matches: request.url.pathname
           pattern: '^/(robots\.txt|favicon\.ico|manifest\.json)'
           use: staticFromRoot
         - matches: request.url.pathname
