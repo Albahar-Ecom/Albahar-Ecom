@@ -120,6 +120,12 @@
     Options +FollowSymLinks
     RewriteEngine on
 
+# Get app config
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-l
+    RewriteCond %{REQUEST_URI} /appdashboard/rest/app_configs.*$
+    RewriteRule .* ./app_configs.php?$0 [L]
+
 ############################################
 ## you can put here your magento root folder
 ## path relative to web root
