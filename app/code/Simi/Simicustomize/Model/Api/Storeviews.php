@@ -439,9 +439,20 @@ class Storeviews extends Apiabstract
         }
     }
 
+    public function clearQuote()
+    {
+        //fix bug logout not clear old quote
+        $cart  = $this->simiObjectManager->get( 'Magento\Checkout\Model\Cart' );
+        $quote = $this->simiObjectManager->create( 'Magento\Quote\Model\Quote' );
+        $cart->setQuote( $quote );
+        $newCustomer = $this->simiObjectManager->create( 'Magento\Customer\Model\Customer' );
+        $this->simiObjectManager->get( 'Magento\Customer\Model\Session' )->setCustomer( $newCustomer );
+    }
+
     public function setStoreView($data)
     {
         if (($data['resourceid'] == 'default') || ($data['resourceid'] == $this->storeManager->getStore()->getId())) {
+            $this->clearQuote();
             return;
         }
         try {
@@ -460,6 +471,7 @@ class Storeviews extends Apiabstract
             $this->storeManager->setCurrentStore(
                 $this->simiObjectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore($data['resourceid'])
             );
+            $this->clearQuote();
         } catch (\Exception $e) {
 
         }
