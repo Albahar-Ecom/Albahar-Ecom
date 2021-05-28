@@ -293,6 +293,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         $searchCollection->addSearchFilter($params['filter']['q']);
         $collection = $searchCollection;
         $collection->addAttributeToFilter('status', ['in' => $this->productStatus->getVisibleStatusIds()]);
+        $collection->setVisibility($this->productVisibility->getVisibleInSiteIds());
         $collection->addAttributeToSelect('*')
             ->addStoreFilter()
             ->addAttributeToFilter('status', 1)

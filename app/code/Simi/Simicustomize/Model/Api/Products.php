@@ -264,6 +264,10 @@ class Products extends Apiabstract
         $avg          = $this->simiObjectManager
             ->get('\Simi\Simiconnector\Helper\Review')->getAvgRate($ratings, $total_rating);
 
+        if ($entity->getDescription()) {
+            $info['description'] = '<meta name="viewport" content="width=device-width, initial-scale=1.0">' . $entity->getDescription();
+        }
+
         $info['additional']       = $_additional;
         $info['images']           = $images;
         $info['app_tier_prices'] =$this->simiObjectManager
