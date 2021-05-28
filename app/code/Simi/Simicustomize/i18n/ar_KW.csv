@@ -37,7 +37,7 @@
 "Wrong condition.","شرط خاطئ."
 "There are no source items with the in stock status","لا توجد عناصر مصدر بحالة المخزون"
 
-"You added %1 to your shopping cart.","لقد أضفت 1% إلى سلة التسوق الخاصة بك."
-"Coupon code "%1" was applied.","تم تطبيق رمز القسيمة "%1"."
-"Coupon code "%1" is not valid.","رمز القسيمة "%1" غير صالح."
+"You added %1 to your shopping cart.","لقد أضفت %1 إلى سلة التسوق الخاصة بك."
+"Coupon code ""%1"" was applied.","تم تطبيق رمز القسيمة ""%1""."
+"Coupon code ""%1"" is not valid.","رمز القسيمة ""%1"" غير صالح."
 "Coupon code was canceled.","تم إلغاء رمز القسيمة."
