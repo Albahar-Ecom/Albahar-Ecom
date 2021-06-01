@@ -62,14 +62,14 @@
                         if(typeof(caches) !== "undefined"){
                             caches.keys().then(function(names) {
                                 for (var name in names)
-                                    caches.delete(name);
+                                    caches.delete(names[name]);
                             });
                         }
 
                         navigator.serviceWorker.getRegistrations().then(
                             function (registrations) {
                                 for (var registration in registrations) {
-                                    registration.unregister();
+                                    registrations[registration].unregister();
                                 }
                             });
                     } catch (err) {
