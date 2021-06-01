@@ -61,14 +61,14 @@
                     try {
                         if(typeof(caches) !== "undefined"){
                             caches.keys().then(function(names) {
-                                for (const name of names)
+                                for (var name in names)
                                     caches.delete(name);
                             });
                         }
 
                         navigator.serviceWorker.getRegistrations().then(
                             function (registrations) {
-                                for (let registration of registrations) {
+                                for (var registration in registrations) {
                                     registration.unregister();
                                 }
                             });
@@ -100,6 +100,32 @@
                 <img src="/static/icons/icon.png" alt="Splash Screen" width="30%" height="auto">
             </div>
         </div>
+
+        <!-- Fallback for when JavaScript is disabled. -->
+        <noscript>
+            <style>
+                .fallback-nojs {
+                  display: flex;
+                  flex-direction: column;
+                  justify-content: center;
+                  align-items: center;
+                }
+                .fallback-nojs a {
+                    color: currentColor;
+                }
+                .fallback-closed {
+                    height: 40vh;
+                }
+            </style>
+            <div class="fallback-nojs">
+                <img class="fallback-closed" alt="JavaScript is disabled" src="/venia-static/veniaClosed.png">
+                <h1 class="fallback-heading">Oops! JavaScript is disabled</h1>
+                <div>
+                  To browse the Venia store,<br>
+                  <a href="https://www.enable-javascript.com">enable JavaScript in your browser.</a>
+                </div>
+            </div>
+        </noscript>
 
         <script>
             var url = 'https://wati-integration-service.clare.ai/ShopifyWidget/shopifyWidget.js?87345';
@@ -133,34 +159,10 @@
             s.onload = function() {
                 CreateWhatsappChatWidget(options);
             };
-            var x = document.getElementsByTagName('script')[0];
-            x.parentNode.insertBefore(s, x);
+            setTimeout(function(){
+                var x = document.getElementsByTagName('script')[0];
+                x.parentNode.insertBefore(s, x);
+            }, 3000);
         </script>
-
-        <!-- Fallback for when JavaScript is disabled. -->
-        <noscript>
-            <style>
-                .fallback-nojs {
-                  display: flex;
-                  flex-direction: column;
-                  justify-content: center;
-                  align-items: center;
-                }
-                .fallback-nojs a {
-                    color: currentColor;
-                }
-                .fallback-closed {
-                    height: 40vh;
-                }
-            </style>
-            <div class="fallback-nojs">
-                <img class="fallback-closed" alt="JavaScript is disabled" src="/venia-static/veniaClosed.png">
-                <h1 class="fallback-heading">Oops! JavaScript is disabled</h1>
-                <div>
-                  To browse the Venia store,<br>
-                  <a href="https://www.enable-javascript.com">enable JavaScript in your browser.</a>
-                </div>
-            </div>
-        </noscript>
     </body>
 </html>
