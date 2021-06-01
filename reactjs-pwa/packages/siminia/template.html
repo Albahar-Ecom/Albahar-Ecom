@@ -157,7 +157,7 @@
               }
             };
             s.onload = function() {
-                CreateWhatsappChatWidget(options);
+                window.CreateWhatsappChatWidget && CreateWhatsappChatWidget(options);
             };
             setTimeout(function(){
                 var x = document.getElementsByTagName('script')[0];
