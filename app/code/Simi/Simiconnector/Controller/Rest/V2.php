@@ -57,7 +57,7 @@ class V2 extends Action
             case 'orders':              
             case 'customers':                
             case 'addresses':
-            case 'addresses':
+            case 'storeviews':
             case 'quoteitems':
             case 'sociallogins':
                 # code...
