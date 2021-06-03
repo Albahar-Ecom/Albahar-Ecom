@@ -22,6 +22,17 @@ class Bundle extends \Simi\Simiconnector\Helper\Options
                 if ($optionModel->getId()) {
                     $bundle_options['options'][$index]['isRequired'] = $optionModel->getData('required');
                     $bundle_options['options'][$index]['type'] = $optionModel->getData('type');
+
+                    foreach ($bundle_options['options'][$index]['selections'] as $key => $value) {
+                        $product = $this->simiObjectManager->create('Magento\Catalog\Model\Product')->load($value['optionId']);
+                        $app_prices = $this->simiObjectManager->get('\Simi\Simiconnector\Helper\Price')
+                        if (!$product->getIsSalable()) {
+                            unset($bundle_options['options'][$index]['selections'][$key]);
+                            continue;
+                        }
+                        $tierPrice = $this->simiObjectManager->get('\Simi\Simiconnector\Helper\Price')->getProductTierPricesLabel($product);
+                        $bundle_options['options'][$index]['selections'][$key]['app_tier_prices'] = $tierPrice;
+                    }
                 }
             }
         }

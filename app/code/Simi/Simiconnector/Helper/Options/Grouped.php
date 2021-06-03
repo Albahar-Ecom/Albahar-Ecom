@@ -41,6 +41,7 @@ class Grouped extends \Simi\Simiconnector\Helper\Options
                     'is_salable' => $_item->isSaleable() ? "1" : "0",
                     'qty'        => ($_item->getData('qty') === null) ? "0" : $_item->getData('qty'),
                     'position'   => ($_item->getData('position') === null) ? "0" : $_item->getData('position'),
+                    'app_tier_prices' => $this->simiObjectManager->get('\Simi\Simiconnector\Helper\Price')->getProductTierPricesLabel($_item),
                 ];
 
                 $final_price = $_item->getFinalPrice();
