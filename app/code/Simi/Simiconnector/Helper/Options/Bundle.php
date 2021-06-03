@@ -25,7 +25,6 @@ class Bundle extends \Simi\Simiconnector\Helper\Options
 
                     foreach ($bundle_options['options'][$index]['selections'] as $key => $value) {
                         $product = $this->simiObjectManager->create('Magento\Catalog\Model\Product')->load($value['optionId']);
-                        $app_prices = $this->simiObjectManager->get('\Simi\Simiconnector\Helper\Price')
                         if (!$product->getIsSalable()) {
                             unset($bundle_options['options'][$index]['selections'][$key]);
                             continue;
