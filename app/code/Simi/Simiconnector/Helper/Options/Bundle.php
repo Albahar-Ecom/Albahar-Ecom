@@ -24,12 +24,22 @@ class Bundle extends \Simi\Simiconnector\Helper\Options
                     $bundle_options['options'][$index]['type'] = $optionModel->getData('type');
 
                     foreach ($bundle_options['options'][$index]['selections'] as $key => $value) {
-                        $product = $this->simiObjectManager->create('Magento\Catalog\Model\Product')->load($value['optionId']);
-                        if (!$product->getIsSalable()) {
+                        $productChild = $this->simiObjectManager->create('Magento\Catalog\Model\Product')->load($value['optionId']);
+                        $app_prices = $this->simiObjectManager->get('\Simi\Simiconnector\Helper\Price')->formatPriceFromProduct($product, true);
+                        if (!$productChild->getIsSalable()) {
                             unset($bundle_options['options'][$index]['selections'][$key]);
                             continue;
                         }
-                        $tierPrice = $this->simiObjectManager->get('\Simi\Simiconnector\Helper\Price')->getProductTierPricesLabel($product);
+                        if (!$product->getAttributeText('price_type')) {
+                            $price = 0;
+                            if (isset($app_prices['configure']) && isset($app_prices['configure']['price'])) {
+                                $price = $app_prices['configure']['price'];
+                            }
+                            $bundle_options['options'][$index]['selections'][$key]['prices']['oldPrice']['amount'] += $price;
+                            $bundle_options['options'][$index]['selections'][$key]['prices']['basePrice']['amount'] += $price;
+                            $bundle_options['options'][$index]['selections'][$key]['prices']['finalPrice']['amount'] += $price;
+                        }
+                        $tierPrice = $this->simiObjectManager->get('\Simi\Simiconnector\Helper\Price')->getProductTierPricesLabel($productChild);
                         $bundle_options['options'][$index]['selections'][$key]['app_tier_prices'] = $tierPrice;
                     }
                 }
