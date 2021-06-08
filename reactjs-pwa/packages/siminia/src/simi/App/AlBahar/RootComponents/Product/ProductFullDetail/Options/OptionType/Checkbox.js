@@ -74,7 +74,7 @@ class CheckboxField extends Abstract {
                                 //     checked: classes.checked,
                                 // }}
                             />}
-                            label={<OptionLabel title={title} item={item} type_id={this.type_id}/>}
+                            label={<OptionLabel dynamic_price={this.props.dynamic_price} title={title} item={item} type_id={this.type_id}/>}
                         />
                     </div>
                     {price_tiers && <TierPrices price_tiers={price_tiers} priceObj={price_range} />}

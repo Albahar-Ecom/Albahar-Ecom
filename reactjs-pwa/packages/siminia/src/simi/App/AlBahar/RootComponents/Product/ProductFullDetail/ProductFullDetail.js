@@ -153,7 +153,7 @@ class ProductFullDetail extends Component {
         const { fallback, handleConfigurableSelectionChange, props } = this;
         const { configurable_options, type_id, is_dummy_data,
             downloadable_product_links, downloadable_product_samples,
-            links_title, links_purchased_separately, items, id, variants } = props.product;
+            links_title, links_purchased_separately, items, id, variants, price, dynamic_price } = props.product;
         const isConfigurable = isProductConfigurable(prepareProduct(props.product));
 
         // if (is_dummy_data)
@@ -168,6 +168,8 @@ class ProductFullDetail extends Component {
                 {type_id === 'bundle' && <BundleOptions
                     key={Identify.randomString(5)}
                     app_options={items ? items : []}
+                    price={price}
+                    dynamic_price={dynamic_price}
                     product_id={id}
                     ref={e => this.bundleOption = e}
                     parent={this}

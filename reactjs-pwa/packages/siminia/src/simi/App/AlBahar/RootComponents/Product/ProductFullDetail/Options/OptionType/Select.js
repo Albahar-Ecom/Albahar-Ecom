@@ -57,7 +57,7 @@ class Select extends Abstract {
                 const element = (
                     <MenuItem key={Identify.randomString(5)} name={this.props.key_field} value={Number(item.id)}>
                         <div className="option-row" style={{alignItems : 'center',fontFamily: 'Montserrat , sans-serif'}}>
-                            {<OptionLabel title={item.product.name} type_id='bundle' item={item} style={{alignItems : 'center'}}/>}
+                            {<OptionLabel dynamic_price={this.props.dynamic_price} title={item.product.name} type_id='bundle' item={item} style={{alignItems : 'center'}}/>}
                         </div>
                     </MenuItem>
                 );
@@ -119,6 +119,7 @@ class Select extends Abstract {
         }else {
             items = this.renderWithCustom(data)
         }
+
         return (
             <div className="option-value-item-select">
                 <FormControl  style={{color : '#333',marginTop:20}} fullWidth={true}>

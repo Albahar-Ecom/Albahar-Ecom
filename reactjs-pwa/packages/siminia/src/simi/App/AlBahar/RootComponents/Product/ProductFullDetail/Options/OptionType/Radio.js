@@ -52,7 +52,7 @@ class RadioField extends Abstract {
             const isOutOfStock = item.product.stock_status && item.product.stock_status === "OUT_OF_STOCK"
             const itemTypeId = item.product.type_id
             if(!isOutOfStock && (itemTypeId === 'simple' || itemTypeId === 'virtual')) {
-                const label = <OptionLabel title={item.product.name} item={item} type_id={this.type_id} />
+                const label = <OptionLabel dynamic_price={this.props.dynamic_price} title={item.product.name} item={item} type_id={this.type_id} />
                 const element = (
                     <div className="radio-option-wrapper">
                         <div
