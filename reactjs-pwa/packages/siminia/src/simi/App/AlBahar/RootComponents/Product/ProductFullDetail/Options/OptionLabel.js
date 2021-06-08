@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 import { configColor } from 'src/simi/Config'
 
 const Optionlabel = props => {
-    const { classes, title, item, type_id } = props
+    const { classes, title, item, type_id, dynamic_price } = props
     let style = props.style ? props.style : {}
     const merchantTaxConfig = taxConfig() ? taxConfig() : {}
     let returnedLabel = title ? title : ''
@@ -68,7 +68,7 @@ const Optionlabel = props => {
         if (parseInt(merchantTaxConfig.tax_display_type) === 3 && (item.product.price_range.minimum_price.final_price.value !== item.product.price_range.maximum_price.final_price.value)) {
             returnedLabel = renderBothPrices(item.product.price_range.minimum_price.final_price.value, item.product.price_range.maximum_price.final_price.value)
         } else {
-            returnedLabel = renderOnePrice(item.product.price_range.minimum_price.final_price.value)
+            returnedLabel = (!dynamic_price && item.hasOwnProperty('price')) ? renderOnePrice(item.price) : renderOnePrice(item.product.price_range.minimum_price.final_price.value)
         }
     } else if (type_id === 'downloadable') {
         if (item.price_including_tax && item.price_including_tax.price && item.price_excluding_tax && item.price_excluding_tax.price) {
