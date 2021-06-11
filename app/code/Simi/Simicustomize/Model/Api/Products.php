@@ -257,6 +257,32 @@ class Products extends Apiabstract
         $block_att   = $layout->createBlock('Magento\Catalog\Block\Product\View\Attributes');
         $_additional = $block_att->getAdditionalData();
 
+        if ($entity->getSku()) {
+            $_additional['sku']['label'] = __('SKU');
+            $_additional['sku']['value'] = $entity->getSku();
+            $_additional['sku']['code'] = 'sku';
+        }
+        if ($entity->getSku()) {
+            $_additional['short_description']['label'] = __('Short Description');
+            $_additional['short_description']['value'] = $entity->getShortDescription();
+            $_additional['short_description']['code'] = 'short_description';
+        }
+        if ($entity->getSku()) {
+            $_additional['sku']['label'] = __('SKU');
+            $_additional['sku']['value'] = $entity->getSku();
+            $_additional['sku']['code'] = 'sku';
+        }
+        if ($entity->getSku()) {
+            $stock = __('In Stock');
+            if (!$entity->getIsSalable()) {
+                 $stock = __('Out Of Stock');
+             } 
+            $_additional['stock']['label'] = __('Stock Information');
+            $_additional['stock']['value'] = $stock;
+            $_additional['stock']['code'] = 'stock';
+        }
+
+
         $ratings      = $this->simiObjectManager
             ->get('\Simi\Simiconnector\Helper\Review')->getRatingStar($entity->getId());
         $total_rating = $this->simiObjectManager
