@@ -33,15 +33,26 @@ class Checkout extends \Simi\Simiconnector\Helper\Data
     public function convertOptionsCart($options)
     {
         $data = [];
+        $locale         = $this->scopeConfig->getValue(
+                'general/locale/code',
+                \Magento\Store\Model\ScopeInterface::SCOPE_STORE,
+                $this->storeManager->getStore()->getId()
+            );
+
         foreach ($options as $option) {
             $item = [
                 'option_title' => $option['label']
             ];
+            $option_value = null;
             if (is_array($option['value'])) {
-                $item['option_value'] = strip_tags($option['value'][0]);
+                $option_value = strip_tags($option['value'][0]);
             } else {
-                $item['option_value'] = strip_tags($option['value']);
+                $option_value = strip_tags($option['value']);
             }
+            if ($locale === 'ar_KW') {
+                $option_value = str_replace('KWD','د.ك',$option_value);
+            }
+            $item['option_value'] = $option_value;
             $data[] = $item;
         }
         return $data;

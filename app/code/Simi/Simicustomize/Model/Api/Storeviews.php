@@ -58,6 +58,9 @@ class Storeviews extends Apiabstract
         $currency       = $this->simiObjectManager->create('Magento\Directory\Model\CurrencyFactory')
                 ->create()->load($currencyCode);
         $currencySymbol = $currency->getCurrencySymbol();
+        if ($locale === 'ar_KW' && $currencySymbol == ' KWD ') {
+            $currencySymbol = ' د.ك ';
+        }
         $options        = $this->simiObjectManager->get('Magento\Customer\Model\Customer')
                 ->getAttribute('gender')->getSource()->getAllOptions();
 
