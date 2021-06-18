@@ -191,3 +191,18 @@
 .listItemSortDescription {
     margin-top: 10px;
 }
+
+@media(max-width: 767px) {
+    .brandListContent {
+        justify-content: space-between;
+    }
+    .brandItemImageWrapper {
+        width: 100% !important;
+    }
+
+    .brandItem {
+        flex-basis: unset !important;
+        width: 49%;
+        margin-inline-end: unset;
+    }
+}
