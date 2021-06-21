@@ -134,9 +134,15 @@
 .top-menu {
     display: flex;
     align-items: center;
+    justify-content: space-between;
 }
+/* .top-menu div:first-child, .top-menu div:last-child {
+    width: calc(50% - 0.5px);
+} */
 .separate-line {
     width: 1px;
+    min-width: 1px;
+    height: 31px;
     min-height: 31px;
     background-color: #D5D5D5;
 }
