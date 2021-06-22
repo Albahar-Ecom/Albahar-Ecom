@@ -157,6 +157,12 @@
     justify-content: start;
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+    .brandListContent {
+        justify-content: center;
+    }
+}
+
 .alphabetHeader {
     margin-top: 15px;
     padding-top: 10px;
