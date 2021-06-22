@@ -1,6 +1,7 @@
 
 interface ProductInterface {
 	simiRelatedProduct: [SimiRelatedProduct] @doc(description: "Customize Related Product") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\Product\\RelatedProduct")
+	simiDiscount:[SimiDiscount] @doc(description: "Customize Related Product") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\Product\\Discount")
 }
 
 type SimiStoreConfigDetails {
@@ -62,4 +63,9 @@ interface CartItemInterface {
 type SimiChildProduct {
 	product_id: String
 	stock_status: String
+}
+
+type SimiDiscount {
+	product_id: Int
+	amount: Float
 }

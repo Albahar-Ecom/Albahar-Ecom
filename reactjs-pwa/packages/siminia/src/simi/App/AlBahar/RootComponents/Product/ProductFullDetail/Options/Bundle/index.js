@@ -29,13 +29,11 @@ class BundleOption extends OptionBase {
         let maxPrice = price.maximalPrice.amount.value
         data.forEach(item => {
             if(item.options instanceof Array && item.options.length > 0) {
-                let maxOptionPrice = 0
                 item.options.forEach((option) => {
-                    if(option.price && option.price > 0 && option.price > maxOptionPrice) {
-                        maxOptionPrice = option.price
+                    if(option.price && option.price > 0) {
+                        maxPrice = maxPrice - option.price
                     }
                 })
-                maxPrice = maxPrice - maxOptionPrice
             }
         })
 
@@ -87,7 +85,6 @@ class BundleOption extends OptionBase {
             })
         }
 
-        console.log(priceExclTax, priceInclTax)
         const configPrice = {priceExclTax, priceInclTax}
         this.setState({configPrice})
     }
