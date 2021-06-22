@@ -99,6 +99,9 @@ export const useSignIn = props => {
                         }
                     });
                 }
+
+                // remove cache url
+                sessionStorage.removeItem('LOCAL_URL_DICT')
                 hideFogLoading();
 
                 // Ensure old stores are updated with any new data.

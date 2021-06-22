@@ -1,20 +1,20 @@
 import React, {useState, useEffect} from 'react'
 import Identify from "src/simi/Helper/Identify"
 import HeaderNavMegaitem from './HeaderNavMegaitem';
-import { Link } from 'src/drivers';
+import { Link, connect } from 'src/drivers';
 import NavTrigger from './navTrigger';
 import MenuIcon from 'src/simi/BaseComponents/Icon/Menu';
 import { cateUrlSuffix, saveDataToUrl } from 'src/simi/Helper/Url';
-import { connect } from 'src/drivers';
 import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 import { useHistory } from '@magento/venia-drivers';
 import GET_CATEGORY from 'src/simi/queries/catalog/getCategory';
 import { simiUseQuery as useQuery } from 'src/simi/Network/Query';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 const Navigation = (props) => {
 
     const {classes, setSimiNProgressLoading} = props;
-
+    const [{ isSignedIn }] = useUserContext();
     const [clickedLocation, setClickedLocation] = useState(null);
     
     const history = useHistory();
@@ -34,6 +34,17 @@ const Navigation = (props) => {
     const {id: storeId} = storeConfig || {}
 
     const clickedCateId = (clickedLocation) ? clickedLocation.cateId : null;
+    const variables = {
+        id: Number(clickedCateId),
+        pageSize: 12,
+        currentPage: 1,
+        stringId: String(clickedCateId),
+        storeId: storeId || 0,
+        simiStoreId: storeId || 0
+    }
+    if(isSignedIn) {
+        variables.loginToken = Identify.randomString()
+    }
     const {
         data: preFetchResult, 
         error: preFetchError 

@@ -79,6 +79,10 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
             price {
                 ... SimiPrice
             }
+            simiDiscount {
+                product_id
+                amount
+            }
             ... on ConfigurableProduct {
                 ...ConfigurableOptions
             }

@@ -8,9 +8,12 @@ import connectorGetProductDetailBySku from 'src/simi/App/AlBahar/queries/catalog
 import { Simiquery } from 'src/simi/Network/Query'
 import { smoothScrollToView } from 'src/simi/Helper/Behavior'
 import { saveDataToUrl, productUrlSuffix, getDataFromUrl } from 'src/simi/Helper/Url';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 const Product = props => {
     const { preloadedData, history } = props
+
+    const [{ isSignedIn }] = useUserContext();
 
     useEffect(() => {
         smoothScrollToView($('#root'))
@@ -28,6 +31,9 @@ const Product = props => {
     const sku = Identify.findGetParameter('sku') //cases with url like: product.html?sku=ab12
     const productQuery = sku ? connectorGetProductDetailBySku : connectorGetProductDetailByUrl
     const variables = { onServer: false }
+    if(isSignedIn) {
+        variables.loginToken = Identify.randomString()
+    }
     if (sku)
         variables.sku = sku;
     else
