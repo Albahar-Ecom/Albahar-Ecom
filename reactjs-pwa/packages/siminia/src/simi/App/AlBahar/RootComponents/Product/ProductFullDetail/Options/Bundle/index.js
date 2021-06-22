@@ -20,6 +20,75 @@ class BundleOption extends OptionBase {
         }
     }
 
+    getBasePrice = () => {
+        const {data, props} = this
+        const {price, dynamic_price} = props;
+        if(dynamic_price) {
+            return 0
+        }
+        let maxPrice = price.maximalPrice.amount.value
+        data.forEach(item => {
+            if(item.options instanceof Array && item.options.length > 0) {
+                item.options.forEach((option) => {
+                    if(option.price && option.price > 0) {
+                        maxPrice = maxPrice - option.price
+                    }
+                })
+            }
+        })
+
+        return (maxPrice && maxPrice < 0) ? 0 : maxPrice
+    }
+
+    componentDidMount() {
+        const { data, props } = this;
+        const { dynamic_price } = props
+        if(!this.basePrice) this.basePrice = this.getBasePrice()
+        const basePrice = this.basePrice
+        let priceInclTax = basePrice;
+        let priceExclTax = basePrice;
+        if(data instanceof Array) {
+            data.forEach((item) => {
+                if(item.options) {
+                    const optionsHasProduct = item.options.filter((option) => option.hasOwnProperty('product') && option.product && option.product.stock_status === "IN_STOCK")
+                    if(item.required && optionsHasProduct.length === 1) {
+                        const option = item.options[0]
+                        const product = option.product  
+                        let targetPrice = 0;
+                        if(!dynamic_price && option.hasOwnProperty('price')) {
+                            targetPrice = option.price
+                        } else if (product.tier_price) {
+                            targetPrice = product.tier_price
+                        } else {
+                            targetPrice = product.price_range.minimum_price.final_price.value
+                        }
+                        priceExclTax += parseFloat(parseFloat(targetPrice) * option.quantity);
+                        priceInclTax += parseFloat(parseFloat(targetPrice) * option.quantity);
+                    } else if (item.options.length > 0) {
+                        item.options.forEach((option) => {
+                            if(option.is_default) {
+                                const product = option.product  
+                                let targetPrice = 0;
+                                if(!dynamic_price && option.hasOwnProperty('price')) {
+                                    targetPrice = option.price
+                                } else if (product.tier_price) {
+                                    targetPrice = product.tier_price
+                                } else {
+                                    targetPrice = product.price_range.minimum_price.final_price.value
+                                }
+                                priceExclTax += parseFloat(parseFloat(targetPrice) * option.quantity);
+                                priceInclTax += parseFloat(parseFloat(targetPrice) * option.quantity);
+                            }
+                        })
+                    }
+                }
+            })
+        }
+
+        const configPrice = {priceExclTax, priceInclTax}
+        this.setState({configPrice})
+    }
+
     handleChangeBtn = () => {
         const obj = this
         $('.bundle-show-options').slideToggle('fast', function () {
@@ -41,10 +110,17 @@ class BundleOption extends OptionBase {
                     this.required.push(i);
                 }
                 if (obj.options) {
-                    const defaultItem = obj.options.find(({ is_default }) => is_default === true);
-                    if (defaultItem && defaultItem.product && !this.selected[obj.option_id]) {
-                        this.selected[obj.option_id] = this.selected.hasOwnProperty(`${obj.option_id}`) ? this.selected[obj.option_id] : ((obj.type === 'multi' || obj.type === 'checkbox') ? [defaultItem.id] : defaultItem.id);
+                    const optionsHasProduct = obj.options.filter((option) => option.hasOwnProperty('product') && option.product && option.product.stock_status === "IN_STOCK");
+                    if(obj.required && optionsHasProduct.length === 1) {
+                        const optionRequiredSelected = obj.options[0];
+                        this.selected[obj.option_id] = this.selected.hasOwnProperty(`${obj.option_id}`) ? this.selected[obj.option_id] : ((obj.type === 'multi' || obj.type === 'checkbox') ? [optionRequiredSelected.id] : optionRequiredSelected.id)
+                    } else {
+                        const defaultItem = obj.options.find(({ is_default }) => is_default === true);
+                        if (defaultItem && defaultItem.product && !this.selected[obj.option_id]) {
+                            this.selected[obj.option_id] = this.selected.hasOwnProperty(`${obj.option_id}`) ? this.selected[obj.option_id] : ((obj.type === 'multi' || obj.type === 'checkbox') ? [defaultItem.id] : defaultItem.id);
+                        }
                     }
+
                 }
                 const element = this.renderAttribute(obj.type, obj, obj.option_id, labelReq);
                 objOptions.push(element);
@@ -68,8 +144,10 @@ class BundleOption extends OptionBase {
     }
 
     updatePrices = (selected = this.selected) => {
-        let priceInclTax = 0;
-        let priceExclTax = 0;
+        if(!this.basePrice) this.basePrice = this.getBasePrice()
+        const basePrice = this.basePrice
+        let priceInclTax = basePrice;
+        let priceExclTax = basePrice;
         // const attributes = this.data.bundle_options.options;
         const { data } = this;
         for (const i in selected) {
@@ -83,10 +161,10 @@ class BundleOption extends OptionBase {
                         if (dataItem && dataItem.options) {
                             const itemValue = dataItem.options.find(({ id }) => id === values[j]);
                             if (itemValue) {
-                                const qty = input.val() ? parseInt(input.val(), 10) : itemValue.quantity;
+                                const qty = parseInt(input.val(), 10) ? parseInt(input.val(), 10) : itemValue.quantity;
                                 const optionTarget = itemValue.product;
                                 if (!optionTarget) return;
-                                const targetPrice = optionTarget.tier_price ? optionTarget.tier_price : optionTarget.price_range.minimum_price.final_price.value;
+                                const targetPrice = (!this.props.dynamic_price && itemValue.hasOwnProperty('price')) ? itemValue.price : optionTarget.tier_price ? optionTarget.tier_price : optionTarget.price_range.minimum_price.final_price.value;
                                 priceExclTax += parseFloat(parseFloat(targetPrice) * qty);
                                 priceInclTax += parseFloat(parseFloat(targetPrice) * qty);
                             }
@@ -94,12 +172,12 @@ class BundleOption extends OptionBase {
                     }
                 } else { //single select
                     if (dataItem && dataItem.options) {
-                        const itemValue = dataItem.options.find(({ id }) => id === values);
+                        const itemValue = dataItem.options.find(({ id }) => id === Number(values));
                         if (itemValue) {
-                            const qty = input.val() ? parseInt(input.val(), 10) : itemValue.quantity;
+                            const qty = parseInt(input.val(), 10) ? parseInt(input.val(), 10) : itemValue.quantity;
                             const optionTarget = itemValue.product;
                             if (!optionTarget) return;
-                            const targetPrice = optionTarget.tier_price ? optionTarget.tier_price : optionTarget.price_range.minimum_price.final_price.value;
+                            const targetPrice = (!this.props.dynamic_price && itemValue.hasOwnProperty('price')) ? itemValue.price : optionTarget.tier_price ? optionTarget.tier_price : optionTarget.price_range.minimum_price.final_price.value;
                             priceExclTax += parseFloat(parseFloat(targetPrice) * qty);
                             priceInclTax += parseFloat(parseFloat(targetPrice) * qty);
                         }
@@ -185,7 +263,7 @@ class BundleOption extends OptionBase {
             }
             const element = (
                 <div key={Identify.randomString(5)} className="option-row">
-                    <Checkbox title={title} item={item} id={id} selected={selected} value={item.id} parent={this} type_id='bundle' />
+                    <Checkbox dynamic_price={this.props.dynamic_price} title={title} item={item} id={id} selected={selected} value={item.id} parent={this} type_id='bundle' />
                 </div>);
 
             objM.push(element);
@@ -195,12 +273,13 @@ class BundleOption extends OptionBase {
 
     renderContentAttribute = (ObjOptions, type = 'checkbox', id = '0') => {
         if (type === 'select') {
-            return <Select data={ObjOptions} id={id} parent={this} type_id='bundle' />
+            console.log(ObjOptions)
+            return <Select dynamic_price={this.props.dynamic_price} data={ObjOptions} id={id} parent={this} type_id='bundle' />
         }
         if (type === 'multi' || type === 'checkbox') {
             return this.renderMultiCheckbox(ObjOptions, id)
         }
-        return <Radio data={ObjOptions} id={id} parent={this} type_id='bundle' />
+        return <Radio dynamic_price={this.props.dynamic_price} data={ObjOptions} id={id} parent={this} type_id='bundle' />
     }
 
     setParamQty = (keyQty = null) => {
@@ -320,7 +399,7 @@ class BundleOption extends OptionBase {
         const price_style = {
             color: configColor.price_color,
         }
-
+        console.log(configPrice)
         return (
             <div className="bundle-option-container">
                 <div className="btn-bundle">
@@ -328,7 +407,7 @@ class BundleOption extends OptionBase {
                 </div>
                 <div className={`bundle-show-options bundle-show-options`} style={{ display: 'none' }}>
                     {this.renderOptions()}
-                    {parseInt(priceInclTax, 10) ?
+                    {parseFloat(priceInclTax, 10) ?
                         <React.Fragment>
                             <div className="your-customize-title">{Identify.__('Your Customization')}</div>
                             <div

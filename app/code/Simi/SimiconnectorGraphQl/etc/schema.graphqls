@@ -44,7 +44,6 @@ type Simiproducts @doc(description: "The Products object is the top-level object
 
 interface ProductInterface {
     simiExtraField: String @doc(description: "Simicart Product Extra Fields")
-    simiPrice: ProductPrices @deprecated(reason: "Use price_range for product price information.") @doc(description: "A ProductPrices object, indicating the price of an item.") @resolver(class: "Simi\\SimiconnectorGraphQl\\Model\\Resolver\\Product\\Price")
 }
 
 interface CategoryInterface {

@@ -151,10 +151,11 @@ class ProductFullDetail extends Component {
 
     get productOptions() {
         const { fallback, handleConfigurableSelectionChange, props } = this;
+        const product = prepareProduct(props.product);
         const { configurable_options, type_id, is_dummy_data,
             downloadable_product_links, downloadable_product_samples,
-            links_title, links_purchased_separately, items, id, variants } = props.product;
-        const isConfigurable = isProductConfigurable(prepareProduct(props.product));
+            links_title, links_purchased_separately, items, id, variants, price, dynamic_price } = product;
+        const isConfigurable = isProductConfigurable(product);
 
         // if (is_dummy_data)
         //     return <Skeleton />
@@ -168,6 +169,8 @@ class ProductFullDetail extends Component {
                 {type_id === 'bundle' && <BundleOptions
                     key={Identify.randomString(5)}
                     app_options={items ? items : []}
+                    price={price}
+                    dynamic_price={dynamic_price}
                     product_id={id}
                     ref={e => this.bundleOption = e}
                     parent={this}
@@ -506,6 +509,7 @@ class ProductFullDetail extends Component {
             this.quantity = history.location.state.quantity
         }
         const product = prepareProduct(props.product);
+        console.log(product)
         const { type_id, name, simiExtraField, simiRelatedProduct, sku, stock_status, review_count, rating_summary, product_links, variants } = product;
         const short_desc = (product.short_description && product.short_description.html) ? product.short_description.html : '';
 
