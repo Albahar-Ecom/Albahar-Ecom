@@ -8,6 +8,7 @@ fragment GroupOptions on GroupedProduct {
             name
             type_id
             url_key
+            stock_status
             price_range {
                 maximum_price {
                     final_price {
@@ -20,6 +21,17 @@ fragment GroupOptions on GroupedProduct {
                         value
                         currency
                     }
+                }
+            }
+            price_tiers {
+                quantity
+                final_price {
+                    currency
+                    value
+                }
+                discount {
+                    amount_off
+                    percent_off
                 }
             }
         }

@@ -69,10 +69,10 @@ const addCatalogPriceRule = (product) => {
             } else {
                 const productDiscount = product.simiDiscount.find((discount) => discount.product_id === product.id) 
                 if(productDiscount) {
-                    const {items} = product
+                    const bundleItems = product.items || []
                 
                     let maxPrice = productDiscount.amount
-                    items.forEach((item) => {
+                    bundleItems.forEach((item) => {
                         if(item.options && item.options.length > 0) {
                             item.options.forEach((option) => {
                                 if(option.product && option.product.stock_status === 'IN_STOCK') {
@@ -94,16 +94,14 @@ const addCatalogPriceRule = (product) => {
                 } else {
                     let maxPrice = 0
                     let minPrice = 0
-                    const bundleItems = product.items
+                    const bundleItems = product.items || []
                     bundleItems.forEach((item) => {
                         if(item.options && item.options.length > 0) {
                             let maxOptionPrice = 0
                             let minOptionPrice = 0
-                            item.options.forEach((option) => {
-                           
+                            item.options.forEach((option) => {   
                                 if(option.product && option.product.stock_status === 'IN_STOCK') {
                                     const optionDiscount = product.simiDiscount.find(discount => discount.product_id === option.product.id) 
-                                    // console.log(optionDiscount)
                                     if(optionDiscount) {
                                         try {
                                             if(maxOptionPrice < optionDiscount.amount) {
@@ -168,14 +166,34 @@ const addCatalogPriceRule = (product) => {
                 } catch (e) {
 
                 }
-                
             })
         }
 
+        if(product.type_id === 'grouped') {
+            const groupedItems = product.items
+            groupedItems.forEach(groupedItem => {
+                const groupedDiscount = product.simiDiscount.find(discount => groupedItem.product.id === discount.product_id)
+                if(groupedDiscount) {
+                    if(groupedDiscount.amount < groupedItem.product.price_range.maximum_price.final_price.value ) {
+                        groupedItem.product.price_range.maximum_price.final_price.value = groupedDiscount.amount
+                    }
+
+                    if(groupedDiscount.amount < groupedItem.product.price_range.minimum_price.final_price.value ) {
+                        groupedItem.product.price_range.minimum_price.final_price.value = groupedDiscount.amount
+                    }
+                }
+            })
+
+            const minDiscount = product.simiDiscount.reduce((p, v) => {
+                return ( p.amount < v.amount ? p.amount : v.amount )
+            })  
+
+            product.price.minimalPrice.amount.value = minDiscount
+            product.price.maximalPrice.amount.value = minDiscount
+        }
         // product.simiDiscount.forEach((discount) => {
         //     product = variants.find((variant) => variant.product.id === discount.product_id)
         // })
-
     }
     return product
 }

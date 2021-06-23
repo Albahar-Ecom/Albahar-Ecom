@@ -1,5 +1,7 @@
 #import "../Fragments/SimiPrice"
 #import "../Fragments/ConfigurableOptions"
+#import "../Fragments/BundleProduct"
+#import "../Fragments/GroupOptions"
 query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, $sort: ProductSortInput, $simiFilter: String, $simiProductSort:SimiProductSort) {
     category(id: $id) {
         product_count
@@ -91,6 +93,12 @@ query category($id: Int!, $currentPage: Int, $pageSize: Int, $stringId: String, 
                     option_id
                     required
                 }
+            }
+            ... on BundleProduct {
+                ...BundleProduct
+            }
+            ... on GroupedProduct {
+                ...GroupOptions
             }
             simiExtraField
             rating_summary

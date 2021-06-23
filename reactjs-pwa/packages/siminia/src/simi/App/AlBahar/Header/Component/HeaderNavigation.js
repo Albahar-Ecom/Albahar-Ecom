@@ -50,7 +50,8 @@ const Navigation = (props) => {
         error: preFetchError 
     } = useQuery(GET_CATEGORY, {
         variables,
-        skip: !clickedCateId
+        skip: !clickedCateId,
+        fetchPolicy: "no-cache"
     });
 
     useEffect(() => {
