@@ -155,15 +155,20 @@ const addCatalogPriceRule = (product) => {
         if(product.hasOwnProperty('variants') && product.variants) {
             const variants = product.variants
             variants.forEach(variant => {
-                const variantPrice = variant.product.price
-                if(variantPrice.minimalPrice.amount.value === variantPrice.regularPrice.amount.value) {
-                    const variantDiscount = product.simiDiscount.find((discount) => discount.product_id === variant.product.id)
-    
-                    variantPrice.minimalPrice.amount.value = variantDiscount.amount
-                    variantPrice.maximalPrice.amount.value = variantDiscount.amount
-    
-                    variant.product.price = variantPrice
+                try {
+                    const variantPrice = variant.product.price
+                    if(variantPrice.minimalPrice && variantPrice.regularPrice && variantPrice.minimalPrice.amount.value === variantPrice.regularPrice.amount.value) {
+                        const variantDiscount = product.simiDiscount.find((discount) => discount.product_id === variant.product.id)
+        
+                        variantPrice.minimalPrice.amount.value = variantDiscount.amount
+                        variantPrice.maximalPrice.amount.value = variantDiscount.amount
+        
+                        variant.product.price = variantPrice
+                    }
+                } catch (e) {
+
                 }
+                
             })
         }
 

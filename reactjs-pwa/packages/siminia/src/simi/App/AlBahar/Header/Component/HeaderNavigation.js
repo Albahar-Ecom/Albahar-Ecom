@@ -49,14 +49,7 @@ const Navigation = (props) => {
         data: preFetchResult, 
         error: preFetchError 
     } = useQuery(GET_CATEGORY, {
-        variables: {
-            id: Number(clickedCateId),
-            pageSize: 12,
-            currentPage: 1,
-            stringId: String(clickedCateId),
-            storeId: storeId || 0,
-            simiStoreId: storeId || 0
-        },
+        variables,
         skip: !clickedCateId
     });
 
