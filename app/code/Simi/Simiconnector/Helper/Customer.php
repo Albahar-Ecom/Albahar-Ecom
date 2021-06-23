@@ -21,6 +21,10 @@ class Customer extends Data
 
     public function renewCustomerSession($data)
     {
+        if ($data['resource'] == 'storeviews') {
+            return;
+        }
+
         if (isset($data['params']['quote_id']) && $data['params']['quote_id']) {
             $quoteId = $data['params']['quote_id'];
             $quoteIdMask = $this->simiObjectManager->get('Magento\Quote\Model\QuoteIdMask');

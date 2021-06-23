@@ -58,6 +58,9 @@ class Storeviews extends Apiabstract
         $currency       = $this->simiObjectManager->create('Magento\Directory\Model\CurrencyFactory')
                 ->create()->load($currencyCode);
         $currencySymbol = $currency->getCurrencySymbol();
+        if ($locale === 'ar_KW' && $currencySymbol == ' KWD ') {
+            $currencySymbol = ' د.ك ';
+        }
         $options        = $this->simiObjectManager->get('Magento\Customer\Model\Customer')
                 ->getAttribute('gender')->getSource()->getAllOptions();
 
@@ -439,9 +442,20 @@ class Storeviews extends Apiabstract
         }
     }
 
+    public function clearQuote()
+    {
+        //fix bug logout not clear old quote
+        $cart  = $this->simiObjectManager->get( 'Magento\Checkout\Model\Cart' );
+        $quote = $this->simiObjectManager->create( 'Magento\Quote\Model\Quote' );
+        $cart->setQuote( $quote );
+        $newCustomer = $this->simiObjectManager->create( 'Magento\Customer\Model\Customer' );
+        $this->simiObjectManager->get( 'Magento\Customer\Model\Session' )->setCustomer( $newCustomer );
+    }
+
     public function setStoreView($data)
     {
         if (($data['resourceid'] == 'default') || ($data['resourceid'] == $this->storeManager->getStore()->getId())) {
+            $this->clearQuote();
             return;
         }
         try {
@@ -460,6 +474,7 @@ class Storeviews extends Apiabstract
             $this->storeManager->setCurrentStore(
                 $this->simiObjectManager->get('Magento\Store\Model\StoreManagerInterface')->getStore($data['resourceid'])
             );
+            $this->clearQuote();
         } catch (\Exception $e) {
 
         }

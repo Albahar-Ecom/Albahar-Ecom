@@ -57,7 +57,7 @@ class V2 extends Action
             case 'orders':              
             case 'customers':                
             case 'addresses':
-            case 'addresses':
+            case 'storeviews':
             case 'quoteitems':
             case 'sociallogins':
                 # code...
@@ -80,7 +80,10 @@ class V2 extends Action
                 || (isset($_GET['email']) && $_GET['email'])
                 || $customerSession->isLoggedIn()){    
                 $this->getResponse()->setNoCacheHeaders();
-            }else{                         
+            }else{           
+                if(isset($data['resource']) && ($data['resource'] != 'products' || $data['resource'] != 'categories')){
+                    header("X-Magento-Tags: cms_b");
+                }                
                 $this->getResponse()->setPublicHeaders('86400');
             }            
             $this->setData($result);

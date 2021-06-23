@@ -1,4 +1,5 @@
 <?php
+header("X-Magento-Tags: cms_b");
 $params = $_SERVER['REQUEST_URI'];
 if ($params) {
    $params = str_replace('/Store/', '', $params);

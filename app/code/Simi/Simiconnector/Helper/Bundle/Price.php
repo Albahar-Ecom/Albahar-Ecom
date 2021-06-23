@@ -212,7 +212,7 @@ class Price extends \Simi\Simiconnector\Helper\Price
         $_weeeTaxAmount = 0;
 
         if ($product->getPriceType() == 1) {
-            $_weeeTaxAmount = $_weeeHelper->getAmount($product);
+            $_weeeTaxAmount = $_weeeHelper->getAmountExclTax($product);
             if ($_weeeHelper->typeOfDisplay($product, [1, 2, 4])) {
                 $_weeeTaxAttributes = $_weeeHelper
                     ->getProductWeeeAttributesForRenderer($product, null, null, null, true);

@@ -210,10 +210,10 @@ class Orders extends Apiabstract
         try {
             $orderModel        = $this->simiObjectManager->create('Magento\Sales\Model\Order')
                 ->loadByIncrementId($incrementId);
-            if($orderModel->getCanSendNewEmailFlag()) {
-                $orderSender = $this->simiObjectManager->get('\Magento\Sales\Model\Order\Email\Sender\OrderSender');
-                $orderSender->send($orderModel);
-            }
+            // if($orderModel->getCanSendNewEmailFlag()) {
+            //     $orderSender = $this->simiObjectManager->get('\Magento\Sales\Model\Order\Email\Sender\OrderSender');
+            //     $orderSender->send($orderModel);
+            // }
         } catch (\Exception $exc) {
 
         }
