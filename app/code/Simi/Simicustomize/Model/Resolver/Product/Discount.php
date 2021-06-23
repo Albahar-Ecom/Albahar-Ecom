@@ -117,6 +117,11 @@ class Discount implements ResolverInterface {
             foreach ($requiredChildrenIds as $requiredChildrenId) {
                 $productIds[] = $requiredChildrenId;
             }
+        } elseif ($product->getTypeId() == 'grouped') {
+            $associatedProducts = $product->getTypeInstance(true)->getAssociatedProducts($product);
+            foreach ($associatedProducts as $associatedProduct) {
+                $productIds[] = $associatedProduct->getId();
+            }
         }
 
         return $productIds;
