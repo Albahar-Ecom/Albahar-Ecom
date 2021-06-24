@@ -5,19 +5,24 @@ import { mergeClasses } from 'src/classify';
 import mapProduct from './mapProduct';
 import SuggestedProduct from './suggestedProduct';
 import defaultClasses from './suggestedProducts.css';
+import { prepareProduct } from 'src/simi/Helper/Product';
 
 const SuggestedProducts = props => {
     const { limit, onNavigate, products } = props;
+
     const classes = mergeClasses(defaultClasses, props.classes);
 
-    const items = products.slice(0, limit).map(product => (
-        <li key={product.id} className={classes.item}>
-            <SuggestedProduct
-                {...mapProduct(product)}
-                onNavigate={onNavigate}
-            />
-        </li>
-    ));
+    const items = products.slice(0, limit).map(product => {
+        const newProduct = prepareProduct(product)
+        return (
+            <li key={newProduct.id} className={classes.item}>
+                <SuggestedProduct
+                    {...mapProduct(newProduct)}
+                    onNavigate={onNavigate}
+                />
+            </li>
+        )
+    });
 
     return <ul className={classes.root}>{items}</ul>;
 };

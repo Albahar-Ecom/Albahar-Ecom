@@ -17,8 +17,7 @@ export const useSearchContent = props => {
         productsPagePhone,
         queries: { getProductSearch }
     } = props;
-
-    console.log('run')
+    
     const [{ isSignedIn }] = useUserContext();
 
     const [thisPage, setThisPage] = useState(false);
