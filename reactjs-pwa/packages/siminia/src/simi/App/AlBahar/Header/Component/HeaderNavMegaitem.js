@@ -4,7 +4,7 @@ import {cateUrlSuffix} from 'src/simi/Helper/Url'
 
 const NavMegaitem = props => {
     if (props.itemAndChild) {
-        const { classes, setSimiNprogressLoading, setClickedLocation, runQuery } = props
+        const { classes, setSimiNprogressLoading, setClickedLocation } = props
         const rootItem = props.itemAndChild
         if (rootItem.children) {
             rootItem.children.sort((a, b)=> a.position - b.position)
@@ -37,7 +37,6 @@ const NavMegaitem = props => {
                                         .scrollIntoView({ behavior: 'smooth' });
                                     setSimiNprogressLoading(true);
                                     setClickedLocation(location);
-                                    runQuery()
                                 }}
                             >
                                 {itemlv3.name}
@@ -62,7 +61,6 @@ const NavMegaitem = props => {
                                     .scrollIntoView({ behavior: 'smooth' });
                                 setSimiNprogressLoading(true);
                                 setClickedLocation(location);
-                                runQuery()
                             }}
                         >
                             {item.name}

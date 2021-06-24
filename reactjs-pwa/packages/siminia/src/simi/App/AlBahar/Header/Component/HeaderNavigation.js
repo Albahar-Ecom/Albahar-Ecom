@@ -8,7 +8,7 @@ import { cateUrlSuffix, saveDataToUrl } from 'src/simi/Helper/Url';
 import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 import { useHistory } from '@magento/venia-drivers';
 import GET_CATEGORY from 'src/simi/queries/catalog/getCategory';
-import { simiUseQuery as useQuery, simiUseLazyQuery as useLazyQuery } from 'src/simi/Network/Query';
+import { simiUseQuery as useQuery } from 'src/simi/Network/Query';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 const Navigation = (props) => {
@@ -45,10 +45,12 @@ const Navigation = (props) => {
     if(isSignedIn) {
         variables.loginToken = Identify.randomString()
     }
-    const [runQuery, { data: preFetchResult, error: preFetchError }] = useLazyQuery(GET_CATEGORY, {
+    const {
+        data: preFetchResult, 
+        error: preFetchError 
+    } = useQuery(GET_CATEGORY, {
         variables,
-        fetchPolicy: "no-cache",
-        // skip: !clickedCateId
+        skip: !clickedCateId
     });
 
     useEffect(() => {
@@ -163,7 +165,6 @@ const Navigation = (props) => {
                                     .scrollIntoView({ behavior: 'smooth' });
                                 setSimiNProgressLoading(true);
                                 setClickedLocation(location);
-                                runQuery()
                             }}
                         >
                             {Identify.__(item.name)}
@@ -196,7 +197,6 @@ const Navigation = (props) => {
                                 setSimiNprogressLoading={setSimiNProgressLoading}
                                 setClickedLocation={setClickedLocation}
                                 toggleMegaItemContainer={() => toggleMegaItemContainer()}
-                                runQuery={runQuery}
                             />
                         </div>
                     )
@@ -212,7 +212,6 @@ const Navigation = (props) => {
                                     .scrollIntoView({ behavior: 'smooth' });
                                 setSimiNProgressLoading(true);
                                 setClickedLocation(location);
-                                runQuery()
                             }}
                         >
                             {Identify.__(item.name)}
