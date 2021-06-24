@@ -5,12 +5,12 @@ import { compose } from 'redux';
 import classify from 'src/classify';
 import Identify from 'src/simi/Helper/Identify';
 import defaultClasses from './search.css';
-import PRODUCT_SEARCH from 'src/simi/queries/catalog/productSearch';
+import PRODUCT_SEARCH from 'src/simi/App/AlBahar/queries/catalog/productSearch';
 import Products from 'src/simi/App/AlBahar/BaseComponents/Products';
 import { withRouter } from 'react-router-dom';
 import Skeleton from 'react-loading-skeleton';
 import NoProductsFound from '../Category/NoProductsFound/noProductsFound';
-import { useSearchContentSimiPagination } from 'src/simi/talons/Search/useSearchContent';
+import { useSearchContentSimiPagination } from 'src/simi/App/AlBahar/talons/Search/useSearchContent';
 import TitleHelper from 'src/simi/Helper/TitleHelper';
 import BreadCrumb from "src/simi/BaseComponents/BreadCrumb";
 

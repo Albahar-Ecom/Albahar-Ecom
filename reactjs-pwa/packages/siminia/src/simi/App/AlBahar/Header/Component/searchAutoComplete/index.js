@@ -3,13 +3,14 @@ import { bool, func, shape, string } from 'prop-types';
 import { simiUseLazyQuery as useLazyQuery } from 'src/simi/Network/Query'
 
 import { mergeClasses } from 'src/classify';
-import searchQuery from 'src/simi/queries/catalog/productSearch.graphql'
+import searchQuery from 'src/simi/App/AlBahar/queries/catalog/productSearch.graphql'
 import Suggestions from './suggestions';
 import Close from 'src/simi/BaseComponents/Icon/TapitaIcons/Close'
 import defaultClasses from './searchAutoComplete.css';
 import Identify from 'src/simi/Helper/Identify'
 import { applySimiProductListItemExtraField } from 'src/simi/Helper/Product'
 import debounce from 'lodash.debounce';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 function useOutsideAlerter(ref, setVisible) {
     function handleClickOutside(event) {
@@ -31,7 +32,7 @@ function useOutsideAlerter(ref, setVisible) {
 
 const SearchAutoComplete = props => {
     const { setVisible, visible, value } = props;
-
+    const [{ isSignedIn }] = useUserContext();
     //handle click outsite
     const wrapperRef = useRef(null);
     useOutsideAlerter(wrapperRef, setVisible);
@@ -40,18 +41,24 @@ const SearchAutoComplete = props => {
     const rootClassName = visible ? classes.root_visible : classes.root_hidden;
     let message = '';
 
-    // Prepare to run the queries.
-    const [runSearch, productResult] = useLazyQuery(searchQuery, {
+    const options = {
         fetchPolicy: 'cache-and-network',
         nextFetchPolicy: 'cache-first'
-    });
+    }
+    const prepareVariables = {}
+    if(isSignedIn) {
+        prepareVariables.loginToken = Identify.randomString()
+        options.nextFetchPolicy = 'network-only'
+    }
+    // Prepare to run the queries.
+    const [runSearch, productResult] = useLazyQuery(searchQuery, options);
 
     // Create a debounced function so we only search some delay after the last
     // keypress.
     const debouncedRunQuery = useMemo(
         () =>
             debounce(inputText => {
-                runSearch({ variables: { inputText } });
+                runSearch({ variables: { inputText, ...prepareVariables } });
             }, 500),
         [runSearch]
     );

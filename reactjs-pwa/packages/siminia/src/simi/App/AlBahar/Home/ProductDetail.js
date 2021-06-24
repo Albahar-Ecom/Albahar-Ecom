@@ -1,24 +1,30 @@
 import React from 'react'
 import Identify from "src/simi/Helper/Identify";
 import { simiUseQuery } from 'src/simi/Network/Query'
-import getCategory from 'src/simi/queries/catalog/getHomeProductList.graphql'
+import getCategory from 'src/simi/App/AlBahar/queries/catalog/getHomeProductList.graphql'
 import Loading from "src/simi/BaseComponents/Loading";
 import { GridItem } from "src/simi/App/AlBahar/BaseComponents/GridItem";
-import { applySimiProductListItemExtraField } from 'src/simi/Helper/Product'
+import { applySimiProductListItemExtraField, prepareProduct } from 'src/simi/Helper/Product'
 import {getStore} from '../Helper/Data'
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 const ProductItem = props => {
     const { dataProduct, history } = props;
     const store = getStore();
+    const [{ isSignedIn }] = useUserContext();
+    const variables = {
+        id: Number(dataProduct.category_id),
+        pageSize: Number(8),
+        currentPage: Number(1),
+        stringId: String(dataProduct.category_id),
+        cacheKeyStoreId: String(store.id || 1)
+    }
+    if(isSignedIn) {
+        variables.loginToken = Identify.randomString()
+    }
     const { data } = simiUseQuery(getCategory, {
-        variables: {
-            id: Number(dataProduct.category_id),
-            pageSize: Number(8),
-            currentPage: Number(1),
-            stringId: String(dataProduct.category_id),
-            cacheKeyStoreId: String(store.id || 1)
-        },
-        fetchPolicy: "cache-and-network"
+        variables,
+        fetchPolicy: "no-cache"
     });
 
     const handleAction = (location) => {
@@ -28,8 +34,9 @@ const ProductItem = props => {
     if (!data) return <Loading />
 
     const renderProductItem = (item, lastInRow) => {
+
         const itemData = {
-            ...item,
+            ...prepareProduct(item),
             small_image:
                 typeof item.small_image === 'object' && item.small_image.hasOwnProperty('url') ? item.small_image.url : item.small_image
         }

@@ -2,7 +2,8 @@ import {taxConfig} from './Pricing'
 
 //prepare product price and options
 export const prepareProduct = (product) => {
-    const modedProduct = JSON.parse(JSON.stringify(product))
+    let modedProduct = JSON.parse(JSON.stringify(product))
+    modedProduct = addCatalogPriceRule(modedProduct)
     const price = modedProduct.price
 
     //add tax to price
@@ -40,6 +41,197 @@ const addExcludedTaxAmount = (amount, adjustments) => {
         value :excludedTaxPrice,
         currency: amount.currency
     }
+}
+
+const addCatalogPriceRule = (product) => {
+    if(
+        product.hasOwnProperty('simiDiscount') 
+        && product.simiDiscount && product.simiDiscount.length > 0
+    ) {
+        const price = product.price
+        if(price.minimalPrice.amount.value === price.regularPrice.amount.value) {
+            if(product.type_id !== 'bundle') {
+                const productDiscount = product.simiDiscount.find((discount) => discount.product_id === product.id) 
+                if (productDiscount) {
+                    price.minimalPrice.amount.value = productDiscount.amount
+                    price.maximalPrice.amount.value = productDiscount.amount
+
+                    product.price = price
+                } else {
+                    const minDiscount = product.simiDiscount.reduce((p, v) => {
+                        return ( p.amount < v.amount ? p.amount : v.amount )
+                    })  
+            
+                    price.minimalPrice.amount.value = minDiscount
+                    price.maximalPrice.amount.value = minDiscount
+                    product.price = price
+                }
+            } else {
+                const productDiscount = product.simiDiscount.find((discount) => discount.product_id === product.id) 
+                if(productDiscount) {
+                    const bundleItems = product.items || []
+                    let maxPrice = productDiscount.amount
+                    let minPrice = productDiscount.amount
+                    bundleItems.forEach((item) => {
+                        if(item.options && item.options.length > 0) {
+                            let maxItemPrice = 0
+                            let minItemPrice = 0
+                            item.options.forEach((option) => {
+                                if(option.product && option.product.stock_status === 'IN_STOCK') {
+                                    if(item.type === 'multi' || item.type === 'checkbox') {
+                                        console.log('run')
+                                        maxItemPrice = maxItemPrice + option.price
+                                        if(minItemPrice === 0) {
+                                            minItemPrice = option.price
+                                        } else if(minItemPrice > option.price) {
+                                            minItemPrice = option.price
+                                        }
+                                    } else {
+                                        if(maxItemPrice < option.price) {
+                                            maxItemPrice = option.price
+                                        } 
+                                        if(minItemPrice === 0) {
+                                            minItemPrice = option.price
+                                        } else if(minItemPrice > option.price) {
+                                            minItemPrice = option.price
+                                        }
+                                    }
+                                }
+                            })
+
+                            maxPrice = maxPrice + maxItemPrice
+                            if(item.required) {
+                                minPrice = minPrice + minItemPrice
+                            }
+                        }
+                    })
+
+                    if(price.maximalPrice.amount.value > maxPrice) {
+                        price.minimalPrice.amount.value = minPrice
+                    }
+                    if(price.maximalPrice.amount.value > minPrice) {
+                        price.maximalPrice.amount.value = maxPrice
+                    }
+                    product.price = price
+                } else {
+                    let maxPrice = 0
+                    let minPrice = 0
+                    const bundleItems = product.items || []
+                    bundleItems.forEach((item) => {
+                        if(item.options && item.options.length > 0) {
+                            let maxOptionPrice = 0
+                            let minOptionPrice = 0
+                            item.options.forEach((option) => {   
+                                if(option.product && option.product.stock_status === 'IN_STOCK') {
+                                    const optionDiscount = product.simiDiscount.find(discount => discount.product_id === option.product.id) 
+                                    if(optionDiscount) {
+                                        try {
+                                            if(item.type === 'multi' || item.type === 'checkbox') {
+                                                maxOptionPrice = maxOptionPrice + optionDiscount.amount
+                                                if(minOptionPrice == 0) {
+                                                    minOptionPrice = optionDiscount.amount
+                                                } else {
+                                                    if(optionDiscount.amount < minOptionPrice) {
+                                                        minOptionPrice = optionDiscount.amount
+                                                    }
+                                                }
+                                            } else {
+                                                if(maxOptionPrice < optionDiscount.amount) {
+                                                    maxOptionPrice = optionDiscount.amount
+                                                }
+                                                if(minOptionPrice == 0) {
+                                                    minOptionPrice = optionDiscount.amount
+                                                } else {
+                                                    if(optionDiscount.amount < minOptionPrice) {
+                                                        minOptionPrice = optionDiscount.amount
+                                                    }
+                                                }
+                                            }
+                                         
+                                            if(option.product.price_range.maximum_price.final_price.value > optionDiscount.amount) {
+                                                option.product.price_range.maximum_price.final_price.value = optionDiscount.amount
+                                            }
+                                            if(option.product.price_range.minimum_price.final_price.value > optionDiscount.amount) {
+                                                option.product.price_range.minimum_price.final_price.value = optionDiscount.amount
+                                            }
+                                            
+                                        } catch (e) {
+                                            console.warn(e)
+                                        }
+                                    }
+                                }
+                            })
+
+                            if(maxOptionPrice > 0) {
+                                maxPrice = maxPrice + maxOptionPrice
+                            }
+
+                            if(minOptionPrice > 0 && item.required) {
+                                minPrice = minPrice + minOptionPrice
+                            }
+                        }
+                    })
+                    
+                    if(price.maximalPrice.amount.value > maxPrice) {
+                        price.maximalPrice.amount.value = maxPrice
+                    } 
+                    if(price.minimalPrice.amount.value > minPrice ) {
+                        price.minimalPrice.amount.value = minPrice
+                    }
+                    product.price = price
+                    product.items = bundleItems
+                }
+            }
+       
+        }
+
+        //add variants
+        if(product.hasOwnProperty('variants') && product.variants) {
+            const variants = product.variants
+            variants.forEach(variant => {
+                try {
+                    const variantPrice = variant.product.price
+                    if(variantPrice.minimalPrice && variantPrice.regularPrice && variantPrice.minimalPrice.amount.value === variantPrice.regularPrice.amount.value) {
+                        const variantDiscount = product.simiDiscount.find((discount) => discount.product_id === variant.product.id)
+        
+                        variantPrice.minimalPrice.amount.value = variantDiscount.amount
+                        variantPrice.maximalPrice.amount.value = variantDiscount.amount
+        
+                        variant.product.price = variantPrice
+                    }
+                } catch (e) {
+
+                }
+            })
+        }
+
+        if(product.type_id === 'grouped') {
+            const groupedItems = product.items
+            groupedItems.forEach(groupedItem => {
+                const groupedDiscount = product.simiDiscount.find(discount => groupedItem.product.id === discount.product_id)
+                if(groupedDiscount) {
+                    if(groupedDiscount.amount < groupedItem.product.price_range.maximum_price.final_price.value ) {
+                        groupedItem.product.price_range.maximum_price.final_price.value = groupedDiscount.amount
+                    }
+
+                    if(groupedDiscount.amount < groupedItem.product.price_range.minimum_price.final_price.value ) {
+                        groupedItem.product.price_range.minimum_price.final_price.value = groupedDiscount.amount
+                    }
+                }
+            })
+
+            const minDiscount = product.simiDiscount.reduce((p, v) => {
+                return ( p.amount < v.amount ? p.amount : v.amount )
+            })  
+
+            product.price.minimalPrice.amount.value = minDiscount
+            product.price.maximalPrice.amount.value = minDiscount
+        }
+        // product.simiDiscount.forEach((discount) => {
+        //     product = variants.find((variant) => variant.product.id === discount.product_id)
+        // })
+    }
+    return product
 }
 
 //add simiProductListItemExtraField to items

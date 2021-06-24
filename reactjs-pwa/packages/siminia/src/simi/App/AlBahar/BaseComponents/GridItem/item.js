@@ -6,13 +6,11 @@ import ReactHTMLParse from 'react-html-parser';
 import { mergeClasses } from 'src/classify';
 import Price from 'src/simi/App/AlBahar/BaseComponents/Price';
 import { prepareProduct } from 'src/simi/Helper/Product';
-import { Link } from 'src/drivers';
 import LazyLoad from 'src/simi/BaseComponents/LazyLoad';
-import { logoUrl } from 'src/simi/Helper/Url';
 import Image from 'src/simi/BaseComponents/Image';
 import { StaticRate } from 'src/simi/BaseComponents/Rate';
 import Identify from 'src/simi/Helper/Identify';
-import { productUrlSuffix, saveDataToUrl } from 'src/simi/Helper/Url';
+import { productUrlSuffix, saveDataToUrl, logoUrl } from 'src/simi/Helper/Url';
 import Quantity from './qty'
 import { useHistory } from '@magento/venia-drivers';
 import {useGridItem} from 'src/simi/App/AlBahar/talons/Category/useGridItem'
@@ -24,10 +22,10 @@ import {
 import {analyticClickGTM, analyticAddCartGTM} from '../../Helper/Analytics'
 
 import { connect } from 'src/drivers';
-import { toggleMessages } from 'src/simi/Redux/actions/simiactions';
-import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
+import { toggleMessages, setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 import connectorGetProductDetailBySku from 'src/simi/App/AlBahar/queries/catalog/getProductDetailBySku.graphql';
 import { simiUseQuery as useQuery } from 'src/simi/Network/Query';
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 require('./item.scss')
 
@@ -35,6 +33,7 @@ const Griditem = props => {
     const { lazyImage, toggleMessages, setSimiNProgressLoading } = props;
     const history = useHistory();
     const [{ cartId }] = useCartContext();
+    const [{ isSignedIn }] = useUserContext();
     const [clickedLocation, setClickedLocation] = useState(null);
 
     let quantity = 1;
@@ -93,13 +92,20 @@ const Griditem = props => {
         }
     }
 
+    const variables = {
+        sku: clickedProductSku,
+        onServer: false
+    }
+
+    if(isSignedIn) {
+        variables.loginToken = Identify.randomString()
+    }
+
     const { data: preFetchProductResult, error: preFetchProductError } = useQuery(connectorGetProductDetailBySku,
         {
-            variables: {
-                sku: clickedProductSku,
-                onServer: false
-            },
-            skip: !clickedProductSku
+            variables,
+            skip: !clickedProductSku,
+            fetchPolicy: "no-cache"
         }
     );
 
@@ -241,4 +247,3 @@ export default connect(
     null,
     mapDispatchToProps
 )(Griditem);
-

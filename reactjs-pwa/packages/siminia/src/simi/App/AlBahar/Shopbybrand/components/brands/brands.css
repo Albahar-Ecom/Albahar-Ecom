@@ -157,6 +157,12 @@
     justify-content: start;
 }
 
+@media (min-width: 768px) and (max-width: 1023px) {
+    .brandListContent {
+        justify-content: center;
+    }
+}
+
 .alphabetHeader {
     margin-top: 15px;
     padding-top: 10px;
@@ -190,4 +196,19 @@
 }
 .listItemSortDescription {
     margin-top: 10px;
+}
+
+@media(max-width: 767px) {
+    .brandListContent {
+        justify-content: space-between;
+    }
+    .brandItemImageWrapper {
+        width: 100% !important;
+    }
+
+    .brandItem {
+        flex-basis: unset !important;
+        width: 49%;
+        margin-inline-end: unset;
+    }
 }

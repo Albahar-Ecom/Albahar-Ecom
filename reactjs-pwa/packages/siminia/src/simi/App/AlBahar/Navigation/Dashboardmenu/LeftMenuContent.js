@@ -3,6 +3,7 @@ import MenuItem from 'src/simi/BaseComponents/MenuItem'
 import {configColor} from 'src/simi/Config';
 import Identify from "src/simi/Helper/Identify"
 import UserIcon from 'src/simi/BaseComponents/Icon/TapitaIcons/User'
+import MyBusiness from 'src/simi/App/AlBahar/BaseComponents/Icon/MyBusiness'
 import PropTypes from 'prop-types'
 import CateTree from './CateTree'
 import Setting from './Setting'
@@ -50,13 +51,24 @@ class LeftMenuContent extends React.Component{
         const {classes} = this.props
         return (
             <React.Fragment>
-                <MenuItem 
-                    classes={classes}
-                    icon={<UserIcon style={styles.iconMenu}/>}
-                    titleStyle={styles.menu}
-                    title={Identify.__('My Account')}
-                    onClick={()=>this.handleLink(this.props.isSignedIn ? '/account.html' : '/login.html')}
-                />
+                <div className={classes['top-menu']}>
+                    <MenuItem 
+                        classes={classes}
+                        icon={<UserIcon style={styles.iconMenu}/>}
+                        titleStyle={styles.menu}
+                        title={Identify.__('My Account')}
+                        onClick={()=>this.handleLink(this.props.isSignedIn ? '/account.html' : '/login.html')}
+                    />
+                    <div className={classes['separate-line']}></div>
+                    <MenuItem 
+                        classes={classes}
+                        icon={<MyBusiness />}
+                        // titleStyle={styles.menu}
+                        title={Identify.__('Brand')}
+                        onClick={()=>this.handleLink('/brand.html')}
+                    />
+                </div>
+    
                 <CateTree
                     classes={classes}
                     handleMenuItem={this.handleMenuItem.bind(this)}

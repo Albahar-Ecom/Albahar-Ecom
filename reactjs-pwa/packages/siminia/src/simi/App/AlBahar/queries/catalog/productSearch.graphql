@@ -1,0 +1,92 @@
+#import "../Fragments/SimiPrice"
+#import "../Fragments/ConfigurableOptions"
+#import "../Fragments/BundleProduct"
+#import "../Fragments/GroupOptions"
+
+query productSearch($inputText: String, $currentPage: Int, $pageSize: Int, $categoryId: String, $simiProductSort: SimiProductSort, $simiFilter: String, $sort: ProductSortInput) {
+    simiproducts(search: $inputText, pageSize: $pageSize, currentPage: $currentPage, filter: {category_id: {eq: $categoryId}}, sort: $sort, simiProductSort: $simiProductSort, simiFilter: $simiFilter) {
+        total_count
+        simi_filters {
+            name
+            filter_items_count
+            request_var
+            filter_items_count
+            filter_items {
+                label
+                value_string
+                items_count
+            }
+        }
+        filters {
+            name
+            filter_items_count
+            request_var
+            filter_items_count
+            filter_items {
+                label
+                value_string
+            }
+        }
+        sort_fields {
+            default
+            options {
+                value
+                label
+            }
+        }
+        items {
+            id
+            name
+            sku
+            small_image {
+                url
+                label
+            }
+            short_description {
+                html
+            }
+            url_key
+            special_price
+            special_from_date
+            type_id
+            special_to_date
+            stock_status
+            price {
+                ... SimiPrice
+            }
+             simiDiscount {
+                product_id
+                amount
+            }
+            ... on ConfigurableProduct {
+                ...ConfigurableOptions
+            }
+            ... on BundleProduct {
+                ...BundleProduct
+            }
+            ... on GroupedProduct {
+                ...GroupOptions
+            }
+            simiExtraField
+            rating_summary
+            review_count
+            # price_tiers {
+            #     quantity
+            #     final_price {
+            #         currency
+            #         value
+            #     }
+            #     discount {
+            #         amount_off
+            #         percent_off
+            #     }
+            # }
+        }
+        page_info {
+            total_pages
+        }
+        total_count
+        minPrice
+        maxPrice
+    }
+}

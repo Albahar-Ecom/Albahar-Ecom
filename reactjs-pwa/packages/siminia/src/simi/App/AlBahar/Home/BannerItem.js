@@ -3,17 +3,20 @@ import React, {useState, useEffect} from 'react'
 import {productUrlSuffix, cateUrlSuffix, saveDataToUrl} from 'src/simi/Helper/Url';
 import { setSimiNProgressLoading } from 'src/simi/Redux/actions/simiactions';
 import { connect } from 'src/drivers';
+import Identify from "src/simi/Helper/Identify";
 // import { useHistory } from '@magento/venia-drivers';
 // import connectorGetProductDetailBySku from 'src/simi/App/AlBahar/queries/catalog/getProductDetailBySku.graphql';
 import GET_CATEGORY from 'src/simi/queries/catalog/getCategory';
 import { simiUseQuery as useQuery } from 'src/simi/Network/Query';
 import {getStore} from '../Helper/Data'
+import { useUserContext } from '@magento/peregrine/lib/context/user';
 
 const BannerItem = props => {
     const { history, item, isPhone, setSimiNProgressLoading } = props;
 
     const [clickedLocation, setClickedLocation] = useState(null);
     // const history = useHistory();
+    const [{ isSignedIn }] = useUserContext();
 
     const handleLink = (location) => {
         history.push(location)
@@ -22,18 +25,23 @@ const BannerItem = props => {
     const store = getStore();
 
     const clickedCateId = (clickedLocation) ? clickedLocation.cateId : null;
+    const variables = {
+        id: Number(clickedCateId),
+        pageSize: 12,
+        currentPage: 1,
+        stringId: String(clickedCateId),
+        cacheKeyStoreId: String(store.id || 1)
+    }
+    if(isSignedIn) {
+        variables.loginToken = Identify.randomString()
+    }
     const {
         data: preFetchResult, 
         error: preFetchError 
     } = useQuery(GET_CATEGORY, {
-        variables: {
-            id: Number(clickedCateId),
-            pageSize: 12,
-            currentPage: 1,
-            stringId: String(clickedCateId),
-            cacheKeyStoreId: String(store.id || 1)
-        },
-        skip: !clickedCateId
+        variables,
+        skip: !clickedCateId,
+        fetchPolicy: "no-cache"
     });
 
     useEffect(() => {

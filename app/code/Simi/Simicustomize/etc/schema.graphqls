@@ -1,4 +1,3 @@
-
 interface ProductInterface {
 	simiRelatedProduct: [SimiRelatedProduct] @doc(description: "Customize Related Product") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\Product\\RelatedProduct")
 	simiDiscount:[SimiDiscount] @doc(description: "Customize Related Product") @resolver(class: "Simi\\Simicustomize\\Model\\Resolver\\Product\\Discount")
