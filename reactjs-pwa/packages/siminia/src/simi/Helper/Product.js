@@ -70,27 +70,49 @@ const addCatalogPriceRule = (product) => {
                 const productDiscount = product.simiDiscount.find((discount) => discount.product_id === product.id) 
                 if(productDiscount) {
                     const bundleItems = product.items || []
-                
                     let maxPrice = productDiscount.amount
+                    let minPrice = productDiscount.amount
                     bundleItems.forEach((item) => {
                         if(item.options && item.options.length > 0) {
+                            let maxItemPrice = 0
+                            let minItemPrice = 0
                             item.options.forEach((option) => {
                                 if(option.product && option.product.stock_status === 'IN_STOCK') {
-                                    maxPrice = maxPrice + option.price
+                                    if(item.type === 'multi' || item.type === 'checkbox') {
+                                        console.log('run')
+                                        maxItemPrice = maxItemPrice + option.price
+                                        if(minItemPrice === 0) {
+                                            minItemPrice = option.price
+                                        } else if(minItemPrice > option.price) {
+                                            minItemPrice = option.price
+                                        }
+                                    } else {
+                                        if(maxItemPrice < option.price) {
+                                            maxItemPrice = option.price
+                                        } 
+                                        if(minItemPrice === 0) {
+                                            minItemPrice = option.price
+                                        } else if(minItemPrice > option.price) {
+                                            minItemPrice = option.price
+                                        }
+                                    }
                                 }
                             })
+
+                            maxPrice = maxPrice + maxItemPrice
+                            if(item.required) {
+                                minPrice = minPrice + minItemPrice
+                            }
                         }
                     })
 
                     if(price.maximalPrice.amount.value > maxPrice) {
-                        const diffPrice = price.maximalPrice.amount.value - maxPrice
-                        const minPrice = price.minimalPrice.amount.value - diffPrice
-
                         price.minimalPrice.amount.value = minPrice
-                        price.maximalPrice.amount.value = maxPrice
-
-                        product.price = price
                     }
+                    if(price.maximalPrice.amount.value > minPrice) {
+                        price.maximalPrice.amount.value = maxPrice
+                    }
+                    product.price = price
                 } else {
                     let maxPrice = 0
                     let minPrice = 0
@@ -104,11 +126,19 @@ const addCatalogPriceRule = (product) => {
                                     const optionDiscount = product.simiDiscount.find(discount => discount.product_id === option.product.id) 
                                     if(optionDiscount) {
                                         try {
-                                            if(maxOptionPrice < optionDiscount.amount) {
-                                                maxOptionPrice = optionDiscount.amount
-                                            }
-
-                                            if(item.required) {
+                                            if(item.type === 'multi' || item.type === 'checkbox') {
+                                                maxOptionPrice = maxOptionPrice + optionDiscount.amount
+                                                if(minOptionPrice == 0) {
+                                                    minOptionPrice = optionDiscount.amount
+                                                } else {
+                                                    if(optionDiscount.amount < minOptionPrice) {
+                                                        minOptionPrice = optionDiscount.amount
+                                                    }
+                                                }
+                                            } else {
+                                                if(maxOptionPrice < optionDiscount.amount) {
+                                                    maxOptionPrice = optionDiscount.amount
+                                                }
                                                 if(minOptionPrice == 0) {
                                                     minOptionPrice = optionDiscount.amount
                                                 } else {
@@ -117,8 +147,14 @@ const addCatalogPriceRule = (product) => {
                                                     }
                                                 }
                                             }
-                                            option.product.price_range.maximum_price.final_price.value = optionDiscount.amount
-                                            option.product.price_range.minimum_price.final_price.value = optionDiscount.amount
+                                         
+                                            if(option.product.price_range.maximum_price.final_price.value > optionDiscount.amount) {
+                                                option.product.price_range.maximum_price.final_price.value = optionDiscount.amount
+                                            }
+                                            if(option.product.price_range.minimum_price.final_price.value > optionDiscount.amount) {
+                                                option.product.price_range.minimum_price.final_price.value = optionDiscount.amount
+                                            }
+                                            
                                         } catch (e) {
                                             console.warn(e)
                                         }
@@ -130,7 +166,7 @@ const addCatalogPriceRule = (product) => {
                                 maxPrice = maxPrice + maxOptionPrice
                             }
 
-                            if(minOptionPrice > 0) {
+                            if(minOptionPrice > 0 && item.required) {
                                 minPrice = minPrice + minOptionPrice
                             }
                         }
