@@ -4,8 +4,8 @@
 #import "src/simi/queries/Fragments/DownloadableProduct"
 #import "../Fragments/BundleProduct"
 #import "src/simi/queries/Fragments/CustomizableProductInterface"
-query productDetail($sku: String, $onServer: Boolean!) {
-    productDetail: simiproducts(filter: { sku: { eq: $sku } }) {
+query productDetail($urlKey: String, $onServer: Boolean!) {
+    productDetail: simiproducts(filter: { url_key: { eq: $urlKey } }) {
         items {
             __typename
             id
