@@ -8,7 +8,7 @@ class Redirect extends \Gateway\Tap\Controller\Tap
     {
         $order = $this->getOrder();
         $paramOrderId = $this->getRequest()->getParam('order_id');
-        if ((!$order || !$order->getId()) && $paramOrderId) {
+        if ($paramOrderId) {
             $order = $this->getOrderById($paramOrderId);
         }
         if ($order->getBillingAddress())

@@ -278,22 +278,6 @@ export const useCheckoutPage = props => {
         // });
     }, [setToFetchOrderDetails, history]);
 
-    const paymentMethodCode = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'simi_selected_payment_code');
-    const isPreventPreview = paymentMethodCode === 'tap';
-
-    useEffect(() => {
-        // call event after place order
-        if (placeOrderCalled && placeOrderData && placeOrderData.placeOrder.order.order_number) {
-            const orderNumber = placeOrderData.placeOrder.order.order_number;
-            // for Tap payment
-            if (paymentMethodCode === "tap") {
-                const storeConfig = Identify.getStoreConfig();
-                const {storeConfig: { base_link_url }} = storeConfig || {};
-                window.location.href = base_link_url+'simicustompayment/paytap/redirect?order_id='+orderNumber;
-            }
-        }
-    }, [placeOrderCalled, placeOrderData, paymentMethodCode])
-
     //virtual cart handler
     useEffect(() => {
         if (
@@ -349,6 +333,20 @@ export const useCheckoutPage = props => {
         placeOrderCalled,
         removeCart
     ]);
+
+    const paymentMethodCode = Identify.getDataFromStoreage(Identify.LOCAL_STOREAGE, 'simi_selected_payment_code');
+    const isPreventPreview = paymentMethodCode === 'tap';
+    // call event after place order and redirect paytap
+    if (placeOrderCalled && placeOrderData && placeOrderData.placeOrder.order.order_number) {
+        const orderNumber = placeOrderData.placeOrder.order.order_number;
+        // for Tap payment
+        if (paymentMethodCode === "tap") {
+            const storeConfig = Identify.getStoreConfig();
+            const {storeConfig: { base_link_url }} = storeConfig || {};
+            window.location.href = base_link_url+'simicustompayment/paytap/redirect?order_id='+orderNumber;
+            return;
+        }
+    }
 
     return {
         activeContent,
