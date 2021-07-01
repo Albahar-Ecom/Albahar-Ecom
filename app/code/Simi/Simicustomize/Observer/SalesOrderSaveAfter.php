@@ -16,6 +16,8 @@ class SalesOrderSaveAfter implements ObserverInterface {
         $this->logger = $logger;
     }
     public function execute(\Magento\Framework\Event\Observer $observer) {
+        return; // do not use this event cause bug
+
         $order = $observer->getOrder();
         if (
             $order->getPayment()->getMethodInstance()->getCode() == 'tap' 
