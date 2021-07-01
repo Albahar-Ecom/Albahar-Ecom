@@ -10,7 +10,8 @@ class Response extends \Gateway\Tap\Controller\Tap
 		$order 		=	$this->getOrderById($orderId);
 		$comment 	= 	"";
 		$successFlag= 	false;
-		
+		$stopAddHistory = false;
+
         if(isset($_REQUEST['result']))
         {
 			if($_REQUEST['result']=='SUCCESS')
@@ -20,8 +21,43 @@ class Response extends \Gateway\Tap\Controller\Tap
 				{
 					$successFlag = true;
 					$comment .=  '<br/><b>Tap payment successful</b><br/><br/>Tap ID - '.$_REQUEST['ref'].'<br/><br/>Order ID - '.$_REQUEST['trackid'].'<br/><br/>Payment Type - '.$_REQUEST['crdtype'].'<br/><br/>Payment ID - '.$_REQUEST['payid'];
-					$order->setStatus($order::STATE_PROCESSING);
-					$order->setExtOrderId($orderId);
+					// $order->setStatus($order::STATE_PROCESSING);
+					// $order->setExtOrderId($orderId);
+					// fix bug paytap no invoiced
+					if ($order->getStatus() != $order::STATE_PROCESSING) {
+						$order->setStatus($order::STATE_PROCESSING);
+						$order->setExtOrderId($orderId);
+						try {
+							if ($order->canInvoice()) {
+								$invoice = $order->prepareInvoice();
+								$invoice->addComment($comment, false, false);
+								$invoice->setCustomerNote('');
+								$invoice->setCustomerNoteNotify(false);
+								$invoice->register();
+								// $invoice->pay();
+								$invoice->setState($invoice::STATE_PAID);
+								$transactionSave = $this->_objectManager->create(
+									\Magento\Framework\DB\Transaction::class
+								)->addObject(
+									$invoice
+								);
+								$transactionSave->save();
+								$salesData = $this->_objectManager->create(\Magento\Sales\Helper\Data::class);
+								if ($salesData->canSendNewInvoiceEmail()) {
+									$invoiceSender = $this->_objectManager->create(
+										\Magento\Sales\Model\Order\Email\Sender\InvoiceSender::class
+									);
+									$invoiceSender->send($invoice);
+								}
+							}
+						} catch (\Exception $e) {
+							$comment .=  '<br/>Error when creating invoice: '.$e->getMessage();
+						}
+					} else {
+						$stopAddHistory = true;
+					}
+					// end fix bug
+
 					$returnUrl = $this->getTapHelper()->getUrl('checkout/onepage/success');
 				}
 				else
@@ -59,8 +95,10 @@ class Response extends \Gateway\Tap\Controller\Tap
             $order->setStatus($order::STATUS_FRAUD);
             $returnUrl = $this->getTapHelper()->getUrl('checkout/onepage/failure');
         }
-		$this->addOrderHistory($order,$comment);
-        $order->save();
+        if ($order && $order->getId() && !$stopAddHistory) {
+			$this->addOrderHistory($order,$comment);
+        	$order->save();
+        }
 		if($successFlag)
 		{
 			$this->messageManager->addSuccess( __('Tap transaction has been successful.') );
