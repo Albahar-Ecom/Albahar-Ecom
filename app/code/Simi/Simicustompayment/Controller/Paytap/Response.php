@@ -49,13 +49,13 @@ class Response extends \Gateway\Tap\Controller\Tap
 									$invoice
 								);
 								$transactionSave->save();
-								// $salesData = $this->_objectManager->create(\Magento\Sales\Helper\Data::class);
-								// if ($salesData->canSendNewInvoiceEmail()) {
-								// 	$invoiceSender = $this->_objectManager->create(
-								// 		\Magento\Sales\Model\Order\Email\Sender\InvoiceSender::class
-								// 	);
-								// 	$invoiceSender->send($invoice);
-								// }
+								$salesData = $this->_objectManager->create(\Magento\Sales\Helper\Data::class);
+								if ($salesData->canSendNewInvoiceEmail()) {
+									$invoiceSender = $this->_objectManager->create(
+										\Magento\Sales\Model\Order\Email\Sender\InvoiceSender::class
+									);
+									$invoiceSender->send($invoice);
+								}
 							}
 						} catch (\Exception $e) {
 							$comment .=  '<br/>Error when creating invoice: '.$e->getMessage();
