@@ -13,6 +13,7 @@ const arrow = <Icon src={ChevronDownIcon} size={18} />;
 const Sortby = props => {
     const { history, location, sortByData, data } = props;
     const { search } = location;
+    let defaultSort = null
     let dropdownItem = null;
 
     const changedSortBy = item => {
@@ -36,10 +37,13 @@ const Sortby = props => {
         return '';
     }
     const orders = [];
+    if(data.products.sort_fields.default) {
+        defaultSort = data.products.sort_fields.default
+    }
     data.products.sort_fields.options.map(sort_field_opt => {
-        if (sort_field_opt.value === 'position') {
-            // do nothing
-        } else {
+        // if (sort_field_opt.value === 'position') {
+        //     // do nothing
+        // } else {
             orders.push({
                 key: sort_field_opt.value,
                 value: sort_field_opt.label,
@@ -50,7 +54,7 @@ const Sortby = props => {
                 value: sort_field_opt.label,
                 direction: 'desc'
             });
-        }
+        // }
     });
 
     let sortByTitle = Identify.__('Sort by');
@@ -59,8 +63,8 @@ const Sortby = props => {
         let itemCheck = '';
         const itemTitle = item.value;
         if (
-            sortByData &&
-            sortByData[`${item.key}`] === item.direction.toUpperCase()
+            (sortByData && sortByData[`${item.key}`] === item.direction.toUpperCase())
+            || (!sortByData && defaultSort && item.key === defaultSort && item.direction.toUpperCase() === 'ASC')
         ) {
             itemCheck = (
                 <span className="is-selected">

@@ -63,7 +63,7 @@ const Brands = props => {
                         </div>
                     );
                 }
-                const urlKey = '/brand/' + (item.url_key ? item.url_key : item.default_value.toLowerCase()) + '.html';
+                const urlKey = '/brand/' + (item.url_key ? item.url_key : item.default_value.toLowerCase().replace(/\s/g, '-')) + '.html';
                 const location = {
                     pathname: urlKey,
                     state: {

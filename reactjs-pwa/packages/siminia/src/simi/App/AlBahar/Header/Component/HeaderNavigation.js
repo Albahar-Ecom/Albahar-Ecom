@@ -10,13 +10,14 @@ import { useHistory } from '@magento/venia-drivers';
 import GET_CATEGORY from 'src/simi/queries/catalog/getCategory';
 import { simiUseQuery as useQuery } from 'src/simi/Network/Query';
 import { useUserContext } from '@magento/peregrine/lib/context/user';
+import {getElectronicConfig} from '../../Helper/Data'
 
 const Navigation = (props) => {
 
     const {classes, setSimiNProgressLoading} = props;
     const [{ isSignedIn }] = useUserContext();
     const [clickedLocation, setClickedLocation] = useState(null);
-    
+    const electronicConfig = getElectronicConfig()
     const history = useHistory();
 
     const handleLink = (location) => {
@@ -224,6 +225,19 @@ const Navigation = (props) => {
         }
     }
 
+
+    let url = 'https://cloud9albahar.com/'
+    if(electronicConfig && electronicConfig.url) {
+        url = electronicConfig.url
+    }
+    if(storeData && storeData.storeConfig && storeData.storeConfig.locale) {
+        if(storeData.storeConfig.locale === 'ar_KW') {
+            url = `${url}?lang=Arabic`
+        } else {
+            url = `${url}?lang=English`
+        }
+   
+    }
     return (
         <div className={classes["app-nav"]}>
             <div className="container">
@@ -240,6 +254,7 @@ const Navigation = (props) => {
                         style={{ color: 'white', textDecoration: 'none' }}>
                         {Identify.__('Brands')}
                     </Link>
+                    <a className={`${classes["nav-item"]} nav-item nav-item-container`} target='_blank' href={url}>{Identify.__("Electronics")}</a>
                 </div>
             </div>
         </div>

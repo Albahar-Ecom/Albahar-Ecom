@@ -10,21 +10,21 @@ import {analyticImpressionsGTM} from '../../../Helper/Analytics'
 
 const Suggestions = props => {
     const { products, searchValue, setVisible, visible } = props;
-    const { filters, items } = products;
+    const { simi_filters, items } = products;
     const classes = mergeClasses(defaultClasses, props.classes);
 
     const onNavigate = useCallback(() => {
         setVisible(false);
     }, [setVisible]);
 
-    if (!visible || !filters || !items) {
+    if (!visible || !simi_filters || !items) {
         return null;
     }
 
     analyticImpressionsGTM(items, '', 'Search Results Suggestion');
 
     const categoryFilter =
-        filters.find(({ name }) => name === 'Category') || {};
+        simi_filters.find(({ name }) => name === 'Categories') || {};
     const categories = categoryFilter.filter_items || [];
 
     return (

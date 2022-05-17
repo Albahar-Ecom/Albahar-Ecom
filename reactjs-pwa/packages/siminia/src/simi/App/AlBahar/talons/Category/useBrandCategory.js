@@ -205,7 +205,7 @@ export const useCategoryContentSimiPagination = props => {
     return {
         products,
         error,
-        loading,
+        loading: brandLoading || loading,
         pageSize,
         sortByData,
         appliedFilter,

@@ -75,9 +75,6 @@ class Main extends Component {
                 gtmId: storeConfig.simiStoreConfig.config.google_config.google_gtm
             }
             TagManager.initialize(tagManagerArgs)
-            if(window.location.host === "albaharonline.com") {
-                TagManager.initialize({gtmId: "GTM-W2KTV4V"})
-            }
         }
 
         if (storeConfig && this.props.setStoreConfig)
@@ -97,7 +94,7 @@ class Main extends Component {
             && !window.DASHBOARD_CONFIG['app-configs'][0]['is_active']) {
             return null;
         }
-        console.log('run')
+        
         return (
             <main className={classes.root}>
                 <div className="app-loading" style={{display:'none'}} id="app-loading">

@@ -89,6 +89,12 @@
                     <label>Footer Custom Email</label>
                 </field>
             </group>
+            <group id="electronic" translate="label" type="text" sortOrder="400" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Albahar Electronic</label>
+                <field id="url" translate="label" type="text" sortOrder="199" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Url</label>
+                </field>
+            </group>
         </section>
     </system>
 </config>

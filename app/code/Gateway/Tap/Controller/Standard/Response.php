@@ -6,7 +6,7 @@ class Response extends \Gateway\Tap\Controller\Tap
 {
     public function execute()
     {
-		$orderId	=	$_REQUEST['trackid'];
+		$orderId	=	$_REQUEST['trackid'] ?? '';
 		$order 		=	$this->getOrderById($orderId);
 		$comment 	= 	"";
 		$successFlag= 	false;
@@ -26,6 +26,7 @@ class Response extends \Gateway\Tap\Controller\Tap
 					// fix bug paytap no invoiced
 					if ($order->getStatus() != $order::STATE_PROCESSING) {
 						$order->setStatus($order::STATE_PROCESSING);
+						$order->setState($order::STATE_PROCESSING);
 						$order->setExtOrderId($orderId);
 						try {
 							if ($order->canInvoice()) {
@@ -33,9 +34,26 @@ class Response extends \Gateway\Tap\Controller\Tap
 								$invoice->addComment($comment, false, false);
 								$invoice->setCustomerNote('');
 								$invoice->setCustomerNoteNotify(false);
+								$invoice->setRequestedCaptureCase(\Magento\Sales\Model\Order\Invoice::CAPTURE_ONLINE);
 								$invoice->register();
 								// $invoice->pay();
 								$invoice->setState($invoice::STATE_PAID);
+
+								// Add total paid to order (fix bug order closed)
+								$order->setTotalPaid($invoice->getGrandTotal());
+								$order->setBaseTotalPaid($invoice->getBaseGrandTotal());
+
+								$payment = $order->getPayment();
+								$transaction = $payment->addTransaction(\Magento\Sales\Model\Order\Payment\Transaction::TYPE_CAPTURE, null, true);
+								$invoice->setTransactionId($_REQUEST['ref']);
+								$invoice->save();
+								$payment->setTransactionId($_REQUEST['ref']);
+								$payment->setParentTransactionId($payment->getTransactionId());
+								if ($transaction) {
+									$transaction->setIsClosed(true);
+									$transaction->save();
+								}
+
 								$transactionSave = $this->_objectManager->create(
 									\Magento\Framework\DB\Transaction::class
 								)->addObject(

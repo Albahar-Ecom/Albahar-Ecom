@@ -66,7 +66,9 @@ const Category = props => {
 
     if (error) return <div>{Identify.__('Data Fetch Error')}</div>;
 
-    if (!products || !brandInfo) {
+    // if (!loading && (!products || !brandInfo)) return <div>{Identify.__('Data not found')}</div>;
+
+    if (loading && (!products || !brandInfo)) {
         return (
             <div className="container simi-fadein">
                 <article className="products-root">
@@ -161,7 +163,7 @@ const Category = props => {
     // console.log(brandInfo)
     //breadcrumb
     const categoryTitle =
-        brandInfo && brandInfo.value ? Identify.__(brandInfo.value) : '';
+        brandInfo && brandInfo.value ? Identify.__(brandInfo.value) : Identify.__('Brand data not found.');
     let breadcrumb = [{ name: Identify.__('Home'), link: '/' }, { name: Identify.__('Brand'), link: '/brand.html' }, { name: categoryTitle }];
     // if (props.breadcrumb) {
     //     breadcrumb = props.breadcrumb;
@@ -182,14 +184,26 @@ const Category = props => {
 
     setSimiNProgressLoading(false);
 
+    if (!loading && (!products || !brandInfo)) {
+        return (
+            <div className="container">
+                {TitleHelper.renderMetaHeader({
+                    title: categoryTitle,
+                    desc: null
+                })}
+                <NoProductsFound />
+            </div>
+        )
+    }
+ 
     return (
         <div className="container">
             <BreadCrumb breadcrumb={breadcrumb} history={history} />
             {TitleHelper.renderMetaHeader({
-                title: brandInfo.meta_title
+                title: brandInfo && brandInfo.meta_title
                     ? brandInfo.meta_title
                     : categoryTitle,
-                desc: brandInfo.meta_description
+                desc: brandInfo && brandInfo.meta_description
                     ? brandInfo.meta_description
                     : null
             })}

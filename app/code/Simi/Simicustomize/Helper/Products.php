@@ -300,7 +300,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             ->addFinalPrice();
     }
 
-    public function getLayerNavigator($collection = null, $params = null)
+    public function getLayerNavigator($collection = null, $params = null, $isBrand = false)
     {
         if (!$collection) {
             $collection = $this->builderQuery;
@@ -361,7 +361,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         $paramArray = (array)$params;
         $selectedFilters = $this->_getSelectedFilters();
         $selectableFilters = count($allProductIds)?
-            $this->_getSelectableFilters($collection, $paramArray, $selectedFilters, $layerFilters):
+            $this->_getSelectableFilters($collection, $paramArray, $selectedFilters, $layerFilters, $isBrand):
             array()
         ;
 
@@ -416,10 +416,10 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         return $selectedFilters;
     }
 
-    public function _getSelectableFilters($collection, $paramArray, $selectedFilters, $layerFilters)
+    public function _getSelectableFilters($collection, $paramArray, $selectedFilters, $layerFilters, $isBrand = false)
     {
         $selectableFilters = [];
-        if (is_array($paramArray) && isset($paramArray['filter'])) {
+        if ( $isBrand || (is_array($paramArray) && isset($paramArray['filter']))) {
             foreach ($layerFilters as $layerFilter) {
                 $filterable = true;
                 foreach ($selectedFilters as $key => $value) {
@@ -517,6 +517,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function _filterByPriceRange(&$layerFilters, $collection, $params)
     {
+        $maxPrice = $collection->getMaxPrice();
         $priceRanges = $this->_getPriceRanges($collection);
         $filters     = [];
         $totalCount  = 0;
@@ -524,6 +525,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         if ($this->simiObjectManager->get('Simi\Simiconnector\Helper\Data')->countArray($priceRanges['counts']) > 0) {
             $maxIndex = max(array_keys($priceRanges['counts']));
         }
+        $lastFromPrice = 0;
         foreach ($priceRanges['counts'] as $index => $count) {
             if ($index === '' || $index == 1) {
                 $index = 1;
@@ -541,12 +543,19 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
             }
 
             if ($index >= 1) {
+                $lastFromPrice = $fromPrice;
                 $filters[$index] = [
                     'value' => $fromPrice . '-' . $toPrice,
                     'label' => $this->_renderRangeLabel($fromPrice, $toPrice),
                     'count' => (int) ($totalCount)
                 ];
             }
+        }
+        if (count($filters) && $lastFromPrice) {
+            $lastRange = array_pop($filters);
+            $lastRange['value'] = $lastFromPrice .'-'. ceil($maxPrice);
+            $lastRange['label'] = $this->_renderRangeLabel($lastFromPrice, ceil($maxPrice), true); // is last true
+            array_push($filters, $lastRange);
         }
         if ($this->simiObjectManager
                 ->get('Simi\Simiconnector\Helper\Data')
@@ -569,6 +578,10 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
     {
         $collection->addPriceData();
         $maxPrice = $collection->getMaxPrice();
+
+        // var_dump($minPrice);
+        // var_dump($maxPrice);
+        // die;
 
         $index    = 1;
         $counts = [];
@@ -599,7 +612,7 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
      * @return string
      */
 
-    public function _renderRangeLabel($fromPrice, $toPrice)
+    public function _renderRangeLabel($fromPrice, $toPrice, $isLast = false)
     {
         $helper             = $this->simiObjectManager->create('Magento\Framework\Pricing\Helper\Data');
         $formattedFromPrice = $helper->currency($fromPrice, true, false);
@@ -608,10 +621,9 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
         } elseif ($fromPrice == $toPrice) {
             return $formattedFromPrice;
         } else {
-            if ($fromPrice != $toPrice) {
+            if ($fromPrice != $toPrice && !$isLast) {
                 $toPrice -= .01;
             }
-
             return __('%1 - %2', $formattedFromPrice, $helper->currency($toPrice, true, false));
         }
     }

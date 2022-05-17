@@ -165,11 +165,14 @@ class Products extends \Magento\Framework\App\Helper\AbstractHelper
                             array('product_id', 'parent_id')
                         );
 
-                    $collectionChid->getSelect()->group('link_table.parent_id');
+                    // $collectionChid->getSelect()->group('link_table.parent_id');
 
                     foreach ($collectionChid as $product) {
-                        $productIds[] = $product->getParentId();
-                        $productIds[] = $product->getId();
+                        if($product->getParentId() && !in_array($product->getParentId(), $productIds)) {
+                            $productIds[] = $product->getParentId();
+                        } else if($product->getId() && !in_array($product->getId(), $productIds)) {
+                            $productIds[] = $product->getId();
+                        }
                     }
 
                     $collection->addAttributeToFilter('entity_id', array('in' => $productIds));

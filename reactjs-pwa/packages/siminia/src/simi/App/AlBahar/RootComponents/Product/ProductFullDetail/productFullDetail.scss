@@ -77,6 +77,15 @@
     .top-review {
         padding: 1rem 1.5rem 0 1.5rem;
     }
+    .price-configurable {
+        .product-prices {
+            .price-value {
+                & > span {
+                    display: block;
+                }
+            }
+        }
+    }
     .product-price {
         padding: 0 1.5rem;
         padding-bottom: 15px;

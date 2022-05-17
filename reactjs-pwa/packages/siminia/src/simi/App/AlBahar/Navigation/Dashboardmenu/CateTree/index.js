@@ -5,6 +5,7 @@ import { configColor } from 'src/simi/Config';
 import SubCate from "./Subcate";
 import ExpandLess from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowUp";
 import ExpandMore from "src/simi/BaseComponents/Icon/TapitaIcons/ArrowDown";
+import {getElectronicConfig} from '../../../Helper/Data'
 import { bool, func, object } from 'prop-types';
 
 class CateTree extends React.Component {
@@ -58,6 +59,29 @@ class CateTree extends React.Component {
                         openLocation={this.openLocation.bind(this)}
                     />;
             }, this);
+            const storeData = Identify.getStoreConfig();
+            const electronicConfig = getElectronicConfig()
+            let url = 'https://cloud9albahar.com/'
+            if(electronicConfig && electronicConfig.url) {
+                url = electronicConfig.url
+            }
+            if(storeData && storeData.storeConfig && storeData.storeConfig.locale) {
+                if(storeData.storeConfig.locale === 'ar_KW') {
+                    url = `${url}?lang=Arabic`
+                } else {
+                    url = `${url}?lang=English`
+                }
+           
+            }
+            categories.push(
+                <a  
+                    href={url}   
+                    style={{ color: configColor.menu_text_color }}
+                    className={`${classes['cate-child-item']}`}
+                >
+                    {Identify.__("Electronics")}
+                </a>
+            )
             return (
                 <div style={{
                     padding: 0,

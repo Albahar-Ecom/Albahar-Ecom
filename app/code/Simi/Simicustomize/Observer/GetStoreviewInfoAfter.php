@@ -47,6 +47,10 @@ class GetStoreviewInfoAfter implements ObserverInterface
             'sales_minimum_order_amount' => $this->getStoreConfig('sales/minimum_order/amount')
         ];
 
+        $confArray['electronic_config'] = [
+            'url' => $this->getStoreConfig('siminiaconfig/electronic/url')
+        ];
+
         $obj->configArray = $confArray;
     }
 

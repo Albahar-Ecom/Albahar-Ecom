@@ -194,6 +194,7 @@ class Orders extends Apiabstract
             $quote->setCustomerEmail($billingAddress->getEmail());
             $orderModel = $this->simiObjectManager->create('\Magento\Quote\Model\QuoteManagement')->submit($quote);
             $incrementId = $orderModel->getRealOrderId();
+            $this->_getCheckoutSession()->setLastRealOrderId($incrementId);
         }else {
             $this->simiObjectManager->create('Magento\Quote\Api\CartManagementInterface')
             ->placeOrder($quote->getId());
@@ -435,7 +436,7 @@ class Orders extends Apiabstract
 
     private function _updateOrderInformation(&$order, $customer)
     {
-        if (!$customer || ($customer->getData('email') !== $order['customer_email']))
+        if (!$customer)
             return;
 
         $orderModel               = $this->simiObjectManager

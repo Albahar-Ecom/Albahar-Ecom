@@ -166,6 +166,9 @@ query storeConfigData($storeId: Int, $currency: String) {
                     contact_hotline
                 }
             }
+            electronic_config{
+                url
+            }
         }
     }
     availableStores {

@@ -81,7 +81,7 @@ class V2 extends Action
                 || $customerSession->isLoggedIn()){    
                 $this->getResponse()->setNoCacheHeaders();
             }else{           
-                if(isset($data['resource']) && ($data['resource'] != 'products' || $data['resource'] != 'categories')){
+                if(isset($data['resource']) && ($data['resource'] != 'products' && $data['resource'] != 'categories')){
                     header("X-Magento-Tags: cms_b");
                 }                
                 $this->getResponse()->setPublicHeaders('86400');

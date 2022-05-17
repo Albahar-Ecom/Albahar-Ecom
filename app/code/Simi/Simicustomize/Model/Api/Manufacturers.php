@@ -8,13 +8,17 @@ namespace Simi\Simiconnector\Model\Api;
 
 class Manufacturers extends Apiabstract
 {
-
+    public $layer = [];
+    public $sortOrders = [];
    
     public function setBuilderQuery()
     {
 
         $data = $this->getData();
         $parameters = $data['params'];
+        $this->helperProduct = $this->simiObjectManager->get('\Simi\Simicustomize\Helper\Products');
+        $this->helperProduct->setData($data);
+
         if ($data['resourceid']) {
             $attCode = $this->simiObjectManager->create('Mageplaza\Shopbybrand\Helper\Data')->getAttributeCode();
             $collection = $this->simiObjectManager->create('Magento\Catalog\Model\ResourceModel\Product\CollectionFactory')->create()
@@ -22,11 +26,23 @@ class Manufacturers extends Apiabstract
                 ->addAttributeToSelect('*')
                 ->addAttributeToFilter('status', 1)
                 ->addAttributeToFilter($attCode, $data['resourceid']);
-            $this->builderQuery = $collection;
+            $cat_filtered = false;
+            if ( isset($parameters['filter']['layer']) ) {
+                $this->builderQuery = $collection;
+                $this->helperProduct->filterCollectionByAttribute($this->builderQuery, $parameters, $cat_filtered);
+            } else {
+                $this->builderQuery = $collection;
+            }
+            $this->setFilterBrand($collection);
         } else {
             $this->builderQuery = $this->simiObjectManager->create('Mageplaza\Shopbybrand\Model\BrandFactory')->create()->getBrandCollection();
         }
         
+    }
+
+    public function setFilterBrand($collection){
+        $this->layer = $this->helperProduct->getLayerNavigator($collection, null, true);
+        $this->sortOrders = $this->helperProduct->getStoreQrders();
     }
 
     public function index(){
@@ -49,9 +65,10 @@ class Manufacturers extends Apiabstract
     public function show()
     {
         $collection = $this->builderQuery;
-
+        // $this->filter();
         $data = $this->getData();
         $parameters = $data['params'];
+        $this->_order($parameters);
         $page = 1;
         if (isset($parameters[self::PAGE]) && $parameters[self::PAGE]) {
             $page = $parameters[self::PAGE];
@@ -150,6 +167,8 @@ class Manufacturers extends Apiabstract
             'total' => $total,
             'page_size' => $page_size,
             'from' => $from,
+            'layers' => $this->layer,
+            'orders' => $this->sortOrders,
         ];
     }
 }   

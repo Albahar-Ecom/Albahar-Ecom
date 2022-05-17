@@ -94,9 +94,11 @@ const BannerItem = props => {
     
     const w = '100%';
     const h = '100%';
-    let img = item.banner_name;
-    if(isPhone && item.banner_name_tablet) {
-        img = item.banner_name_tablet;
+    let img = item.banner_name_tablet;
+    if(!item.banner_name_tablet && item.banner_name) {
+        img = item.banner_name;
+    } else if(isPhone && item.banner_name) {
+        img = item.banner_name;
     }
 
     if(!img) return null

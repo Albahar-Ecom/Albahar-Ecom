@@ -25,7 +25,7 @@
               <tr>
                 <td style="width: 105px;">Order No</td><td style="width:15px">:</td>
                 <td style="text-align:center;">{{var order.increment_id}}</td>
-                <td style="direction:rtl;width: 120px;">رقم الطلب عبر الإنترنت :</td>
+                <td style="direction:rtl;width: 120px;">رقم الطلب :</td>
               </tr>
               <tr>
                 <td style="width: 105px;">Phone No</td><td style="width:15px">:</td>
@@ -53,7 +53,7 @@
           <tr>
             <td style="padding:0px;width: 20%;font-weight:bold;">Your order ID:</td>
             <td style="padding:0px;text-align:center;">{{var order.increment_id}}</td>
-            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">معرف الطلب الخاص بك:</td>
+            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">رقم الطلب:</td>
           </tr>
           <tr>
             <td style="padding:0px;width: 20%;font-weight:bold;">Delivering to:</td>
@@ -63,12 +63,12 @@
           <tr>
             <td style="padding:0px;width: 20%;font-weight:bold;">Time of order:</td>
             <td style="padding:0px;text-align:center;">{{var invoice.created_at}}</td>
-            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">الطلب وقت:</td>
+            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">وقت الطلب:</td>
           </tr>
           <tr>
             <td style="padding:0px;width: 20%;font-weight:bold;">Paid by:</td>
             <td style="padding:0px;text-align:center;">{{var payment_html|raw}}</td>
-            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">جھة الدفع:</td>
+            <td style="padding:0px;direction:rtl;width: 20%;font-weight:bold;">طريقة الدفع:</td>
           </tr>
       	</table>
         {{depend invoiceNote}}

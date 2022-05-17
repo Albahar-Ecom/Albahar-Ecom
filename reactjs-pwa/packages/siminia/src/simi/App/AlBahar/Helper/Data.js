@@ -49,6 +49,16 @@ export const getBrandConfig = () => {
     return null
 } 
 
+export const getElectronicConfig = () => {
+    const {simiStoreConfig} = Identify.getStoreConfig() || {}
+    if(simiStoreConfig && simiStoreConfig.config && simiStoreConfig.config.electronic_config) {
+
+        return simiStoreConfig.config.electronic_config
+    }
+
+    return null
+} 
+
 export const translateWithLocale = (text, locale = null) => {
     const appConfig = Identify.getAppDashboardConfigs();
     let config = null;

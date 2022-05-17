@@ -16,6 +16,9 @@ xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
                 <email_header_template>simi_header_template</email_header_template>
                 <email_footer_template>simi_footer_template</email_footer_template>
             </custom_email>
+            <electronic>
+                <url>https://cloud9albahar.com/</url>
+            </electronic>
         </siminiaconfig>
     </default>
 </config>

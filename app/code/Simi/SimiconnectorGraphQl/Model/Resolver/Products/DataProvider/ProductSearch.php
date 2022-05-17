@@ -76,7 +76,8 @@ class ProductSearch
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Framework\App\ResourceConnection $resourceConnection,
         \Magento\Store\Model\StoreManagerInterface $storeManager,
-        \Magento\Framework\Registry $registry
+        \Magento\Framework\Registry $registry,
+        \Simi\Simicustomize\Helper\Data $simiHelper
     )
     {
         $this->collectionFactory = $collectionFactory;
@@ -90,6 +91,7 @@ class ProductSearch
         $this->resourceConnection = $resourceConnection;
         $this->storeManager = $storeManager;
         $this->registry = $registry;
+        $this->simiHelper = $simiHelper;
     }
 
     /**
@@ -135,11 +137,18 @@ class ProductSearch
             $helper->is_search = 1;
             $params['filter']['q'] = $args['search'];
             $helper->getSearchProducts($collection, $params);
+            $categoryId = $this->storeManager->getStore()->getRootCategoryId();
+            if(isset($args['filter']['category_id']['eq'])) {
+                $categoryId = $args['filter']['category_id']['eq'];
+            }
+            $category = $this->categoryFactory->create()->load($categoryId);
+            $collection->addCategoryFilter($category);
             if (!isset($args['sort']) || $args['sort']) {
                 $collection->setOrder('relevance', 'desc');
             }
             $collection->setVisibility(array('in' => array(Visibility::VISIBILITY_IN_SEARCH, Visibility::VISIBILITY_BOTH)));
-        }
+            $helper->category = $category;
+        } else
         //filter by category
         if ($args && isset($args['filter']['category_id']['eq'])) {
             $category = $this->categoryFactory->create()
@@ -227,16 +236,37 @@ class ProductSearch
                 $this->applySimiViewCountSort($collection, $args['simiProductSort']['direction']);
             elseif ($args['simiProductSort']['attribute'] == 'top_rated')
                 $this->applySimiTopRatedSort($collection, $args['simiProductSort']['direction']);
-            else
-                $collection->setOrder($args['simiProductSort']['attribute'], $args['simiProductSort']['direction']);
+            elseif ($args['simiProductSort']['attribute'] == 'brand') {
+                $collection->addAttributeToFilter($args['simiProductSort']['attribute'], ['neq' => 'NULL'])->addAttributeToSort($args['simiProductSort']['attribute'], $args['simiProductSort']['direction']);
+            } elseif($args['simiProductSort']['attribute'] == 'position') {
+                if($args['simiProductSort']['direction'] === 'DESC') {
+                    $categoryId = $this->storeManager->getStore()->getRootCategoryId();
+                    if(isset($args['filter']['category_id']['eq'])) {
+                        $categoryId = $args['filter']['category_id']['eq'];
+                    }
+                    $collectionData = $this->applySortPositionDESC($collection, $args['simiProductSort']['direction'], $categoryId);
+                } else {
+                    $collection->addAttributeToSort($args['simiProductSort']['attribute'], $args['simiProductSort']['direction']);
+                }
+            } else 
+                $collection->addAttributeToSort($args['simiProductSort']['attribute'], $args['simiProductSort']['direction']);
         } else if (isset($args['sort'])) {
             foreach ($args['sort'] as $atr => $dir) {
                 $collection->setOrder($atr, $dir);
             }
+        } else {
+            $defaultSortBy = $this->simiHelper->getStoreConfig('catalog/frontend/default_sort_by');
+            $collection->addAttributeToSort($defaultSortBy, 'ASC');
         }
 
+        if(isset($collectionData)) {
+             $products = $collectionData;
+        } else {
+            $products = $collection->getData();
+        }
+       
         $items = array();
-        foreach ($collection->getData() as $index => $product) {
+        foreach ($products as $index => $product) {
             $items[(int)$product['entity_id']] = $this->productFactory->create()
                 ->load($product['entity_id']);
         }
@@ -280,4 +310,29 @@ class ProductSearch
         $collection->getSelect()->order('rating_summary ' . $dir);
     }
 
+    public function applySortPositionDESC($collection, $dir, $categoryId) {
+        $collectionData = [];
+        $childCollection = clone $collection;
+        $parentCollection = clone $collection;
+
+        $childCollection->getSelect()->join(
+            ['s' => $collection->getResource()->getTable('catalog_category_product')],
+            'e.entity_id = s.product_id',
+            []
+        )->where("s.category_id != $categoryId")->order("cat_index.position $dir");
+        $parentCollection->getSelect()->join(
+            ['s' => $collection->getResource()->getTable('catalog_category_product')],
+            'e.entity_id = s.product_id',
+            []
+        )->where("s.category_id = $categoryId")->order("cat_index.position $dir");
+
+        if($parentCollection->count() > 0) {
+            $collectionData = array_merge($collectionData, $parentCollection->getData());
+        }
+        if($childCollection->count() > 0) {
+            $collectionData = array_merge($collectionData, $childCollection->getData());
+        }
+
+        return $collectionData;
+    }
 }
